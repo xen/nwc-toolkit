@@ -14,7 +14,7 @@ namespace nwc_toolkit {
 class String {
  public:
   String() : ptr_(NULL), length_(0) {}
-  explicit String(const char *str) : ptr_(str), length_(LengthOf(str)) {}
+  String(const char *str) : ptr_(str), length_(LengthOf(str)) {}
   String(const char *ptr, std::size_t length) : ptr_(ptr), length_(length) {}
   String(const char *begin, const char *end)
       : ptr_(begin), length_(end - begin) {}
@@ -562,6 +562,12 @@ class String {
 
   // Copyable.
 };
+
+template <typename T>
+T &operator<<(T &stream, const String &str) {
+  stream.write(str.ptr(), str.length());
+  return stream;
+}
 
 }  // namespace nwc_toolkit
 

@@ -6,6 +6,7 @@ TESTS = \
 	test-char-filter \
 	test-char-table \
 	test-char-type \
+	test-character-encoding \
 	test-iconv \
 	test-int-traits \
 	test-string \
@@ -26,6 +27,9 @@ test_char_table_LDADD = ../lib/libnwc-toolkit.a
 
 test_char_type_SOURCES = test-char-type.cc
 test_char_type_LDADD = ../lib/libnwc-toolkit.a
+
+test_character_encoding_SOURCES = test-character-encoding.cc
+test_character_encoding_LDADD = ../lib/libnwc-toolkit.a
 
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a

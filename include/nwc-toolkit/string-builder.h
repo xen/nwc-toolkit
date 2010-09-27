@@ -55,22 +55,35 @@ class StringBuilder {
     length_ = 0;
   }
 
-  StringBuilder &operator=(const char *str) {
-    return Assign(str);
-  }
   StringBuilder &operator=(const String &str) {
     return Assign(str);
   }
 
-  StringBuilder &Assign(const char *str) {
-    return Assign(String(str));
-  }
   StringBuilder &Assign(const char *ptr, std::size_t length) {
-    return Assign(String(ptr, length));
+    return Assign(ptr, length, KeepAsIs());
   }
   StringBuilder &Assign(const String &str) {
+    return Assign(str, KeepAsIs());
+  }
+  template <typename T>
+  StringBuilder &Assign(const char *str, T filter) {
+    return Assign(str, filter, typename IntTraits<T>::Tag());
+  }
+  template <typename T>
+  StringBuilder &Assign(const char *str, T filter, IsInt) {
+    return Assign(str, static_cast<std::size_t>(filter));
+  }
+  template <typename T>
+  StringBuilder &Assign(const char *str, T filter, IsNotInt) {
+    return Assign(String(str), filter);
+  }
+  template <typename T>
+  StringBuilder &Assign(const char *ptr, std::size_t length, T filter)
+  { return Assign(String(ptr, length), filter); }
+  template <typename T>
+  StringBuilder &Assign(const String &str, T filter) {
     Clear();
-    return Append(str);
+    return Append(str, filter);
   }
 
   StringBuilder &Append() {
@@ -93,9 +106,6 @@ class StringBuilder {
     return *this;
   }
 
-  StringBuilder &Append(const char *str) {
-    return Append(str, KeepAsIs());
-  }
   StringBuilder &Append(const char *ptr, std::size_t length) {
     return Append(ptr, length, KeepAsIs());
   }
@@ -104,7 +114,7 @@ class StringBuilder {
   }
   template <typename T>
   StringBuilder &Append(const char *str, T filter) {
-    return Append(String(str), filter);
+    return Append(str, filter, typename IntTraits<T>::Tag());
   }
   template <typename T>
   StringBuilder &Append(const char *str, T filter, IsInt) {
@@ -162,6 +172,12 @@ class StringBuilder {
   StringBuilder(const StringBuilder &);
   StringBuilder &operator=(const StringBuilder &);
 };
+
+template <typename T>
+T &operator<<(T &stream, const StringBuilder &builder) {
+  stream << builder.str();
+  return stream;
+}
 
 }  // namespace nwc_toolkit
 

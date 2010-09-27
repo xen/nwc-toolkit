@@ -15,14 +15,16 @@ class CharTable {
   ~CharTable() {}
 
   void Clear() {
-    for (std::size_t i = 0; i < TABLE_SIZE; ++i)
+    for (std::size_t i = 0; i < TABLE_SIZE; ++i) {
       table_[i] = 0;
+    }
   }
 
   void Build(const char *str) {
     std::size_t length = 0;
-    while (str[length] != '\0')
+    while (str[length] != '\0') {
       ++length;
+    }
     Build(str, length);
   }
   void Build(const char *str, std::size_t length);

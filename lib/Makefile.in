@@ -71,13 +71,17 @@ AR = ar
 ARFLAGS = cru
 libnwc_toolkit_a_AR = $(AR) $(ARFLAGS)
 libnwc_toolkit_a_LIBADD =
-am_libnwc_toolkit_a_OBJECTS =
+am_libnwc_toolkit_a_OBJECTS = character-encoding.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+am__mv = mv -f
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
 SOURCES = $(libnwc_toolkit_a_SOURCES)
 DIST_SOURCES = $(libnwc_toolkit_a_SOURCES)
 HEADERS = $(libnwc_toolkit_a_include_HEADERS)
@@ -177,22 +181,26 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include
 lib_LIBRARIES = libnwc-toolkit.a
-libnwc_toolkit_a_SOURCES = 
+libnwc_toolkit_a_SOURCES = \
+	character-encoding.cc
+
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/char-cond.h \
 	../include/nwc-toolkit/char-filter.h \
 	../include/nwc-toolkit/char-table.h \
 	../include/nwc-toolkit/char-type.h \
+	../include/nwc-toolkit/character-encoding.h \
 	../include/nwc-toolkit/int-traits.h \
-	../include/nwc-toolkit/string.h \
 	../include/nwc-toolkit/string-builder.h \
 	../include/nwc-toolkit/string-hash.h \
-	../include/nwc-toolkit/string-pool.h
+	../include/nwc-toolkit/string-pool.h \
+	../include/nwc-toolkit/string.h
 
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .cc .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -265,6 +273,22 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/character-encoding.Po@am__quote@
+
+.cc.o:
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
+
+.cc.obj:
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 install-libnwc_toolkit_a_includeHEADERS: $(libnwc_toolkit_a_include_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libnwc_toolkit_a_includedir)" || $(MKDIR_P) "$(DESTDIR)$(libnwc_toolkit_a_includedir)"
@@ -405,6 +429,7 @@ clean: clean-am
 clean-am: clean-generic clean-libLIBRARIES mostlyclean-am
 
 distclean: distclean-am
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -450,6 +475,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

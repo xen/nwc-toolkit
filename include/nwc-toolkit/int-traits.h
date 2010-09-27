@@ -16,12 +16,16 @@ namespace nwc_toolkit {
 
 class IsInt {
  public:
-  static bool is_int() { return true; }
+  static bool is_int() {
+    return true;
+  }
 };
 
 class IsNotInt {
  public:
-  static bool is_int() { return false; }
+  static bool is_int() {
+    return false;
+  }
 };
 
 template <typename T>

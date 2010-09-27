@@ -48,6 +48,18 @@ int main() {
   assert(builder.length() == 9);
   assert(builder.size() == 16);
 
+  builder.Append("jKlMnO", 3);
+  assert(builder.str() == "aBcDEFghijKl");
+
+  builder.Append("MnOpQr", 3, nwc_toolkit::ToUpper());
+  assert(builder.str() == "aBcDEFghijKlMNO");
+
+  builder.Append("pQrStU", 3, nwc_toolkit::ToLower());
+  assert(builder.str() == "aBcDEFghijKlMNOpqr");
+
+  assert(builder.length() == 18);
+  assert(builder.size() == 32);
+
   builder.Resize(31);
   assert(builder.length() == 31);
   assert(builder.size() == 32);

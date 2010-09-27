@@ -34,9 +34,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
-	test-iconv$(EXEEXT) test-int-traits$(EXEEXT) \
-	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
-	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT)
+	test-character-encoding$(EXEEXT) test-iconv$(EXEEXT) \
+	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
+	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
+	test-string-pool$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -49,9 +50,10 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
-	test-iconv$(EXEEXT) test-int-traits$(EXEEXT) \
-	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
-	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT)
+	test-character-encoding$(EXEEXT) test-iconv$(EXEEXT) \
+	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
+	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
+	test-string-pool$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -65,6 +67,11 @@ test_char_table_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_char_type_OBJECTS = test-char-type.$(OBJEXT)
 test_char_type_OBJECTS = $(am_test_char_type_OBJECTS)
 test_char_type_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_character_encoding_OBJECTS =  \
+	test-character-encoding.$(OBJEXT)
+test_character_encoding_OBJECTS =  \
+	$(am_test_character_encoding_OBJECTS)
+test_character_encoding_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_iconv_OBJECTS = test-iconv.$(OBJEXT)
 test_iconv_OBJECTS = $(am_test_iconv_OBJECTS)
 test_iconv_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -94,14 +101,16 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
-	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
-	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
-	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES)
+	$(test_character_encoding_SOURCES) $(test_iconv_SOURCES) \
+	$(test_int_traits_SOURCES) $(test_string_SOURCES) \
+	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
+	$(test_string_pool_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
-	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
-	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
-	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES)
+	$(test_character_encoding_SOURCES) $(test_iconv_SOURCES) \
+	$(test_int_traits_SOURCES) $(test_string_SOURCES) \
+	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
+	$(test_string_pool_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -208,6 +217,8 @@ test_char_table_SOURCES = test-char-table.cc
 test_char_table_LDADD = ../lib/libnwc-toolkit.a
 test_char_type_SOURCES = test-char-type.cc
 test_char_type_LDADD = ../lib/libnwc-toolkit.a
+test_character_encoding_SOURCES = test-character-encoding.cc
+test_character_encoding_LDADD = ../lib/libnwc-toolkit.a
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
 test_int_traits_SOURCES = test-int-traits.cc
@@ -269,6 +280,9 @@ test-char-table$(EXEEXT): $(test_char_table_OBJECTS) $(test_char_table_DEPENDENC
 test-char-type$(EXEEXT): $(test_char_type_OBJECTS) $(test_char_type_DEPENDENCIES) 
 	@rm -f test-char-type$(EXEEXT)
 	$(CXXLINK) $(test_char_type_OBJECTS) $(test_char_type_LDADD) $(LIBS)
+test-character-encoding$(EXEEXT): $(test_character_encoding_OBJECTS) $(test_character_encoding_DEPENDENCIES) 
+	@rm -f test-character-encoding$(EXEEXT)
+	$(CXXLINK) $(test_character_encoding_OBJECTS) $(test_character_encoding_LDADD) $(LIBS)
 test-iconv$(EXEEXT): $(test_iconv_OBJECTS) $(test_iconv_DEPENDENCIES) 
 	@rm -f test-iconv$(EXEEXT)
 	$(CXXLINK) $(test_iconv_OBJECTS) $(test_iconv_LDADD) $(LIBS)
@@ -298,6 +312,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-table.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-type.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-character-encoding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-builder.Po@am__quote@

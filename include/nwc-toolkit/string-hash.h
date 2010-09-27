@@ -68,7 +68,7 @@ inline unsigned int StringHash::operator()(const String &str) const {
 }
 
 inline void StringHash::Mix(unsigned int &x, unsigned int &y,
-  unsigned int &z) {
+    unsigned int &z) {
   x -= y; x -= z; x ^= (z >> 13);
   y -= z; y -= x; y ^= (x << 8);
   z -= x; z -= y; z ^= (y >> 13);
