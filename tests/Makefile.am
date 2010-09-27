@@ -7,6 +7,8 @@ TESTS = \
 	test-char-table \
 	test-char-type \
 	test-character-encoding \
+	test-character-reference \
+	test-darts \
 	test-iconv \
 	test-int-traits \
 	test-string \
@@ -30,6 +32,12 @@ test_char_type_LDADD = ../lib/libnwc-toolkit.a
 
 test_character_encoding_SOURCES = test-character-encoding.cc
 test_character_encoding_LDADD = ../lib/libnwc-toolkit.a
+
+test_character_reference_SOURCES = test-character-reference.cc
+test_character_reference_LDADD = ../lib/libnwc-toolkit.a
+
+test_darts_SOURCES = test-darts.cc
+test_darts_LDADD = ../lib/libnwc-toolkit.a
 
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
