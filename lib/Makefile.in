@@ -34,7 +34,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = lib
-DIST_COMMON = $(include_HEADERS) $(libnwc_a_include_HEADERS) \
+DIST_COMMON = $(libnwc_toolkit_a_include_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -64,23 +64,23 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" \
-	"$(DESTDIR)$(libnwc_a_includedir)"
+am__installdirs = "$(DESTDIR)$(libdir)" \
+	"$(DESTDIR)$(libnwc_toolkit_a_includedir)"
 LIBRARIES = $(lib_LIBRARIES)
 AR = ar
 ARFLAGS = cru
-libnwc_a_AR = $(AR) $(ARFLAGS)
-libnwc_a_LIBADD =
-am_libnwc_a_OBJECTS =
-libnwc_a_OBJECTS = $(am_libnwc_a_OBJECTS)
+libnwc_toolkit_a_AR = $(AR) $(ARFLAGS)
+libnwc_toolkit_a_LIBADD =
+am_libnwc_toolkit_a_OBJECTS =
+libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(libnwc_a_SOURCES)
-DIST_SOURCES = $(libnwc_a_SOURCES)
-HEADERS = $(include_HEADERS) $(libnwc_a_include_HEADERS)
+SOURCES = $(libnwc_toolkit_a_SOURCES)
+DIST_SOURCES = $(libnwc_toolkit_a_SOURCES)
+HEADERS = $(libnwc_toolkit_a_include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -176,13 +176,18 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include
-lib_LIBRARIES = libnwc.a
-libnwc_a_SOURCES = 
-include_HEADERS = \
-	../include/nwc-toolkit.h
+lib_LIBRARIES = libnwc-toolkit.a
+libnwc_toolkit_a_SOURCES = 
+libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
+libnwc_toolkit_a_include_HEADERS = \
+	../include/nwc-toolkit/char-cond.h \
+	../include/nwc-toolkit/char-filter.h \
+	../include/nwc-toolkit/char-table.h \
+	../include/nwc-toolkit/char-type.h \
+	../include/nwc-toolkit/int-traits.h \
+	../include/nwc-toolkit/string.h \
+	../include/nwc-toolkit/string-hash.h
 
-libnwc_a_includedir = $(includedir)/nwc
-libnwc_a_include_HEADERS = 
 all: all-am
 
 .SUFFIXES:
@@ -248,56 +253,36 @@ uninstall-libLIBRARIES:
 
 clean-libLIBRARIES:
 	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
-libnwc.a: $(libnwc_a_OBJECTS) $(libnwc_a_DEPENDENCIES) 
-	-rm -f libnwc.a
-	$(libnwc_a_AR) libnwc.a $(libnwc_a_OBJECTS) $(libnwc_a_LIBADD)
-	$(RANLIB) libnwc.a
+libnwc-toolkit.a: $(libnwc_toolkit_a_OBJECTS) $(libnwc_toolkit_a_DEPENDENCIES) 
+	-rm -f libnwc-toolkit.a
+	$(libnwc_toolkit_a_AR) libnwc-toolkit.a $(libnwc_toolkit_a_OBJECTS) $(libnwc_toolkit_a_LIBADD)
+	$(RANLIB) libnwc-toolkit.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
-install-includeHEADERS: $(include_HEADERS)
+install-libnwc_toolkit_a_includeHEADERS: $(libnwc_toolkit_a_include_HEADERS)
 	@$(NORMAL_INSTALL)
-	test -z "$(includedir)" || $(MKDIR_P) "$(DESTDIR)$(includedir)"
-	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
+	test -z "$(libnwc_toolkit_a_includedir)" || $(MKDIR_P) "$(DESTDIR)$(libnwc_toolkit_a_includedir)"
+	@list='$(libnwc_toolkit_a_include_HEADERS)'; test -n "$(libnwc_toolkit_a_includedir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includedir)" || exit $$?; \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libnwc_toolkit_a_includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libnwc_toolkit_a_includedir)" || exit $$?; \
 	done
 
-uninstall-includeHEADERS:
+uninstall-libnwc_toolkit_a_includeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
+	@list='$(libnwc_toolkit_a_include_HEADERS)'; test -n "$(libnwc_toolkit_a_includedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(includedir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(includedir)" && rm -f $$files
-install-libnwc_a_includeHEADERS: $(libnwc_a_include_HEADERS)
-	@$(NORMAL_INSTALL)
-	test -z "$(libnwc_a_includedir)" || $(MKDIR_P) "$(DESTDIR)$(libnwc_a_includedir)"
-	@list='$(libnwc_a_include_HEADERS)'; test -n "$(libnwc_a_includedir)" || list=; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libnwc_a_includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libnwc_a_includedir)" || exit $$?; \
-	done
-
-uninstall-libnwc_a_includeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(libnwc_a_include_HEADERS)'; test -n "$(libnwc_a_includedir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(libnwc_a_includedir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(libnwc_a_includedir)" && rm -f $$files
+	echo " ( cd '$(DESTDIR)$(libnwc_toolkit_a_includedir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libnwc_toolkit_a_includedir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -385,7 +370,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" "$(DESTDIR)$(libnwc_a_includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libnwc_toolkit_a_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -434,8 +419,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-includeHEADERS \
-	install-libnwc_a_includeHEADERS
+install-data-am: install-libnwc_toolkit_a_includeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -479,8 +463,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-includeHEADERS uninstall-libLIBRARIES \
-	uninstall-libnwc_a_includeHEADERS
+uninstall-am: uninstall-libLIBRARIES \
+	uninstall-libnwc_toolkit_a_includeHEADERS
 
 .MAKE: install-am install-strip
 
@@ -489,15 +473,15 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLIBRARIES \
 	distclean-generic distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
-	install-includeHEADERS install-info install-info-am \
-	install-libLIBRARIES install-libnwc_a_includeHEADERS \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
-	ps ps-am tags uninstall uninstall-am uninstall-includeHEADERS \
-	uninstall-libLIBRARIES uninstall-libnwc_a_includeHEADERS
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-libLIBRARIES \
+	install-libnwc_toolkit_a_includeHEADERS install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-libLIBRARIES \
+	uninstall-libnwc_toolkit_a_includeHEADERS
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

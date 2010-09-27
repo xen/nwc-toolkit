@@ -3,7 +3,7 @@
 
 AC_PREREQ(2.65)
 AC_INIT([nwc-toolkit], [0.0.0], [syata@acm.org])
-AC_CONFIG_SRCDIR([include/nwc-toolkit.h])
+AC_CONFIG_SRCDIR([include/nwc-toolkit/string.h])
 AM_INIT_AUTOMAKE
 
 # Checks for programs.
@@ -33,6 +33,7 @@ The NWC Toolkit requires libiconv.
 Project URL: http://www.gnu.org/software/libiconv/])])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_CHECK_LIB([iconv], [iconv], , [AC_MSG_ERROR([\

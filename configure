@@ -557,7 +557,7 @@ PACKAGE_STRING='nwc-toolkit 0.0.0'
 PACKAGE_BUGREPORT='syata@acm.org'
 PACKAGE_URL=''
 
-ac_unique_file="include/nwc-toolkit.h"
+ac_unique_file="include/nwc-toolkit/string.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -4799,6 +4799,17 @@ fi
 
 
 # Checks for typedefs, structures, and compiler characteristics.
+ac_fn_cxx_check_type "$LINENO" "size_t" "ac_cv_type_size_t" "$ac_includes_default"
+if test "x$ac_cv_type_size_t" = x""yes; then :
+
+else
+
+cat >>confdefs.h <<_ACEOF
+#define size_t unsigned int
+_ACEOF
+
+fi
+
 
 # Checks for library functions.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for iconv in -liconv" >&5

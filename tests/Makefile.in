@@ -32,7 +32,10 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-TESTS = test-iconv$(EXEEXT)
+TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
+	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
+	test-iconv$(EXEEXT) test-int-traits$(EXEEXT) \
+	test-string$(EXEEXT) test-string-hash$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -43,11 +46,35 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 = test-iconv$(EXEEXT)
+am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
+	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
+	test-iconv$(EXEEXT) test-int-traits$(EXEEXT) \
+	test-string$(EXEEXT) test-string-hash$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
+am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
+test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
+test_char_cond_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_char_filter_OBJECTS = test-char-filter.$(OBJEXT)
+test_char_filter_OBJECTS = $(am_test_char_filter_OBJECTS)
+test_char_filter_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_char_table_OBJECTS = test-char-table.$(OBJEXT)
+test_char_table_OBJECTS = $(am_test_char_table_OBJECTS)
+test_char_table_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_char_type_OBJECTS = test-char-type.$(OBJEXT)
+test_char_type_OBJECTS = $(am_test_char_type_OBJECTS)
+test_char_type_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_iconv_OBJECTS = test-iconv.$(OBJEXT)
 test_iconv_OBJECTS = $(am_test_iconv_OBJECTS)
-test_iconv_DEPENDENCIES = ../lib/libnwc.a
+test_iconv_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_int_traits_OBJECTS = test-int-traits.$(OBJEXT)
+test_int_traits_OBJECTS = $(am_test_int_traits_OBJECTS)
+test_int_traits_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_string_OBJECTS = test-string.$(OBJEXT)
+test_string_OBJECTS = $(am_test_string_OBJECTS)
+test_string_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_string_hash_OBJECTS = test-string-hash.$(OBJEXT)
+test_string_hash_OBJECTS = $(am_test_string_hash_OBJECTS)
+test_string_hash_DEPENDENCIES = ../lib/libnwc-toolkit.a
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -57,8 +84,14 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(test_iconv_SOURCES)
-DIST_SOURCES = $(test_iconv_SOURCES)
+SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
+	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
+	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
+	$(test_string_SOURCES) $(test_string_hash_SOURCES)
+DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
+	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
+	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
+	$(test_string_SOURCES) $(test_string_hash_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -155,10 +188,24 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CXXFLAGS = -Wall -Weffc++ -I../include `icu-config --cppflags`
+AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include `icu-config --cppflags`
 AM_LDFLAGS = `icu-config --ldflags` -liconv
+test_char_cond_SOURCES = test-char-cond.cc
+test_char_cond_LDADD = ../lib/libnwc-toolkit.a
+test_char_filter_SOURCES = test-char-filter.cc
+test_char_filter_LDADD = ../lib/libnwc-toolkit.a
+test_char_table_SOURCES = test-char-table.cc
+test_char_table_LDADD = ../lib/libnwc-toolkit.a
+test_char_type_SOURCES = test-char-type.cc
+test_char_type_LDADD = ../lib/libnwc-toolkit.a
 test_iconv_SOURCES = test-iconv.cc
-test_iconv_LDADD = ../lib/libnwc.a
+test_iconv_LDADD = ../lib/libnwc-toolkit.a
+test_int_traits_SOURCES = test-int-traits.cc
+test_int_traits_LDADD = ../lib/libnwc-toolkit.a
+test_string_SOURCES = test-string.cc
+test_string_LDADD = ../lib/libnwc-toolkit.a
+test_string_hash_SOURCES = test-string-hash.cc
+test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 all: all-am
 
 .SUFFIXES:
@@ -196,9 +243,30 @@ $(am__aclocal_m4_deps):
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+test-char-cond$(EXEEXT): $(test_char_cond_OBJECTS) $(test_char_cond_DEPENDENCIES) 
+	@rm -f test-char-cond$(EXEEXT)
+	$(CXXLINK) $(test_char_cond_OBJECTS) $(test_char_cond_LDADD) $(LIBS)
+test-char-filter$(EXEEXT): $(test_char_filter_OBJECTS) $(test_char_filter_DEPENDENCIES) 
+	@rm -f test-char-filter$(EXEEXT)
+	$(CXXLINK) $(test_char_filter_OBJECTS) $(test_char_filter_LDADD) $(LIBS)
+test-char-table$(EXEEXT): $(test_char_table_OBJECTS) $(test_char_table_DEPENDENCIES) 
+	@rm -f test-char-table$(EXEEXT)
+	$(CXXLINK) $(test_char_table_OBJECTS) $(test_char_table_LDADD) $(LIBS)
+test-char-type$(EXEEXT): $(test_char_type_OBJECTS) $(test_char_type_DEPENDENCIES) 
+	@rm -f test-char-type$(EXEEXT)
+	$(CXXLINK) $(test_char_type_OBJECTS) $(test_char_type_LDADD) $(LIBS)
 test-iconv$(EXEEXT): $(test_iconv_OBJECTS) $(test_iconv_DEPENDENCIES) 
 	@rm -f test-iconv$(EXEEXT)
 	$(CXXLINK) $(test_iconv_OBJECTS) $(test_iconv_LDADD) $(LIBS)
+test-int-traits$(EXEEXT): $(test_int_traits_OBJECTS) $(test_int_traits_DEPENDENCIES) 
+	@rm -f test-int-traits$(EXEEXT)
+	$(CXXLINK) $(test_int_traits_OBJECTS) $(test_int_traits_LDADD) $(LIBS)
+test-string$(EXEEXT): $(test_string_OBJECTS) $(test_string_DEPENDENCIES) 
+	@rm -f test-string$(EXEEXT)
+	$(CXXLINK) $(test_string_OBJECTS) $(test_string_LDADD) $(LIBS)
+test-string-hash$(EXEEXT): $(test_string_hash_OBJECTS) $(test_string_hash_DEPENDENCIES) 
+	@rm -f test-string-hash$(EXEEXT)
+	$(CXXLINK) $(test_string_hash_OBJECTS) $(test_string_hash_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -206,7 +274,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-cond.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-filter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-table.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-type.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-hash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
