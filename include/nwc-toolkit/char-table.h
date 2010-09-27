@@ -46,7 +46,7 @@ class CharTable {
 
   unsigned table_[TABLE_SIZE];
 
-  // Copies are not allowed.
+  // Copy and assignment are not allowed.
   CharTable(const CharTable &);
   CharTable &operator=(const CharTable &);
 };

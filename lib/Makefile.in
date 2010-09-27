@@ -186,7 +186,9 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/char-type.h \
 	../include/nwc-toolkit/int-traits.h \
 	../include/nwc-toolkit/string.h \
-	../include/nwc-toolkit/string-hash.h
+	../include/nwc-toolkit/string-builder.h \
+	../include/nwc-toolkit/string-hash.h \
+	../include/nwc-toolkit/string-pool.h
 
 all: all-am
 

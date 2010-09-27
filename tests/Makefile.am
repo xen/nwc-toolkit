@@ -9,7 +9,9 @@ TESTS = \
 	test-iconv \
 	test-int-traits \
 	test-string \
-	test-string-hash
+	test-string-builder \
+	test-string-hash \
+	test-string-pool
 
 noinst_PROGRAMS = $(TESTS)
 
@@ -34,5 +36,11 @@ test_int_traits_LDADD = ../lib/libnwc-toolkit.a
 test_string_SOURCES = test-string.cc
 test_string_LDADD = ../lib/libnwc-toolkit.a
 
+test_string_builder_SOURCES = test-string-builder.cc
+test_string_builder_LDADD = ../lib/libnwc-toolkit.a
+
 test_string_hash_SOURCES = test-string-hash.cc
 test_string_hash_LDADD = ../lib/libnwc-toolkit.a
+
+test_string_pool_SOURCES = test-string-pool.cc
+test_string_pool_LDADD = ../lib/libnwc-toolkit.a

@@ -21,13 +21,6 @@ class String {
   String(const String &str) : ptr_(str.ptr_), length_(str.length_) {}
   ~String() {}
 
-  String &operator=(const char *str) {
-    return Assign(str);
-  }
-  String &operator=(const String &str) {
-    return Assign(str);
-  }
-
   const char &operator[](std::size_t index) const {
     return ptr_[index];
   }
@@ -69,6 +62,13 @@ class String {
 
   void Clear() {
     length_ = 0;
+  }
+
+  String &operator=(const char *str) {
+    return Assign(str);
+  }
+  String &operator=(const String &str) {
+    return Assign(str);
   }
 
   String &Assign(const char *str) {
