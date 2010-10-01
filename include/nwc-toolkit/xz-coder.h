@@ -92,7 +92,30 @@ inline bool XzCoder::OpenEncoder(int preset) {
   if (is_open()) {
     return false;
   }
-  ::lzma_ret ret = ::lzma_easy_encoder(&stream_, preset, LZMA_CHECK_CRC64);
+  int xz_preset = preset;
+  switch (preset) {
+    case DEFAULT_PRESET: {
+      xz_preset = 6;
+      break;
+    }
+    case BEST_SPEED_PRESET: {
+      xz_preset = 0;
+      break;
+    }
+    case BEST_COMPRESSION_PRESET: {
+      xz_preset = 9 | LZMA_PRESET_EXTREME;
+      break;
+    }
+    default: {
+      xz_preset = preset & ~EXTREME_PRESET_FLAG;
+      if ((xz_preset < 0) || (xz_preset > 9)) {
+        return false;
+      } else if ((preset & EXTREME_PRESET_FLAG) == EXTREME_PRESET_FLAG) {
+        xz_preset |= LZMA_PRESET_EXTREME;
+      }
+    }
+  }
+  ::lzma_ret ret = ::lzma_easy_encoder(&stream_, xz_preset, LZMA_CHECK_CRC64);
   if (ret != LZMA_OK) {
     return false;
   }

@@ -9,8 +9,17 @@ namespace nwc_toolkit {
 
 class Coder {
  public:
-  enum Mode { NO_MODE, ENCODER_MODE, DECODER_MODE };
-  enum { DEFAULT_PRESET = 6, EXTREME_PRESET_FLAG = 1 << 8 };
+  enum Mode {
+    NO_MODE,
+    ENCODER_MODE,
+    DECODER_MODE };
+
+  enum {
+    DEFAULT_PRESET = -1,
+    BEST_SPEED_PRESET = -2,
+    BEST_COMPRESSION_PRESET = -3,
+    EXTREME_PRESET_FLAG = 1 << 8
+  };
 
   Coder() {}
   virtual ~Coder() {}

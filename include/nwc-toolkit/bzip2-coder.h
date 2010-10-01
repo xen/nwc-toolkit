@@ -1,20 +1,22 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
-#ifndef NWC_TOOLKIT_GZIP_CODER_H_
-#define NWC_TOOLKIT_GZIP_CODER_H_
+#ifndef NWC_TOOLKIT_BZIP2_CODER_H_
+#define NWC_TOOLKIT_BZIP2_CODER_H_
 
-#include <zlib.h>
+#include <bzlib.h>
+
+#include <iostream>
 
 #include "./coder.h"
 
 namespace nwc_toolkit {
 
-class GzipCoder : public Coder {
+class Bzip2Coder : public Coder {
  public:
-  GzipCoder() : stream_(), mode_(NO_MODE), is_end_(false) {
+  Bzip2Coder() : stream_(), mode_(NO_MODE), is_end_(false) {
     InitStream();
   }
-  ~GzipCoder() {
+  ~Bzip2Coder() {
     if (is_open()) {
       Close();
     }
@@ -25,10 +27,10 @@ class GzipCoder : public Coder {
   bool Close();
 
   bool Code() {
-    return Code(Z_NO_FLUSH);
+    return Code(BZ_RUN);
   }
   bool Finish() {
-    return Code(Z_FINISH);
+    return Code(BZ_FINISH);
   }
 
   Mode mode() const {
@@ -48,7 +50,7 @@ class GzipCoder : public Coder {
     return stream_.avail_in;
   }
   unsigned long long total_in() const {
-    return stream_.total_in;
+    return ((0ULL + stream_.total_in_hi32) << 32) | stream_.total_in_lo32;
   }
   void *next_out() const {
     return stream_.next_out;
@@ -57,92 +59,91 @@ class GzipCoder : public Coder {
     return stream_.avail_out;
   }
   unsigned long long total_out() const {
-    return stream_.total_out;
+    return ((0ULL + stream_.total_out_hi32) << 32) | stream_.total_out_lo32;
   }
 
   void set_next_in(const void *next_in) {
-    stream_.next_in = static_cast< ::Bytef *>(const_cast<void *>(next_in));
+    stream_.next_in = static_cast<char *>(const_cast<void *>(next_in));
   }
   void set_avail_in(std::size_t avail_in) {
     stream_.avail_in = avail_in;
   }
   void set_next_out(void *next_out) {
-    stream_.next_out = static_cast< ::Bytef *>(next_out);
+    stream_.next_out = static_cast<char *>(next_out);
   }
   void set_avail_out(std::size_t avail_out) {
     stream_.avail_out = avail_out;
   }
 
  private:
-  ::z_stream stream_;
+  ::bz_stream stream_;
   Mode mode_;
   bool is_end_;
 
   void InitStream() {
-    static const ::z_stream initial_stream = {};
+    static const ::bz_stream initial_stream = {};
     stream_ = initial_stream;
-    stream_.zalloc = Z_NULL;
-    stream_.zfree = Z_NULL;
-    stream_.opaque = Z_NULL;
+    stream_.bzalloc = NULL;
+    stream_.bzfree = NULL;
+    stream_.opaque = NULL;
   }
 
   bool Code(int flush);
 };
 
-inline bool GzipCoder::OpenEncoder(int preset) {
+inline bool Bzip2Coder::OpenEncoder(int preset) {
   if (is_open()) {
     return false;
   }
-  int level = preset;
+  int block_size = preset;
   switch (preset) {
     case DEFAULT_PRESET: {
-      level = Z_DEFAULT_COMPRESSION;
+      block_size = 6;
       break;
     }
     case BEST_SPEED_PRESET: {
-      level = Z_BEST_SPEED;
+      block_size = 1;
       break;
     }
     case BEST_COMPRESSION_PRESET: {
-      level = Z_BEST_COMPRESSION;
+      block_size = 9;
       break;
     }
     default: {
-      if (preset < 0 || preset > 9) {
+      if (preset < 1 || preset > 9) {
         return false;
       }
     }
   }
-  int ret = ::deflateInit2(&stream_, level,
-      Z_DEFLATED, 31, 8, Z_DEFAULT_STRATEGY);
-  if (ret != Z_OK) {
+  int ret = ::BZ2_bzCompressInit(&stream_, block_size, 0, 0);
+  if (ret != BZ_OK) {
     return false;
   }
   mode_ = ENCODER_MODE;
   return true;
 }
 
-inline bool GzipCoder::OpenDecoder() {
+inline bool Bzip2Coder::OpenDecoder() {
   if (is_open()) {
     return false;
   }
-  int ret = ::inflateInit2(&stream_, 47);
-  if (ret != Z_OK) {
+  int ret = ::BZ2_bzDecompressInit(&stream_, 0, 0);
+  if (ret != BZ_OK) {
     return false;
   }
   mode_ = DECODER_MODE;
   return true;
 }
 
-inline bool GzipCoder::Close() {
-  int ret = Z_OK;
+inline bool Bzip2Coder::Close() {
+  int ret = BZ_OK;
   switch (mode()) {
     case ENCODER_MODE: {
-      ret = ::deflateEnd(&stream_);
+      ret = ::BZ2_bzCompressEnd(&stream_);
       break;
     }
     case DECODER_MODE: {
-      ret = ::inflateEnd(&stream_);
+      ret = ::BZ2_bzDecompressEnd(&stream_);
       break;
     }
     default: {
@@ -155,30 +156,30 @@ inline bool GzipCoder::Close() {
   return ret >= 0;
 }
 
-inline bool GzipCoder::Code(int flush) {
+inline bool Bzip2Coder::Code(int action) {
   if (is_end()) {
     return false;
   }
-  int ret = Z_OK;
+  int ret = BZ_OK;
   switch (mode()) {
     case ENCODER_MODE: {
-      ret = ::deflate(&stream_, flush);
+      ret = ::BZ2_bzCompress(&stream_, action);
       break;
     }
     case DECODER_MODE: {
-      ret = ::inflate(&stream_, flush);
+      ret = ::BZ2_bzDecompress(&stream_);
       break;
     }
     default: {
       return false;
     }
   }
-  if (ret == Z_STREAM_END) {
+  if (ret == BZ_STREAM_END) {
     is_end_ = true;
   }
-  return (ret >= 0) || (ret == Z_BUF_ERROR);
+  return ret >= 0;
 }
 
 }  // namespace nwc_toolkit
 
-#endif  // NWC_TOOLKIT_GZIP_CODER_H_
+#endif  // NWC_TOOLKIT_BZIP2_CODER_H_

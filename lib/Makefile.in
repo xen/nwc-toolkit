@@ -188,6 +188,7 @@ libnwc_toolkit_a_SOURCES = \
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
+	../include/nwc-toolkit/bzip2-coder.h \
 	../include/nwc-toolkit/char-cond.h \
 	../include/nwc-toolkit/char-filter.h \
 	../include/nwc-toolkit/char-table.h \

@@ -35,11 +35,11 @@ POST_UNINSTALL = :
 TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
-	test-character-reference$(EXEEXT) test-darts$(EXEEXT) \
-	test-gzip-coder$(EXEEXT) test-iconv$(EXEEXT) \
+	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
+	test-darts$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
 	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
-	test-string-pool$(EXEEXT) test-xz-coder$(EXEEXT)
+	test-string-pool$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -53,11 +53,11 @@ CONFIG_CLEAN_VPATH_FILES =
 am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
-	test-character-reference$(EXEEXT) test-darts$(EXEEXT) \
-	test-gzip-coder$(EXEEXT) test-iconv$(EXEEXT) \
+	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
+	test-darts$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
 	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
-	test-string-pool$(EXEEXT) test-xz-coder$(EXEEXT)
+	test-string-pool$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -81,12 +81,12 @@ am_test_character_reference_OBJECTS =  \
 test_character_reference_OBJECTS =  \
 	$(am_test_character_reference_OBJECTS)
 test_character_reference_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_coder_OBJECTS = test-coder.$(OBJEXT)
+test_coder_OBJECTS = $(am_test_coder_OBJECTS)
+test_coder_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_darts_OBJECTS = test-darts.$(OBJEXT)
 test_darts_OBJECTS = $(am_test_darts_OBJECTS)
 test_darts_DEPENDENCIES = ../lib/libnwc-toolkit.a
-am_test_gzip_coder_OBJECTS = test-gzip-coder.$(OBJEXT)
-test_gzip_coder_OBJECTS = $(am_test_gzip_coder_OBJECTS)
-test_gzip_coder_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_iconv_OBJECTS = test-iconv.$(OBJEXT)
 test_iconv_OBJECTS = $(am_test_iconv_OBJECTS)
 test_iconv_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -105,9 +105,6 @@ test_string_hash_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_string_pool_OBJECTS = test-string-pool.$(OBJEXT)
 test_string_pool_OBJECTS = $(am_test_string_pool_OBJECTS)
 test_string_pool_DEPENDENCIES = ../lib/libnwc-toolkit.a
-am_test_xz_coder_OBJECTS = test-xz-coder.$(OBJEXT)
-test_xz_coder_OBJECTS = $(am_test_xz_coder_OBJECTS)
-test_xz_coder_DEPENDENCIES = ../lib/libnwc-toolkit.a
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -120,19 +117,19 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
-	$(test_character_reference_SOURCES) $(test_darts_SOURCES) \
-	$(test_gzip_coder_SOURCES) $(test_iconv_SOURCES) \
+	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
+	$(test_darts_SOURCES) $(test_iconv_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_string_SOURCES) \
 	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
-	$(test_string_pool_SOURCES) $(test_xz_coder_SOURCES)
+	$(test_string_pool_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
-	$(test_character_reference_SOURCES) $(test_darts_SOURCES) \
-	$(test_gzip_coder_SOURCES) $(test_iconv_SOURCES) \
+	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
+	$(test_darts_SOURCES) $(test_iconv_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_string_SOURCES) \
 	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
-	$(test_string_pool_SOURCES) $(test_xz_coder_SOURCES)
+	$(test_string_pool_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -243,10 +240,10 @@ test_character_encoding_SOURCES = test-character-encoding.cc
 test_character_encoding_LDADD = ../lib/libnwc-toolkit.a
 test_character_reference_SOURCES = test-character-reference.cc
 test_character_reference_LDADD = ../lib/libnwc-toolkit.a
+test_coder_SOURCES = test-coder.cc
+test_coder_LDADD = ../lib/libnwc-toolkit.a
 test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
-test_gzip_coder_SOURCES = test-gzip-coder.cc
-test_gzip_coder_LDADD = ../lib/libnwc-toolkit.a
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
 test_int_traits_SOURCES = test-int-traits.cc
@@ -259,8 +256,6 @@ test_string_hash_SOURCES = test-string-hash.cc
 test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
-test_xz_coder_SOURCES = test-xz-coder.cc
-test_xz_coder_LDADD = ../lib/libnwc-toolkit.a
 all: all-am
 
 .SUFFIXES:
@@ -316,12 +311,12 @@ test-character-encoding$(EXEEXT): $(test_character_encoding_OBJECTS) $(test_char
 test-character-reference$(EXEEXT): $(test_character_reference_OBJECTS) $(test_character_reference_DEPENDENCIES) 
 	@rm -f test-character-reference$(EXEEXT)
 	$(CXXLINK) $(test_character_reference_OBJECTS) $(test_character_reference_LDADD) $(LIBS)
+test-coder$(EXEEXT): $(test_coder_OBJECTS) $(test_coder_DEPENDENCIES) 
+	@rm -f test-coder$(EXEEXT)
+	$(CXXLINK) $(test_coder_OBJECTS) $(test_coder_LDADD) $(LIBS)
 test-darts$(EXEEXT): $(test_darts_OBJECTS) $(test_darts_DEPENDENCIES) 
 	@rm -f test-darts$(EXEEXT)
 	$(CXXLINK) $(test_darts_OBJECTS) $(test_darts_LDADD) $(LIBS)
-test-gzip-coder$(EXEEXT): $(test_gzip_coder_OBJECTS) $(test_gzip_coder_DEPENDENCIES) 
-	@rm -f test-gzip-coder$(EXEEXT)
-	$(CXXLINK) $(test_gzip_coder_OBJECTS) $(test_gzip_coder_LDADD) $(LIBS)
 test-iconv$(EXEEXT): $(test_iconv_OBJECTS) $(test_iconv_DEPENDENCIES) 
 	@rm -f test-iconv$(EXEEXT)
 	$(CXXLINK) $(test_iconv_OBJECTS) $(test_iconv_LDADD) $(LIBS)
@@ -340,9 +335,6 @@ test-string-hash$(EXEEXT): $(test_string_hash_OBJECTS) $(test_string_hash_DEPEND
 test-string-pool$(EXEEXT): $(test_string_pool_OBJECTS) $(test_string_pool_DEPENDENCIES) 
 	@rm -f test-string-pool$(EXEEXT)
 	$(CXXLINK) $(test_string_pool_OBJECTS) $(test_string_pool_LDADD) $(LIBS)
-test-xz-coder$(EXEEXT): $(test_xz_coder_OBJECTS) $(test_xz_coder_DEPENDENCIES) 
-	@rm -f test-xz-coder$(EXEEXT)
-	$(CXXLINK) $(test_xz_coder_OBJECTS) $(test_xz_coder_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -356,15 +348,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-type.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-character-encoding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-character-reference.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-darts.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-gzip-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-hash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-pool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-xz-coder.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

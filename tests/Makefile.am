@@ -8,15 +8,14 @@ TESTS = \
 	test-char-type \
 	test-character-encoding \
 	test-character-reference \
+	test-coder \
 	test-darts \
-	test-gzip-coder \
 	test-iconv \
 	test-int-traits \
 	test-string \
 	test-string-builder \
 	test-string-hash \
-	test-string-pool \
-	test-xz-coder
+	test-string-pool
 
 noinst_PROGRAMS = $(TESTS)
 
@@ -38,11 +37,11 @@ test_character_encoding_LDADD = ../lib/libnwc-toolkit.a
 test_character_reference_SOURCES = test-character-reference.cc
 test_character_reference_LDADD = ../lib/libnwc-toolkit.a
 
+test_coder_SOURCES = test-coder.cc
+test_coder_LDADD = ../lib/libnwc-toolkit.a
+
 test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
-
-test_gzip_coder_SOURCES = test-gzip-coder.cc
-test_gzip_coder_LDADD = ../lib/libnwc-toolkit.a
 
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
@@ -61,6 +60,3 @@ test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
-
-test_xz_coder_SOURCES = test-xz-coder.cc
-test_xz_coder_LDADD = ../lib/libnwc-toolkit.a
