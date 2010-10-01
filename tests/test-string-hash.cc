@@ -16,7 +16,7 @@ int main() {
   typedef std::unordered_set<nwc_toolkit::String,
     nwc_toolkit::StringHash> KeySet;
 
-  std::srand(static_cast<unsigned>(std::time(NULL)));
+  std::srand(static_cast<unsigned int>(std::time(NULL)));
 
   std::vector<std::shared_ptr<std::string> > key_pool;
   std::vector<nwc_toolkit::String> keys;

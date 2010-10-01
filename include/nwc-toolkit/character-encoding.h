@@ -15,11 +15,14 @@ class CharacterEncoding {
   static bool Convert(const String &src_code, const String &src,
       const String &dest_code, StringBuilder *dest);
 
-  static bool DetectFromBOM(const String &str, StringBuilder *encoding);
-  static bool DetectFromResponseHead(const String &str,
-      StringBuilder *encoding);
-  static bool DetectFromHtml(const String &str, StringBuilder *encoding);
-  static bool DetectFromXml(const String &str, StringBuilder *encoding);
+  static bool DetectFromBOM(
+      const String &str, StringBuilder *encoding);
+  static bool DetectFromResponseHeader(
+      const String &str, StringBuilder *encoding);
+  static bool DetectFromHtmlHeader(
+      const String &str, StringBuilder *encoding);
+  static bool DetectFromXmlHeader(
+      const String &str, StringBuilder *encoding);
 
  private:
   // Disallows copies.

@@ -10,7 +10,7 @@
 int main() {
   enum { CHUNK_SIZE = 1024, POOL_SIZE = 1024 };
 
-  std::srand(static_cast<unsigned>(std::time(NULL)));
+  std::srand(static_cast<unsigned int>(std::time(NULL)));
 
   nwc_toolkit::StringPool pool(CHUNK_SIZE);
 

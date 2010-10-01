@@ -45,33 +45,33 @@ void TestDetect() {
       "\xFE\xFF...", &encoding) == true);
   assert(encoding.str() == "UTF-16BE");
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHead(
+  assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHeader(
       "Content-Length: 100", &encoding) == false);
   assert(encoding.IsEmpty() == true);
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHead(
+  assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHeader(
       "Content-Type: text/html; charset=utf-8\n", &encoding) == true);
   assert(encoding.str() == "UTF-8");
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHead(
+  assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHeader(
       "Content-Type: text/html; charset=\"x-sjis\"\n", &encoding) == true);
   assert(encoding.str() == "X-SJIS");
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromHtml(
+  assert(nwc_toolkit::CharacterEncoding::DetectFromHtmlHeader(
       "<html></html>", &encoding) == false);
   assert(encoding.IsEmpty() == true);
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromHtml("<html><head>"
+  assert(nwc_toolkit::CharacterEncoding::DetectFromHtmlHeader("<html><head>"
       "<meta http-equiv=\"Content-Type\""
       " content=\"text/html; charset=utf-8\">"
       "</head></html>", &encoding) == true);
   assert(encoding.str() == "UTF-8");
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromXml(
+  assert(nwc_toolkit::CharacterEncoding::DetectFromXmlHeader(
       "<?xml version=\"1.0\">", &encoding) == false);
   assert(encoding.IsEmpty() == true);
 
-  assert(nwc_toolkit::CharacterEncoding::DetectFromXml(
+  assert(nwc_toolkit::CharacterEncoding::DetectFromXmlHeader(
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", &encoding) == true);
   assert(encoding.str() == "UTF-8");
 }

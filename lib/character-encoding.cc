@@ -86,7 +86,7 @@ bool CharacterEncoding::DetectFromBOM(
   return true;
 }
 
-bool CharacterEncoding::DetectFromResponseHead(
+bool CharacterEncoding::DetectFromResponseHeader(
     const String &str, StringBuilder *encoding) {
   static const String FIELD_NAME("Content-Type:");
 
@@ -109,7 +109,7 @@ bool CharacterEncoding::DetectFromResponseHead(
   return false;
 }
 
-bool CharacterEncoding::DetectFromHtml(
+bool CharacterEncoding::DetectFromHtmlHeader(
     const String &str, StringBuilder *encoding) {
   static const CharTable DELIM_TABLE(" \t'\";");
   static const CharTable TAG_NAME_TABLE("A-Za-z/!?");
@@ -146,7 +146,7 @@ bool CharacterEncoding::DetectFromHtml(
   return false;
 }
 
-bool CharacterEncoding::DetectFromXml(
+bool CharacterEncoding::DetectFromXmlHeader(
     const String &str, StringBuilder *encoding) {
   static const char UCS4_LE[4] = { '\x3C', '\x00', '\x00', '\x00' };
   static const char UCS4_BE[4] = { '\x00', '\x00', '\x00', '\x3C' };

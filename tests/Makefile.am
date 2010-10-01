@@ -1,5 +1,5 @@
 AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include `icu-config --cppflags`
-AM_LDFLAGS = `icu-config --ldflags` -liconv
+AM_LDFLAGS = `icu-config --ldflags`
 
 TESTS = \
 	test-char-cond \
@@ -9,12 +9,14 @@ TESTS = \
 	test-character-encoding \
 	test-character-reference \
 	test-darts \
+	test-gzip-coder \
 	test-iconv \
 	test-int-traits \
 	test-string \
 	test-string-builder \
 	test-string-hash \
-	test-string-pool
+	test-string-pool \
+	test-xz-coder
 
 noinst_PROGRAMS = $(TESTS)
 
@@ -39,6 +41,9 @@ test_character_reference_LDADD = ../lib/libnwc-toolkit.a
 test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
 
+test_gzip_coder_SOURCES = test-gzip-coder.cc
+test_gzip_coder_LDADD = ../lib/libnwc-toolkit.a
+
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
 
@@ -56,3 +61,6 @@ test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
+
+test_xz_coder_SOURCES = test-xz-coder.cc
+test_xz_coder_LDADD = ../lib/libnwc-toolkit.a
