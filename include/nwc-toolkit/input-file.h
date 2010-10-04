@@ -41,24 +41,12 @@ class InputFile {
     return file_ != NULL;
   }
 
-  String Read(std::size_t size);
-  bool Read(std::size_t size, String *data) {
-    *data = Read(size);
-    return !data->is_empty() || (size == 0);
-  }
-
-  String ReadLine() {
-    return ReadLine('\n');
-  }
-  String ReadLine(char delim);
+  bool Read(std::size_t size, String *data);
 
   bool ReadLine(String *line) {
     return ReadLine('\n', line);
   }
-  bool ReadLine(char delim, String *line) {
-    *line = ReadLine(delim);
-    return !line->is_empty();
-  }
+  bool ReadLine(char delim, String *line);
 
  private:
   FILE *file_;
@@ -76,6 +64,6 @@ class InputFile {
   InputFile &operator=(const InputFile &);
 };
 
-}  // nwc_toolkit
+}  // namespace nwc_toolkit
 
 #endif  // NWC_TOOLKIT_INPUT_FILE_H_

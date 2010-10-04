@@ -26,10 +26,6 @@ bool CharacterEncoding::Convert(const String &src_code, const String &src,
   std::size_t out_bytes_total = dest->length();
   dest->Resize(dest->size());
 
-  if (dest->size() == 0) {
-    dest->Reserve(1);
-  }
-
   char *out_buf = dest->buf() + out_bytes_total;
   std::size_t out_bytes_left = dest->length() - out_bytes_total;
 
@@ -42,16 +38,18 @@ bool CharacterEncoding::Convert(const String &src_code, const String &src,
     }
 
     switch (errno) {
-    case E2BIG:
-      out_bytes_total = dest->length() - out_bytes_left;
-      dest->Resize(dest->size() * 2 - 1);
-      out_buf = dest->buf() + out_bytes_total;
-      out_bytes_left = dest->length() - out_bytes_total;
-      break;
-    case EILSEQ:
-    case EINVAL:
-      iconv_ok = false;
-      break;
+      case E2BIG: {
+        out_bytes_total = dest->length() - out_bytes_left;
+        dest->Resize((dest->size() != 0) ? (dest->size() * 2) : 1);
+        out_buf = dest->buf() + out_bytes_total;
+        out_bytes_left = dest->length() - out_bytes_total;
+        break;
+      }
+      case EILSEQ:
+      case EINVAL: {
+        iconv_ok = false;
+        break;
+      }
     }
   }
 

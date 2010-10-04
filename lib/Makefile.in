@@ -71,9 +71,10 @@ AR = ar
 ARFLAGS = cru
 libnwc_toolkit_a_AR = $(AR) $(ARFLAGS)
 libnwc_toolkit_a_LIBADD =
-am_libnwc_toolkit_a_OBJECTS = character-encoding.$(OBJEXT) \
-	character-reference.$(OBJEXT) input-file.$(OBJEXT) \
-	output-file.$(OBJEXT)
+am_libnwc_toolkit_a_OBJECTS = bzip2-coder.$(OBJEXT) \
+	character-encoding.$(OBJEXT) character-reference.$(OBJEXT) \
+	gzip-coder.$(OBJEXT) html-archive-entry.$(OBJEXT) \
+	input-file.$(OBJEXT) output-file.$(OBJEXT) xz-coder.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -184,10 +185,14 @@ top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include
 lib_LIBRARIES = libnwc-toolkit.a
 libnwc_toolkit_a_SOURCES = \
+	bzip2-coder.cc \
 	character-encoding.cc \
 	character-reference.cc \
+	gzip-coder.cc \
+	html-archive-entry.cc \
 	input-file.cc \
-	output-file.cc
+	output-file.cc \
+	xz-coder.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
@@ -201,13 +206,16 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/coder.h \
 	../include/nwc-toolkit/darts.h \
 	../include/nwc-toolkit/gzip-coder.h \
+	../include/nwc-toolkit/html-archive-entry.h \
 	../include/nwc-toolkit/input-file.h \
 	../include/nwc-toolkit/int-traits.h \
+	../include/nwc-toolkit/mecab-archive-entry.h \
 	../include/nwc-toolkit/output-file.h \
 	../include/nwc-toolkit/string-builder.h \
 	../include/nwc-toolkit/string-hash.h \
 	../include/nwc-toolkit/string-pool.h \
 	../include/nwc-toolkit/string.h \
+	../include/nwc-toolkit/text-archive-entry.h \
 	../include/nwc-toolkit/xz-coder.h
 
 all: all-am
@@ -287,10 +295,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bzip2-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/character-encoding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/character-reference.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gzip-coder.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xz-coder.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

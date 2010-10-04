@@ -35,8 +35,12 @@ void TestInputText(const char *path, const nwc_toolkit::String &text) {
   assert(file.Open(path));
   assert(file.is_open());
 
-  assert(file.Read(text.length()) == text);
-  assert(file.Read(1).is_empty());
+  nwc_toolkit::String data;
+
+  assert(file.Read(text.length(), &data));
+  assert(data == text);
+  assert(file.Read(1, &data) == false);
+  assert(data.is_empty());
 
   assert(file.Close());
   assert(file.is_open() == false);
@@ -53,13 +57,15 @@ void TestInputText(const char *path, const nwc_toolkit::String &text) {
     if (io_size > avail) {
       io_size = avail;
     }
-    nwc_toolkit::String chunk = file.Read(io_size);
+    nwc_toolkit::String chunk;
+    assert(file.Read(io_size, &chunk));
     assert(chunk.length() == io_size);
     assert(chunk == text.SubString(text.length() - avail, io_size));
     text_buf.Append(chunk);
     avail -= io_size;
   }
-  assert(file.Read(1).is_empty());
+  assert(file.Read(1, &data) == false);
+  assert(data.is_empty());
 
   assert(text_buf.str() == text);
 
@@ -90,12 +96,13 @@ void TestInputLines(const char *path,
   assert(file.Open(path));
   assert(file.is_open());
 
+  nwc_toolkit::String line;
   for (std::size_t i = 0; i < lines.size(); ++i) {
-    nwc_toolkit::String line;
     assert(file.ReadLine(&line));
     assert(line.EndsWith("\n"));
     assert(line.StripRight() == lines[i]);
   }
+  assert(file.ReadLine(&line) == false);
 }
 
 void TestFileIO(const char *path, const nwc_toolkit::String &text,

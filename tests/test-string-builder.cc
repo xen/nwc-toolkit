@@ -7,8 +7,8 @@
 int main() {
   nwc_toolkit::StringBuilder builder;
 
-  assert(builder.buf() == NULL);
-  assert(builder.ptr() == NULL);
+  assert(builder.buf() != NULL);
+  assert(builder.ptr() != NULL);
   assert(builder.length() == 0);
   assert(builder.size() == 0);
 

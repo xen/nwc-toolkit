@@ -23,9 +23,14 @@ void TestCode(nwc_toolkit::Coder *coder,
 
   dest->resize(CHUNK_SIZE);
 
+  assert(coder->Code());
+
   coder->set_next_in(&src[0]);
-  coder->set_avail_in(src.size());
   coder->set_next_out(&(*dest)[0]);
+
+  assert(coder->Code());
+
+  coder->set_avail_in(src.size());
   coder->set_avail_out(dest->size());
 
   while (coder->total_in() < src.size()) {
@@ -106,7 +111,7 @@ void TestCoder(const std::vector<char> &data, const char *suffix) {
 }  // namespace
 
 int main() {
-  enum { BUF_SIZE = 1 << 16 };
+  enum { BUF_SIZE = 1 << 18 };
 
   std::srand(static_cast<unsigned int>(std::time(NULL)));
 

@@ -69,44 +69,49 @@ bool InputFile::Close() {
   return true;
 }
 
-String InputFile::Read(std::size_t size) {
+bool InputFile::Read(std::size_t size, String *data) {
   if (!is_open()) {
-    return String();
+    return false;
   }
 
+  data->Clear();
   if (size > avail_) {
     ShiftToFront(size);
     if (!FillBuf()) {
-      return String();
+      return false;
     }
   }
-  String data(next_, size);
+  data->Assign(next_, size);
   next_ += size;
   avail_ -= size;
-  return data;
+  return true;
 }
 
-String InputFile::ReadLine(char delim) {
+bool InputFile::ReadLine(char delim, String *line) {
   if (!is_open()) {
-    return String();
+    return false;
   }
 
+  line->Clear();
   std::size_t pos = 0;
   do {
     for ( ; pos < avail_; ++pos) {
       if (next_[pos] == delim) {
-        String line(next_, pos + 1);
+        line->Assign(next_, pos + 1);
         next_ += pos + 1;
         avail_ -= pos + 1;
-        return line;
+        return true;
       }
     }
     ShiftToFront(pos);
   } while (FillBuf());
-  String line(next_, pos);
+  if (pos == 0) {
+    return false;
+  }
+  line->Assign(next_, pos);
   next_ += pos;
   avail_ -= pos;
-  return line;
+  return true;
 }
 
 void InputFile::ShiftToFront(std::size_t request_size) {

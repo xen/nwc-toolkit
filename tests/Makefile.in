@@ -36,10 +36,12 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
-	test-darts$(EXEEXT) test-file-io$(EXEEXT) test-iconv$(EXEEXT) \
-	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
-	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
-	test-string-pool$(EXEEXT)
+	test-darts$(EXEEXT) test-file-io$(EXEEXT) \
+	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
+	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
+	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
+	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
+	test-text-archive-entry$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -54,10 +56,12 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
-	test-darts$(EXEEXT) test-file-io$(EXEEXT) test-iconv$(EXEEXT) \
-	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
-	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
-	test-string-pool$(EXEEXT)
+	test-darts$(EXEEXT) test-file-io$(EXEEXT) \
+	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
+	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
+	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
+	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
+	test-text-archive-entry$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -90,12 +94,22 @@ test_darts_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_file_io_OBJECTS = test-file-io.$(OBJEXT)
 test_file_io_OBJECTS = $(am_test_file_io_OBJECTS)
 test_file_io_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_html_archive_entry_OBJECTS =  \
+	test-html-archive-entry.$(OBJEXT)
+test_html_archive_entry_OBJECTS =  \
+	$(am_test_html_archive_entry_OBJECTS)
+test_html_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_iconv_OBJECTS = test-iconv.$(OBJEXT)
 test_iconv_OBJECTS = $(am_test_iconv_OBJECTS)
 test_iconv_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_int_traits_OBJECTS = test-int-traits.$(OBJEXT)
 test_int_traits_OBJECTS = $(am_test_int_traits_OBJECTS)
 test_int_traits_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_mecab_archive_entry_OBJECTS =  \
+	test-mecab-archive-entry.$(OBJEXT)
+test_mecab_archive_entry_OBJECTS =  \
+	$(am_test_mecab_archive_entry_OBJECTS)
+test_mecab_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_string_OBJECTS = test-string.$(OBJEXT)
 test_string_OBJECTS = $(am_test_string_OBJECTS)
 test_string_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -108,6 +122,11 @@ test_string_hash_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_string_pool_OBJECTS = test-string-pool.$(OBJEXT)
 test_string_pool_OBJECTS = $(am_test_string_pool_OBJECTS)
 test_string_pool_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_text_archive_entry_OBJECTS =  \
+	test-text-archive-entry.$(OBJEXT)
+test_text_archive_entry_OBJECTS =  \
+	$(am_test_text_archive_entry_OBJECTS)
+test_text_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -122,17 +141,21 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
 	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
-	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
+	$(test_html_archive_entry_SOURCES) $(test_iconv_SOURCES) \
+	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
-	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES)
+	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
+	$(test_text_archive_entry_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
 	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
-	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
+	$(test_html_archive_entry_SOURCES) $(test_iconv_SOURCES) \
+	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
-	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES)
+	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
+	$(test_text_archive_entry_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -249,10 +272,14 @@ test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
 test_file_io_SOURCES = test-file-io.cc
 test_file_io_LDADD = ../lib/libnwc-toolkit.a
+test_html_archive_entry_SOURCES = test-html-archive-entry.cc
+test_html_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
 test_int_traits_SOURCES = test-int-traits.cc
 test_int_traits_LDADD = ../lib/libnwc-toolkit.a
+test_mecab_archive_entry_SOURCES = test-mecab-archive-entry.cc
+test_mecab_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 test_string_SOURCES = test-string.cc
 test_string_LDADD = ../lib/libnwc-toolkit.a
 test_string_builder_SOURCES = test-string-builder.cc
@@ -261,6 +288,8 @@ test_string_hash_SOURCES = test-string-hash.cc
 test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
+test_text_archive_entry_SOURCES = test-text-archive-entry.cc
+test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 all: all-am
 
 .SUFFIXES:
@@ -325,12 +354,18 @@ test-darts$(EXEEXT): $(test_darts_OBJECTS) $(test_darts_DEPENDENCIES)
 test-file-io$(EXEEXT): $(test_file_io_OBJECTS) $(test_file_io_DEPENDENCIES) 
 	@rm -f test-file-io$(EXEEXT)
 	$(CXXLINK) $(test_file_io_OBJECTS) $(test_file_io_LDADD) $(LIBS)
+test-html-archive-entry$(EXEEXT): $(test_html_archive_entry_OBJECTS) $(test_html_archive_entry_DEPENDENCIES) 
+	@rm -f test-html-archive-entry$(EXEEXT)
+	$(CXXLINK) $(test_html_archive_entry_OBJECTS) $(test_html_archive_entry_LDADD) $(LIBS)
 test-iconv$(EXEEXT): $(test_iconv_OBJECTS) $(test_iconv_DEPENDENCIES) 
 	@rm -f test-iconv$(EXEEXT)
 	$(CXXLINK) $(test_iconv_OBJECTS) $(test_iconv_LDADD) $(LIBS)
 test-int-traits$(EXEEXT): $(test_int_traits_OBJECTS) $(test_int_traits_DEPENDENCIES) 
 	@rm -f test-int-traits$(EXEEXT)
 	$(CXXLINK) $(test_int_traits_OBJECTS) $(test_int_traits_LDADD) $(LIBS)
+test-mecab-archive-entry$(EXEEXT): $(test_mecab_archive_entry_OBJECTS) $(test_mecab_archive_entry_DEPENDENCIES) 
+	@rm -f test-mecab-archive-entry$(EXEEXT)
+	$(CXXLINK) $(test_mecab_archive_entry_OBJECTS) $(test_mecab_archive_entry_LDADD) $(LIBS)
 test-string$(EXEEXT): $(test_string_OBJECTS) $(test_string_DEPENDENCIES) 
 	@rm -f test-string$(EXEEXT)
 	$(CXXLINK) $(test_string_OBJECTS) $(test_string_LDADD) $(LIBS)
@@ -343,6 +378,9 @@ test-string-hash$(EXEEXT): $(test_string_hash_OBJECTS) $(test_string_hash_DEPEND
 test-string-pool$(EXEEXT): $(test_string_pool_OBJECTS) $(test_string_pool_DEPENDENCIES) 
 	@rm -f test-string-pool$(EXEEXT)
 	$(CXXLINK) $(test_string_pool_OBJECTS) $(test_string_pool_LDADD) $(LIBS)
+test-text-archive-entry$(EXEEXT): $(test_text_archive_entry_OBJECTS) $(test_text_archive_entry_DEPENDENCIES) 
+	@rm -f test-text-archive-entry$(EXEEXT)
+	$(CXXLINK) $(test_text_archive_entry_OBJECTS) $(test_text_archive_entry_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -359,12 +397,15 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-darts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-file-io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-mecab-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-hash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-pool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-archive-entry.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

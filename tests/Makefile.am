@@ -11,12 +11,15 @@ TESTS = \
 	test-coder \
 	test-darts \
 	test-file-io \
+	test-html-archive-entry \
 	test-iconv \
 	test-int-traits \
+	test-mecab-archive-entry \
 	test-string \
 	test-string-builder \
 	test-string-hash \
-	test-string-pool
+	test-string-pool \
+	test-text-archive-entry
 
 noinst_PROGRAMS = $(TESTS)
 
@@ -47,11 +50,17 @@ test_darts_LDADD = ../lib/libnwc-toolkit.a
 test_file_io_SOURCES = test-file-io.cc
 test_file_io_LDADD = ../lib/libnwc-toolkit.a
 
+test_html_archive_entry_SOURCES = test-html-archive-entry.cc
+test_html_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
 
 test_int_traits_SOURCES = test-int-traits.cc
 test_int_traits_LDADD = ../lib/libnwc-toolkit.a
+
+test_mecab_archive_entry_SOURCES = test-mecab-archive-entry.cc
+test_mecab_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 
 test_string_SOURCES = test-string.cc
 test_string_LDADD = ../lib/libnwc-toolkit.a
@@ -64,3 +73,7 @@ test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
+
+test_text_archive_entry_SOURCES = test-text-archive-entry.cc
+test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+

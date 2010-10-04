@@ -9,9 +9,9 @@ namespace nwc_toolkit {
 
 class StringBuilder {
  public:
-  StringBuilder() : buf_(NULL), length_(0), size_(0) {}
+  StringBuilder() : buf_(InitialBuf()), length_(0), size_(0) {}
   ~StringBuilder() {
-    if (buf_ != NULL) {
+    if (buf_ != InitialBuf()) {
       delete [] buf_;
     }
   }
@@ -154,6 +154,11 @@ class StringBuilder {
   std::size_t length_;
   std::size_t size_;
 
+  static char *InitialBuf() {
+    static char initial_buf = '\0';
+    return &initial_buf;
+  }
+
   void ResizeBuf(std::size_t size);
 
   // Disallows copy and assignment.
@@ -170,7 +175,7 @@ inline void StringBuilder::ResizeBuf(std::size_t size) {
   for (std::size_t i = 0; i < length_; ++i) {
     new_buf[i] = buf_[i];
   }
-  if (buf_ != NULL) {
+  if (buf_ != InitialBuf()) {
     delete [] buf_;
   }
   buf_ = new_buf;

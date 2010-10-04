@@ -44,6 +44,6 @@ class OutputFile {
   OutputFile &operator=(const OutputFile &);
 };
 
-}  // nwc_toolkit
+}  // namespace nwc_toolkit
 
 #endif  // NWC_TOOLKIT_OUTPUT_FILE_H_
