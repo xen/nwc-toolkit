@@ -7,16 +7,16 @@
 int main() {
   nwc_toolkit::StringBuilder builder;
 
-  assert(builder.buf() != NULL);
+  assert(builder.buf() == NULL);
+  assert(builder.ptr() == NULL);
   assert(builder.length() == 0);
-  assert(builder.size() == sizeof(builder.buf()));
-  assert(builder.ptr() != NULL);
+  assert(builder.size() == 0);
 
-  assert(builder.IsEmpty() == true);
+  assert(builder.is_empty() == true);
 
   builder.Append('a');
   assert(builder.str() == "a");
-  assert(builder.IsEmpty() == false);
+  assert(builder.is_empty() == false);
 
   builder.Append('b', nwc_toolkit::ToUpper());
   assert(builder.str() == "aB");
@@ -34,7 +34,7 @@ int main() {
   assert(builder.size() == sizeof(builder.buf()));
   assert(builder.ptr() != NULL);
 
-  assert(builder.IsEmpty() == true);
+  assert(builder.is_empty() == true);
 
   builder.Append("aBc");
   assert(builder.str() == "aBc");
@@ -75,6 +75,10 @@ int main() {
   builder.Resize(256);
   assert(builder.length() == 256);
   assert(builder.size() == 256);
+
+  builder.Reserve(500);
+  assert(builder.length() == 256);
+  assert(builder.size() == 512);
 
   builder = "ABC";
   assert(builder.str() == "ABC");

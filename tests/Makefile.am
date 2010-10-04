@@ -10,6 +10,7 @@ TESTS = \
 	test-character-reference \
 	test-coder \
 	test-darts \
+	test-file-io \
 	test-iconv \
 	test-int-traits \
 	test-string \
@@ -42,6 +43,9 @@ test_coder_LDADD = ../lib/libnwc-toolkit.a
 
 test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
+
+test_file_io_SOURCES = test-file-io.cc
+test_file_io_LDADD = ../lib/libnwc-toolkit.a
 
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a

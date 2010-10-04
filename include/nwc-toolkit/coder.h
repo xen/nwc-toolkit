@@ -48,7 +48,7 @@ class Coder {
   virtual void set_avail_out(std::size_t avail_out) = 0;
 
  private:
-  // Non-copyable.
+  // Disallows copy and assignment.
   Coder(const Coder &);
   Coder &operator=(const Coder &);
 };

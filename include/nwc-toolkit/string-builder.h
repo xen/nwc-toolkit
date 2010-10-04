@@ -9,14 +9,11 @@ namespace nwc_toolkit {
 
 class StringBuilder {
  public:
-  StringBuilder() : buf_(NULL), initial_buf_(), length_(0), size_(0) {
-    buf_ = initial_buf_;
-    buf_[0] = '\0';
-    size_ = sizeof(initial_buf_);
-  }
+  StringBuilder() : buf_(NULL), length_(0), size_(0) {}
   ~StringBuilder() {
-    if (buf_ != initial_buf_)
+    if (buf_ != NULL) {
       delete [] buf_;
+    }
   }
 
   char &operator[](std::size_t index) {
@@ -47,7 +44,7 @@ class StringBuilder {
     return String(buf_, length_);
   }
 
-  bool IsEmpty() const {
+  bool is_empty() const {
     return length_ == 0;
   }
 
@@ -145,33 +142,40 @@ class StringBuilder {
     length_ = length;
     return *this;
   }
+  StringBuilder &Reserve(std::size_t size) {
+    if (size > size_) {
+      ResizeBuf(size);
+    }
+    return *this;
+  }
 
  private:
   char *buf_;
-  char initial_buf_[sizeof(buf_)];
   std::size_t length_;
   std::size_t size_;
 
-  void ResizeBuf(std::size_t size) {
-    std::size_t new_buf_size = size_;
-    while (new_buf_size < size) {
-      new_buf_size *= 2;
-    }
-    char *new_buf = new char[new_buf_size];
-    for (std::size_t i = 0; i < length_; ++i) {
-      new_buf[i] = buf_[i];
-    }
-    if (buf_ != initial_buf_) {
-      delete [] buf_;
-    }
-    buf_ = new_buf;
-    size_ = new_buf_size;
-  }
+  void ResizeBuf(std::size_t size);
 
-  // Copy and assignment are not allowed.
+  // Disallows copy and assignment.
   StringBuilder(const StringBuilder &);
   StringBuilder &operator=(const StringBuilder &);
 };
+
+inline void StringBuilder::ResizeBuf(std::size_t size) {
+  std::size_t new_buf_size = (size_ != 0) ? size_ : sizeof(buf_);
+  while (new_buf_size < size) {
+    new_buf_size *= 2;
+  }
+  char *new_buf = new char[new_buf_size];
+  for (std::size_t i = 0; i < length_; ++i) {
+    new_buf[i] = buf_[i];
+  }
+  if (buf_ != NULL) {
+    delete [] buf_;
+  }
+  buf_ = new_buf;
+  size_ = new_buf_size;
+}
 
 template <typename T>
 T &operator<<(T &stream, const StringBuilder &builder) {

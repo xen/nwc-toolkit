@@ -72,7 +72,8 @@ ARFLAGS = cru
 libnwc_toolkit_a_AR = $(AR) $(ARFLAGS)
 libnwc_toolkit_a_LIBADD =
 am_libnwc_toolkit_a_OBJECTS = character-encoding.$(OBJEXT) \
-	character-reference.$(OBJEXT)
+	character-reference.$(OBJEXT) input-file.$(OBJEXT) \
+	output-file.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -184,7 +185,9 @@ AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include
 lib_LIBRARIES = libnwc-toolkit.a
 libnwc_toolkit_a_SOURCES = \
 	character-encoding.cc \
-	character-reference.cc
+	character-reference.cc \
+	input-file.cc \
+	output-file.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
@@ -198,7 +201,9 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/coder.h \
 	../include/nwc-toolkit/darts.h \
 	../include/nwc-toolkit/gzip-coder.h \
+	../include/nwc-toolkit/input-file.h \
 	../include/nwc-toolkit/int-traits.h \
+	../include/nwc-toolkit/output-file.h \
 	../include/nwc-toolkit/string-builder.h \
 	../include/nwc-toolkit/string-hash.h \
 	../include/nwc-toolkit/string-pool.h \
@@ -284,6 +289,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/character-encoding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/character-reference.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input-file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-file.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

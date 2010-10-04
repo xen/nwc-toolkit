@@ -8,7 +8,7 @@ namespace {
 
 void TestConstructors() {
   nwc_toolkit::String str_0;
-  assert(str_0.IsEmpty());
+  assert(str_0.is_empty());
 
   nwc_toolkit::String str_1("abc");
   assert(str_1 == "abc");
@@ -28,7 +28,7 @@ void TestConstructors() {
   assert(str_5 == "234");
 
   str_5.Clear();
-  assert(str_5.IsEmpty());
+  assert(str_5.is_empty());
 }
 
 void TestOperators() {
@@ -42,7 +42,7 @@ void TestOperators() {
   assert(abc != "abcd");
 
   nwc_toolkit::String xyz("xyz");
-  assert(xyz.IsEmpty() == false);
+  assert(xyz.is_empty() == false);
   assert(xyz == "xyz");
 
   assert(abc <= "abc");
@@ -142,6 +142,7 @@ void TestWith() {
   nwc_toolkit::String abcdef("abcde");
 
   assert(abcdef.StartsWith("abc"));
+  assert(abcdef.StartsWith("abcde"));
   assert(abcdef.StartsWith("abcde012") == false);
   assert(abcdef.StartsWith("bcd") == false);
 
@@ -149,6 +150,7 @@ void TestWith() {
   assert(abcdef.StartsWith("ABC", nwc_toolkit::ToLower()));
 
   assert(abcdef.EndsWith("cde"));
+  assert(abcdef.EndsWith("abcde"));
   assert(abcdef.EndsWith("012abcde") == false);
   assert(abcdef.EndsWith("bcd") == false);
 

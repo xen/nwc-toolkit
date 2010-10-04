@@ -4,7 +4,9 @@ lib_LIBRARIES = libnwc-toolkit.a
 
 libnwc_toolkit_a_SOURCES = \
 	character-encoding.cc \
-	character-reference.cc
+	character-reference.cc \
+	input-file.cc \
+	output-file.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
@@ -18,7 +20,9 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/coder.h \
 	../include/nwc-toolkit/darts.h \
 	../include/nwc-toolkit/gzip-coder.h \
+	../include/nwc-toolkit/input-file.h \
 	../include/nwc-toolkit/int-traits.h \
+	../include/nwc-toolkit/output-file.h \
 	../include/nwc-toolkit/string-builder.h \
 	../include/nwc-toolkit/string-hash.h \
 	../include/nwc-toolkit/string-pool.h \

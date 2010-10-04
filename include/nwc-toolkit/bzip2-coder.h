@@ -5,8 +5,6 @@
 
 #include <bzlib.h>
 
-#include <iostream>
-
 #include "./coder.h"
 
 namespace nwc_toolkit {
@@ -89,6 +87,8 @@ class Bzip2Coder : public Coder {
   }
 
   bool Code(int flush);
+
+  // Non-copyable.
 };
 
 inline bool Bzip2Coder::OpenEncoder(int preset) {

@@ -26,6 +26,10 @@ bool CharacterEncoding::Convert(const String &src_code, const String &src,
   std::size_t out_bytes_total = dest->length();
   dest->Resize(dest->size());
 
+  if (dest->size() == 0) {
+    dest->Reserve(1);
+  }
+
   char *out_buf = dest->buf() + out_bytes_total;
   std::size_t out_bytes_left = dest->length() - out_bytes_total;
 
@@ -91,7 +95,7 @@ bool CharacterEncoding::DetectFromResponseHeader(
   static const String FIELD_NAME("Content-Type:");
 
   encoding->Clear();
-  for (String avail = str; !avail.IsEmpty();
+  for (String avail = str; !avail.is_empty();
        avail.set_begin(avail.FindFirstOf('\n').end())) {
     if (avail.StartsWith(FIELD_NAME, ToLower())) {
       String field_value = avail.SubString(FIELD_NAME.length());
@@ -100,7 +104,7 @@ bool CharacterEncoding::DetectFromResponseHeader(
       charset.Assign(charset.end(), field_value.end());
       charset.set_end(charset.FindFirstOf(";").begin());
       charset = charset.Strip().Strip("'\"");
-      if (!charset.IsEmpty()) {
+      if (!charset.is_empty()) {
         encoding->Assign(charset, ToUpper());
         return true;
       }
@@ -115,20 +119,20 @@ bool CharacterEncoding::DetectFromHtmlHeader(
   static const CharTable TAG_NAME_TABLE("A-Za-z/!?");
 
   encoding->Clear();
-  for (String avail = str; !avail.IsEmpty(); ) {
+  for (String avail = str; !avail.is_empty(); ) {
     avail.set_begin(avail.FindFirstOf('<').begin());
     if (avail.StartsWith("<!--")) {
       avail.set_begin(avail.SubString(4).Find("-->").end());
     } else if (avail.StartsWith("<meta", ToLower())) {
       String end_of_tag = avail.SubString(5).FindFirstOf('>');
       String tag(avail.begin() + 1, end_of_tag.begin());
-      if (!tag.Find("http-equiv", ToLower()).IsEmpty() &&
-          !tag.Find("Content-Type", ToLower()).IsEmpty()) {
+      if (!tag.Find("http-equiv", ToLower()).is_empty() &&
+          !tag.Find("Content-Type", ToLower()).is_empty()) {
         String charset = tag.Find("charset=", ToLower());
         charset.Assign(charset.end(), tag.end());
         charset.set_end(charset.FindFirstOf(DELIM_TABLE).begin());
         charset = charset.Strip().Strip("'\"");
-        if (!charset.IsEmpty()) {
+        if (!charset.is_empty()) {
           encoding->Assign(charset, ToUpper());
           return true;
         }
@@ -139,7 +143,7 @@ bool CharacterEncoding::DetectFromHtmlHeader(
       return false;
     } else if (avail.length() > 1 && TAG_NAME_TABLE.Get(avail[1])) {
       avail.set_begin(avail.FindFirstOf('>').end());
-    } else if (!avail.IsEmpty()) {
+    } else if (!avail.is_empty()) {
       avail = avail.SubString(1);
     }
   }
@@ -168,7 +172,7 @@ bool CharacterEncoding::DetectFromXmlHeader(
     charset = charset.StripLeft();
     if (charset.StartsWith("=")) {
       charset = charset.SubString(1).StripLeft();
-      if (!charset.IsEmpty()) {
+      if (!charset.is_empty()) {
         char quote = charset[0];
         charset = charset.SubString(1);
         charset.set_end(charset.FindFirstOf(quote).begin());

@@ -87,6 +87,8 @@ class GzipCoder : public Coder {
   }
 
   bool Code(int flush);
+
+  // Non-copyable.
 };
 
 inline bool GzipCoder::OpenEncoder(int preset) {

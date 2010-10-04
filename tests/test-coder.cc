@@ -6,6 +6,7 @@
 #include <ctime>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -119,11 +120,11 @@ int main() {
   assert(file.good());
   file.close();
 
-  std::cerr << "gzip: ";
+  std::cerr << " gzip: ";
   TestCoder<nwc_toolkit::GzipCoder>(data, "test-coder.dat.gz");
-  std::cerr << "bzip2: ";
+  std::cerr << " bzip2: ";
   TestCoder<nwc_toolkit::Bzip2Coder>(data, "test-coder.dat.bz2");
-  std::cerr << "xz: ";
+  std::cerr << " xz: ";
   TestCoder<nwc_toolkit::XzCoder>(data, "test-coder.dat.xz");
 
   return 0;

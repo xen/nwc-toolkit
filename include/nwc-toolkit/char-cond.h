@@ -20,7 +20,7 @@ class CondChar {
  private:
   unsigned char c_;
 
-  // Assignment is not allowed.
+  // Disallows assignment.
   CondChar &operator=(const CondChar &);
 };
 
@@ -41,7 +41,7 @@ class CondCString {
  private:
   const char *str_;
 
-  // Assignment is not allowed.
+  // Disallows assignment.
   CondCString &operator=(const CondCString &);
 };
 
@@ -65,7 +65,7 @@ class CondString {
   const char *str_;
   std::size_t length_;
 
-  // Assignment is not allowed.
+  // Disallows assignment.
   CondString &operator=(const CondString &);
 };
 
@@ -82,7 +82,7 @@ class CondTable {
  private:
   const CharTable &table_;
 
-  // Assignment is not allowed.
+  // Disallows assignment.
   CondString &operator=(const CondString &);
 };
 

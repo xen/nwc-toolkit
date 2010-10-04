@@ -86,6 +86,8 @@ class XzCoder : public Coder {
   }
 
   bool Code(::lzma_action action);
+
+  // Non-copyable.
 };
 
 inline bool XzCoder::OpenEncoder(int preset) {

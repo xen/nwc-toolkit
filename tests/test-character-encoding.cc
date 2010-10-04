@@ -31,7 +31,7 @@ void TestDetect() {
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromBOM(
       "XYZ", &encoding) == false);
-  assert(encoding.IsEmpty() == true);
+  assert(encoding.is_empty() == true);
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromBOM(
       "\xEF\xBB\xBF...", &encoding) == true);
@@ -47,7 +47,7 @@ void TestDetect() {
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHeader(
       "Content-Length: 100", &encoding) == false);
-  assert(encoding.IsEmpty() == true);
+  assert(encoding.is_empty() == true);
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromResponseHeader(
       "Content-Type: text/html; charset=utf-8\n", &encoding) == true);
@@ -59,7 +59,7 @@ void TestDetect() {
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromHtmlHeader(
       "<html></html>", &encoding) == false);
-  assert(encoding.IsEmpty() == true);
+  assert(encoding.is_empty() == true);
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromHtmlHeader("<html><head>"
       "<meta http-equiv=\"Content-Type\""
@@ -69,7 +69,7 @@ void TestDetect() {
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromXmlHeader(
       "<?xml version=\"1.0\">", &encoding) == false);
-  assert(encoding.IsEmpty() == true);
+  assert(encoding.is_empty() == true);
 
   assert(nwc_toolkit::CharacterEncoding::DetectFromXmlHeader(
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", &encoding) == true);

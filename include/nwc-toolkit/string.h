@@ -14,7 +14,13 @@ namespace nwc_toolkit {
 class String {
  public:
   String() : ptr_(NULL), length_(0) {}
-  String(const char *str) : ptr_(str), length_(LengthOf(str)) {}
+  String(const char *str) : ptr_(str), length_(0) {
+    if (str != NULL) {
+      while (str[length_] != '\0') {
+        ++length_;
+      }
+    }
+  }
   String(const char *ptr, std::size_t length) : ptr_(ptr), length_(length) {}
   String(const char *begin, const char *end)
       : ptr_(begin), length_(end - begin) {}
@@ -56,7 +62,7 @@ class String {
     return *this;
   }
 
-  bool IsEmpty() const {
+  bool is_empty() const {
     return length_ == 0;
   }
 
@@ -284,18 +290,18 @@ class String {
   }
   template <typename T>
   bool EndsWith(const char *str, T filter, IsNotInt) const {
-    for (std::size_t i = 0; i < length_; ++i) {
-      if (str[i] == '\0') {
-        std::size_t offset = length_ - i;
-        for (std::size_t j = 0; j < i; ++j) {
-          if (filter(ptr_[offset + j]) != filter(str[j])) {
-            return false;
-          }
-        }
-        return true;
+    std::size_t length = 0;
+    for ( ; str[length] != '\0'; ++length) {
+      if (length > length_) {
+        return false;
       }
     }
-    return false;
+    std::size_t offset = length_ - length;
+    for (std::size_t i = 0; i < length; ++i) {
+      if (filter(ptr_[offset + i]) != filter(str[i]))
+        return false;
+    }
+    return true;
   }
   template <typename T>
   bool EndsWith(const char *ptr, std::size_t length, T filter) const {

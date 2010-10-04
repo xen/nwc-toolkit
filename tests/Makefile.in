@@ -36,7 +36,7 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
-	test-darts$(EXEEXT) test-iconv$(EXEEXT) \
+	test-darts$(EXEEXT) test-file-io$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
 	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
 	test-string-pool$(EXEEXT)
@@ -54,7 +54,7 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
-	test-darts$(EXEEXT) test-iconv$(EXEEXT) \
+	test-darts$(EXEEXT) test-file-io$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-string$(EXEEXT) \
 	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
 	test-string-pool$(EXEEXT)
@@ -87,6 +87,9 @@ test_coder_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_darts_OBJECTS = test-darts.$(OBJEXT)
 test_darts_OBJECTS = $(am_test_darts_OBJECTS)
 test_darts_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_file_io_OBJECTS = test-file-io.$(OBJEXT)
+test_file_io_OBJECTS = $(am_test_file_io_OBJECTS)
+test_file_io_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_iconv_OBJECTS = test-iconv.$(OBJEXT)
 test_iconv_OBJECTS = $(am_test_iconv_OBJECTS)
 test_iconv_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -118,18 +121,18 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
-	$(test_darts_SOURCES) $(test_iconv_SOURCES) \
-	$(test_int_traits_SOURCES) $(test_string_SOURCES) \
-	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
-	$(test_string_pool_SOURCES)
+	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
+	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
+	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
+	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
-	$(test_darts_SOURCES) $(test_iconv_SOURCES) \
-	$(test_int_traits_SOURCES) $(test_string_SOURCES) \
-	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
-	$(test_string_pool_SOURCES)
+	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
+	$(test_iconv_SOURCES) $(test_int_traits_SOURCES) \
+	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
+	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -244,6 +247,8 @@ test_coder_SOURCES = test-coder.cc
 test_coder_LDADD = ../lib/libnwc-toolkit.a
 test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
+test_file_io_SOURCES = test-file-io.cc
+test_file_io_LDADD = ../lib/libnwc-toolkit.a
 test_iconv_SOURCES = test-iconv.cc
 test_iconv_LDADD = ../lib/libnwc-toolkit.a
 test_int_traits_SOURCES = test-int-traits.cc
@@ -317,6 +322,9 @@ test-coder$(EXEEXT): $(test_coder_OBJECTS) $(test_coder_DEPENDENCIES)
 test-darts$(EXEEXT): $(test_darts_OBJECTS) $(test_darts_DEPENDENCIES) 
 	@rm -f test-darts$(EXEEXT)
 	$(CXXLINK) $(test_darts_OBJECTS) $(test_darts_LDADD) $(LIBS)
+test-file-io$(EXEEXT): $(test_file_io_OBJECTS) $(test_file_io_DEPENDENCIES) 
+	@rm -f test-file-io$(EXEEXT)
+	$(CXXLINK) $(test_file_io_OBJECTS) $(test_file_io_LDADD) $(LIBS)
 test-iconv$(EXEEXT): $(test_iconv_OBJECTS) $(test_iconv_DEPENDENCIES) 
 	@rm -f test-iconv$(EXEEXT)
 	$(CXXLINK) $(test_iconv_OBJECTS) $(test_iconv_LDADD) $(LIBS)
@@ -350,6 +358,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-character-reference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-darts.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-file-io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-builder.Po@am__quote@

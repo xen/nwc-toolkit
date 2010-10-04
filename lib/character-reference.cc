@@ -179,12 +179,12 @@ bool CharacterReference::Encode(const String &src, StringBuilder *dest,
 
 bool CharacterReference::Decode(const String &src, StringBuilder *dest) {
   bool modified = false;
-  for (String avail = src; !avail.IsEmpty(); ) {
+  for (String avail = src; !avail.is_empty(); ) {
     String amp = avail.FindFirstOf('&');
     dest->Append(String(avail.begin(), amp.begin()));
 
     String charref(amp.begin(), avail.end());
-    if (!amp.IsEmpty()) {
+    if (!amp.is_empty()) {
       if (DecodeCharref(&charref, dest)) {
         modified = true;
       } else {

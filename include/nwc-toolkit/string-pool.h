@@ -27,7 +27,7 @@ class StringPool {
     return total_size_;
   }
 
-  bool IsEmpty() const {
+  bool is_empty() const {
     return num_strings_ == 0;
   }
 
@@ -72,7 +72,7 @@ class StringPool {
   String AppendCustomString(const String &str);
   void AppendChunk();
 
-  // Copy and assignment are not allowed.
+  // Disallows copy and assignment.
   StringPool(const StringPool &);
   StringPool &operator=(const StringPool &);
 };

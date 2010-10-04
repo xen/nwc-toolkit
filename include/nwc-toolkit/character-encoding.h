@@ -9,9 +9,6 @@ namespace nwc_toolkit {
 
 class CharacterEncoding {
  public:
-  CharacterEncoding() {}
-  ~CharacterEncoding() {}
-
   static bool Convert(const String &src_code, const String &src,
       const String &dest_code, StringBuilder *dest);
 
@@ -25,9 +22,8 @@ class CharacterEncoding {
       const String &str, StringBuilder *encoding);
 
  private:
-  // Disallows copies.
-  CharacterEncoding(const CharacterEncoding &);
-  CharacterEncoding &operator=(const CharacterEncoding &);
+  // Disallows object creation.
+  CharacterEncoding();
 };
 
 }  // namespace nwc_toolkit

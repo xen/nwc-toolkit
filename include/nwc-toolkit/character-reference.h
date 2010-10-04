@@ -30,6 +30,9 @@ class CharacterReference {
       String *charref, StringBuilder *dest);
 
   static void EncodeCodePoint(int code_point, StringBuilder *dest);
+
+  // Disallows object creation.
+  CharacterReference();
 };
 
 }  // namespace nwc_toolkit
