@@ -3,6 +3,7 @@
 #ifndef NWC_TOOLKIT_TOKEN_TRIE_H_
 #define NWC_TOOLKIT_TOKEN_TRIE_H_
 
+#include <utility>
 #include <vector>
 
 namespace nwc_toolkit {

@@ -41,8 +41,8 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
 	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
-	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
-	test-text-archive-entry$(EXEEXT)
+	test-text-archive-entry$(EXEEXT) test-token-map$(EXEEXT) \
+	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -62,8 +62,8 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
 	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
-	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
-	test-text-archive-entry$(EXEEXT)
+	test-text-archive-entry$(EXEEXT) test-token-map$(EXEEXT) \
+	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -135,6 +135,11 @@ test_token_map_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_token_trie_OBJECTS = test-token-trie.$(OBJEXT)
 test_token_trie_OBJECTS = $(am_test_token_trie_OBJECTS)
 test_token_trie_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_unicode_normalizer_OBJECTS =  \
+	test-unicode-normalizer.$(OBJEXT)
+test_unicode_normalizer_OBJECTS =  \
+	$(am_test_unicode_normalizer_OBJECTS)
+test_unicode_normalizer_DEPENDENCIES = ../lib/libnwc-toolkit.a
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -154,7 +159,7 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
 	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
 	$(test_text_archive_entry_SOURCES) $(test_token_map_SOURCES) \
-	$(test_token_trie_SOURCES)
+	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
@@ -165,7 +170,7 @@ DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
 	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
 	$(test_text_archive_entry_SOURCES) $(test_token_map_SOURCES) \
-	$(test_token_trie_SOURCES)
+	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -298,12 +303,14 @@ test_string_hash_SOURCES = test-string-hash.cc
 test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
+test_text_archive_entry_SOURCES = test-text-archive-entry.cc
+test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 test_token_map_SOURCES = test-token-map.cc
 test_token_map_LDADD = ../lib/libnwc-toolkit.a
 test_token_trie_SOURCES = test-token-trie.cc
 test_token_trie_LDADD = ../lib/libnwc-toolkit.a
-test_text_archive_entry_SOURCES = test-text-archive-entry.cc
-test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+test_unicode_normalizer_SOURCES = test-unicode-normalizer.cc
+test_unicode_normalizer_LDADD = ../lib/libnwc-toolkit.a
 all: all-am
 
 .SUFFIXES:
@@ -401,6 +408,9 @@ test-token-map$(EXEEXT): $(test_token_map_OBJECTS) $(test_token_map_DEPENDENCIES
 test-token-trie$(EXEEXT): $(test_token_trie_OBJECTS) $(test_token_trie_DEPENDENCIES) 
 	@rm -f test-token-trie$(EXEEXT)
 	$(CXXLINK) $(test_token_trie_OBJECTS) $(test_token_trie_LDADD) $(LIBS)
+test-unicode-normalizer$(EXEEXT): $(test_unicode_normalizer_OBJECTS) $(test_unicode_normalizer_DEPENDENCIES) 
+	@rm -f test-unicode-normalizer$(EXEEXT)
+	$(CXXLINK) $(test_unicode_normalizer_OBJECTS) $(test_unicode_normalizer_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -428,6 +438,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-map.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-trie.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-unicode-normalizer.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

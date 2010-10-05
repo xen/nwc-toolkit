@@ -1,9 +1,8 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
-#include <algorithm>
-#include <iostream>
-
 #include <nwc-toolkit/token-trie.h>
+
+#include <algorithm>
 
 namespace nwc_toolkit {
 
@@ -22,8 +21,7 @@ void TokenTrie::Clear() {
   max_freq_ = 0;
 }
 
-void TokenTrie::Insert(const int *tokens, std::size_t num_tokens)
-{
+void TokenTrie::Insert(const int *tokens, std::size_t num_tokens) {
   if (is_empty()) {
     Init();
   }
@@ -43,8 +41,7 @@ void TokenTrie::Insert(const int *tokens, std::size_t num_tokens)
   }
 }
 
-bool TokenTrie::Trace(int node_id, std::vector<int> *token_ids, int *freq)
-{
+bool TokenTrie::Trace(int node_id, std::vector<int> *token_ids, int *freq) {
   if ((node_id == ROOT_NODE_ID) || (table_[node_id].from == INVALID_NODE_ID)) {
     return false;
   }

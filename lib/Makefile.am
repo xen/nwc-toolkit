@@ -11,6 +11,7 @@ libnwc_toolkit_a_SOURCES = \
 	input-file.cc \
 	output-file.cc \
 	token-trie.cc \
+	unicode-normalizer.cc \
 	xz-coder.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
@@ -37,4 +38,5 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/text-archive-entry.h \
 	../include/nwc-toolkit/token-map.h \
 	../include/nwc-toolkit/token-trie.h \
+	../include/nwc-toolkit/unicode-normalizer.h \
 	../include/nwc-toolkit/xz-coder.h

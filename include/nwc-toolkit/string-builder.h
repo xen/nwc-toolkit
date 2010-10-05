@@ -135,18 +135,16 @@ class StringBuilder {
     return *this;
   }
 
-  StringBuilder &Resize(std::size_t length) {
+  void Resize(std::size_t length) {
     if (length > size_) {
       ResizeBuf(length);
     }
     length_ = length;
-    return *this;
   }
-  StringBuilder &Reserve(std::size_t size) {
+  void Reserve(std::size_t size) {
     if (size > size_) {
       ResizeBuf(size);
     }
-    return *this;
   }
 
  private:
