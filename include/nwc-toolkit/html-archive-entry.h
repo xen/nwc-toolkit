@@ -12,7 +12,9 @@ namespace nwc_toolkit {
 class HtmlArchiveEntry {
  public:
   HtmlArchiveEntry() : url_(), status_code_(0), header_(), body_() {}
-  ~HtmlArchiveEntry() { Clear(); }
+  ~HtmlArchiveEntry() {
+    Clear();
+  }
 
   String url() const { return url_.str(); }
   int status_code() const { return status_code_; }

@@ -74,7 +74,8 @@ libnwc_toolkit_a_LIBADD =
 am_libnwc_toolkit_a_OBJECTS = bzip2-coder.$(OBJEXT) \
 	character-encoding.$(OBJEXT) character-reference.$(OBJEXT) \
 	gzip-coder.$(OBJEXT) html-archive-entry.$(OBJEXT) \
-	input-file.$(OBJEXT) output-file.$(OBJEXT) xz-coder.$(OBJEXT)
+	input-file.$(OBJEXT) output-file.$(OBJEXT) \
+	token-trie.$(OBJEXT) xz-coder.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -192,6 +193,7 @@ libnwc_toolkit_a_SOURCES = \
 	html-archive-entry.cc \
 	input-file.cc \
 	output-file.cc \
+	token-trie.cc \
 	xz-coder.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
@@ -216,6 +218,8 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/string-pool.h \
 	../include/nwc-toolkit/string.h \
 	../include/nwc-toolkit/text-archive-entry.h \
+	../include/nwc-toolkit/token-map.h \
+	../include/nwc-toolkit/token-trie.h \
 	../include/nwc-toolkit/xz-coder.h
 
 all: all-am
@@ -302,6 +306,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token-trie.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xz-coder.Po@am__quote@
 
 .cc.o:

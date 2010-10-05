@@ -19,6 +19,8 @@ TESTS = \
 	test-string-builder \
 	test-string-hash \
 	test-string-pool \
+	test-token-map \
+	test-token-trie \
 	test-text-archive-entry
 
 noinst_PROGRAMS = $(TESTS)
@@ -74,6 +76,11 @@ test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
 
+test_token_map_SOURCES = test-token-map.cc
+test_token_map_LDADD = ../lib/libnwc-toolkit.a
+
+test_token_trie_SOURCES = test-token-trie.cc
+test_token_trie_LDADD = ../lib/libnwc-toolkit.a
+
 test_text_archive_entry_SOURCES = test-text-archive-entry.cc
 test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
-

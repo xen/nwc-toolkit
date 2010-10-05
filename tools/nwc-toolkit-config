@@ -1,0 +1,30 @@
+#! /bin/sh
+
+ShowUsageAndExit() {
+  echo "Usage: $0 [ --cppflags ] [ --ldflags ]"
+  exit
+}
+
+if [ $# -lt 1 ]
+then
+  ShowUsageAndExit
+fi
+
+for arg in $@
+do
+  case $arg in
+    "--cppflags")
+      echo -n `icu-config --cppflags`
+      ;;
+    "--ldflags")
+      echo -n `icu-config --ldflags` -llzma -lbz2 -lz -liconv
+      ;;
+    *)
+      echo "Error: $0: Unknown option $arg"
+      echo
+      ShowUsageAndExit
+      ;;
+  esac
+done
+
+echo

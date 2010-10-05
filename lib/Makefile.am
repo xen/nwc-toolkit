@@ -10,6 +10,7 @@ libnwc_toolkit_a_SOURCES = \
 	html-archive-entry.cc \
 	input-file.cc \
 	output-file.cc \
+	token-trie.cc \
 	xz-coder.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
@@ -34,4 +35,6 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/string-pool.h \
 	../include/nwc-toolkit/string.h \
 	../include/nwc-toolkit/text-archive-entry.h \
+	../include/nwc-toolkit/token-map.h \
+	../include/nwc-toolkit/token-trie.h \
 	../include/nwc-toolkit/xz-coder.h

@@ -14,7 +14,9 @@ namespace nwc_toolkit {
 class TextArchiveEntry {
  public:
   TextArchiveEntry() : line_pool_(), lines_() {}
-  ~TextArchiveEntry() { Clear(); }
+  ~TextArchiveEntry() {
+    Clear();
+  }
 
   std::size_t num_lines() const { return lines_.size(); }
   const String &line(std::size_t id) const { return lines_[id]; }

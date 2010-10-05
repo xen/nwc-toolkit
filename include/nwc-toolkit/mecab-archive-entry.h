@@ -14,7 +14,9 @@ namespace nwc_toolkit {
 class MecabArchiveEntry {
  public:
   MecabArchiveEntry() : word_pool_(), words_() {}
-  ~MecabArchiveEntry() { Clear(); }
+  ~MecabArchiveEntry() {
+    Clear();
+  }
 
   std::size_t num_words() const { return words_.size(); }
   const String &word(std::size_t id) const { return words_[id]; }

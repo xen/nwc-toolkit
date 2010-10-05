@@ -41,6 +41,7 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
 	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
+	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
 	test-text-archive-entry$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
@@ -61,6 +62,7 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
 	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
+	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
 	test-text-archive-entry$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
@@ -127,6 +129,12 @@ am_test_text_archive_entry_OBJECTS =  \
 test_text_archive_entry_OBJECTS =  \
 	$(am_test_text_archive_entry_OBJECTS)
 test_text_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_token_map_OBJECTS = test-token-map.$(OBJEXT)
+test_token_map_OBJECTS = $(am_test_token_map_OBJECTS)
+test_token_map_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_token_trie_OBJECTS = test-token-trie.$(OBJEXT)
+test_token_trie_OBJECTS = $(am_test_token_trie_OBJECTS)
+test_token_trie_DEPENDENCIES = ../lib/libnwc-toolkit.a
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -145,7 +153,8 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
 	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
-	$(test_text_archive_entry_SOURCES)
+	$(test_text_archive_entry_SOURCES) $(test_token_map_SOURCES) \
+	$(test_token_trie_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
@@ -155,7 +164,8 @@ DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
 	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
-	$(test_text_archive_entry_SOURCES)
+	$(test_text_archive_entry_SOURCES) $(test_token_map_SOURCES) \
+	$(test_token_trie_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -288,6 +298,10 @@ test_string_hash_SOURCES = test-string-hash.cc
 test_string_hash_LDADD = ../lib/libnwc-toolkit.a
 test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
+test_token_map_SOURCES = test-token-map.cc
+test_token_map_LDADD = ../lib/libnwc-toolkit.a
+test_token_trie_SOURCES = test-token-trie.cc
+test_token_trie_LDADD = ../lib/libnwc-toolkit.a
 test_text_archive_entry_SOURCES = test-text-archive-entry.cc
 test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 all: all-am
@@ -381,6 +395,12 @@ test-string-pool$(EXEEXT): $(test_string_pool_OBJECTS) $(test_string_pool_DEPEND
 test-text-archive-entry$(EXEEXT): $(test_text_archive_entry_OBJECTS) $(test_text_archive_entry_DEPENDENCIES) 
 	@rm -f test-text-archive-entry$(EXEEXT)
 	$(CXXLINK) $(test_text_archive_entry_OBJECTS) $(test_text_archive_entry_LDADD) $(LIBS)
+test-token-map$(EXEEXT): $(test_token_map_OBJECTS) $(test_token_map_DEPENDENCIES) 
+	@rm -f test-token-map$(EXEEXT)
+	$(CXXLINK) $(test_token_map_OBJECTS) $(test_token_map_LDADD) $(LIBS)
+test-token-trie$(EXEEXT): $(test_token_trie_OBJECTS) $(test_token_trie_DEPENDENCIES) 
+	@rm -f test-token-trie$(EXEEXT)
+	$(CXXLINK) $(test_token_trie_OBJECTS) $(test_token_trie_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -406,6 +426,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-pool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-archive-entry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-map.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-trie.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
