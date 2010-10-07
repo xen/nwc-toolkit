@@ -54,7 +54,7 @@ class TokenMap {
   MapType map_;
   std::vector<String> tokens_;
 
-  // Disallows copies.
+  // Disallows copy and assignment.
   TokenMap(const TokenMap &);
   TokenMap &operator=(const TokenMap &);
 };

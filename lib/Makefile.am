@@ -7,6 +7,7 @@ libnwc_toolkit_a_SOURCES = \
 	character-encoding.cc \
 	character-reference.cc \
 	gzip-coder.cc \
+	html-document.cc \
 	html-archive-entry.cc \
 	input-file.cc \
 	output-file.cc \
@@ -26,6 +27,9 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/coder.h \
 	../include/nwc-toolkit/darts.h \
 	../include/nwc-toolkit/gzip-coder.h \
+	../include/nwc-toolkit/html-document-attribute.h \
+	../include/nwc-toolkit/html-document-unit.h \
+	../include/nwc-toolkit/html-document.h \
 	../include/nwc-toolkit/html-archive-entry.h \
 	../include/nwc-toolkit/input-file.h \
 	../include/nwc-toolkit/int-traits.h \

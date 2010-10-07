@@ -11,6 +11,9 @@ TESTS = \
 	test-coder \
 	test-darts \
 	test-file-io \
+	test-html-document \
+	test-html-document-attribute \
+	test-html-document-unit \
 	test-html-archive-entry \
 	test-iconv \
 	test-int-traits \
@@ -52,6 +55,15 @@ test_darts_LDADD = ../lib/libnwc-toolkit.a
 
 test_file_io_SOURCES = test-file-io.cc
 test_file_io_LDADD = ../lib/libnwc-toolkit.a
+
+test_html_document_SOURCES = test-html-document.cc
+test_html_document_LDADD = ../lib/libnwc-toolkit.a
+
+test_html_document_attribute_SOURCES = test-html-document-attribute.cc
+test_html_document_attribute_LDADD = ../lib/libnwc-toolkit.a
+
+test_html_document_unit_SOURCES = test-html-document-unit.cc
+test_html_document_unit_LDADD = ../lib/libnwc-toolkit.a
 
 test_html_archive_entry_SOURCES = test-html-archive-entry.cc
 test_html_archive_entry_LDADD = ../lib/libnwc-toolkit.a

@@ -31,7 +31,23 @@ class HtmlArchiveEntry {
   bool Read(InputFile *file);
   bool Write(OutputFile *file) const;
 
+  bool ExtractUnicodeBody(StringBuilder *unicode_body) const {
+    StringBuilder src_encoding;
+    return ExtractUnicodeBody(unicode_body, &src_encoding);
+  }
+  bool ExtractUnicodeBody(StringBuilder *unicode_body,
+      StringBuilder *src_encoding) const;
+
+  bool ExtractContentType(StringBuilder *content_type) const;
+
  private:
+  enum EncodingFlags {
+    SHIFT_JIS_FLAG = 1 << 0,
+    EUC_JP_FLAG = 1 << 1,
+    ISO_2022_JP_FLAG = 1 << 2,
+    UTF_8_FLAG = 1 << 3
+  };
+
   StringBuilder url_;
   int status_code_;
   StringBuilder header_;
@@ -39,6 +55,11 @@ class HtmlArchiveEntry {
 
   static bool ReadInt(InputFile *file, int *value);
   static bool WriteInt(int value, OutputFile *file);
+
+  static int DetectEncodingFlags(const String &encoding);
+
+  bool TestEncodings(int encoding_flags, StringBuilder *unicode_body,
+      StringBuilder *src_encoding) const;
 
   // Disallows copy and assignment.
   HtmlArchiveEntry(const HtmlArchiveEntry &);

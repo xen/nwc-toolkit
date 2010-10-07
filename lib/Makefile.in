@@ -73,10 +73,10 @@ libnwc_toolkit_a_AR = $(AR) $(ARFLAGS)
 libnwc_toolkit_a_LIBADD =
 am_libnwc_toolkit_a_OBJECTS = bzip2-coder.$(OBJEXT) \
 	character-encoding.$(OBJEXT) character-reference.$(OBJEXT) \
-	gzip-coder.$(OBJEXT) html-archive-entry.$(OBJEXT) \
-	input-file.$(OBJEXT) output-file.$(OBJEXT) \
-	token-trie.$(OBJEXT) unicode-normalizer.$(OBJEXT) \
-	xz-coder.$(OBJEXT)
+	gzip-coder.$(OBJEXT) html-document.$(OBJEXT) \
+	html-archive-entry.$(OBJEXT) input-file.$(OBJEXT) \
+	output-file.$(OBJEXT) token-trie.$(OBJEXT) \
+	unicode-normalizer.$(OBJEXT) xz-coder.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -191,6 +191,7 @@ libnwc_toolkit_a_SOURCES = \
 	character-encoding.cc \
 	character-reference.cc \
 	gzip-coder.cc \
+	html-document.cc \
 	html-archive-entry.cc \
 	input-file.cc \
 	output-file.cc \
@@ -210,6 +211,9 @@ libnwc_toolkit_a_include_HEADERS = \
 	../include/nwc-toolkit/coder.h \
 	../include/nwc-toolkit/darts.h \
 	../include/nwc-toolkit/gzip-coder.h \
+	../include/nwc-toolkit/html-document-attribute.h \
+	../include/nwc-toolkit/html-document-unit.h \
+	../include/nwc-toolkit/html-document.h \
 	../include/nwc-toolkit/html-archive-entry.h \
 	../include/nwc-toolkit/input-file.h \
 	../include/nwc-toolkit/int-traits.h \
@@ -307,6 +311,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/character-reference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gzip-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-archive-entry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-document.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token-trie.Po@am__quote@
