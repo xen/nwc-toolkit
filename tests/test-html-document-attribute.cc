@@ -16,6 +16,17 @@ int main() {
   assert(attribute.name() == "name");
   assert(attribute.value() == "value");
 
+  nwc_toolkit::HtmlDocumentAttribute attribute_copy = attribute;
+
+  assert(attribute_copy.name() == "name");
+  assert(attribute_copy.value() == "value");
+
+  nwc_toolkit::HtmlDocumentAttribute attribute_assign;
+  attribute_assign = attribute;
+
+  assert(attribute_assign.name() == "name");
+  assert(attribute_assign.value() == "value");
+
   attribute.Clear();
 
   assert(attribute.name().is_empty());

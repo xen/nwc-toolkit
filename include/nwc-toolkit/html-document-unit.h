@@ -23,8 +23,23 @@ class HtmlDocumentUnit {
         content_(),
         attributes_(NULL),
         num_attributes_(0) {}
+  HtmlDocumentUnit(const HtmlDocumentUnit &rhs)
+      : type_flags_(rhs.type_flags_),
+        src_(rhs.src_),
+        content_(rhs.content_),
+        attributes_(rhs.attributes_),
+        num_attributes_(rhs.num_attributes_) {}
   ~HtmlDocumentUnit() {
     Clear();
+  }
+
+  HtmlDocumentUnit &operator=(const HtmlDocumentUnit &rhs) {
+    type_flags_ = rhs.type_flags_;
+    src_ = rhs.src_;
+    content_ = rhs.content_;
+    attributes_ = rhs.attributes_;
+    num_attributes_ = rhs.num_attributes_;
+    return *this;
   }
 
   // Common methods.
@@ -48,7 +63,7 @@ class HtmlDocumentUnit {
     num_attributes_ = 0;
   }
 
-  // Methods for text unit.
+  // Methods for text contents.
   bool is_cdata_section() const {
     return (type_flags_ & CDATA_SECTION_FLAG) == CDATA_SECTION_FLAG;
   }
@@ -63,7 +78,7 @@ class HtmlDocumentUnit {
     content_ = content;
   }
 
-  // Methods for text unit.
+  // Methods for tags.
   bool is_start_tag() const {
     return (type_flags_ & START_TAG_FLAG) == START_TAG_FLAG;
   }
@@ -73,7 +88,7 @@ class HtmlDocumentUnit {
   bool is_empty_element_tag() const {
     return (type_flags_ & EMPTY_ELEMENT_TAG_FLAG) == EMPTY_ELEMENT_TAG_FLAG;
   }
-  const String &tag_name() {
+  const String &tag_name() const {
     return content_;
   }
   std::size_t num_attributes() const {
@@ -101,7 +116,7 @@ class HtmlDocumentUnit {
     num_attributes_ = num_attributes;
   }
 
-  // Methods for text unit.
+  // Methods for comments.
   const String &comment() const {
     return content_;
   }
@@ -110,7 +125,7 @@ class HtmlDocumentUnit {
     content_ = str;
   }
 
-  // Methods for text unit.
+  // Methods for other kinds of units.
   const String &other_content() const {
     return content_;
   }
@@ -129,7 +144,7 @@ class HtmlDocumentUnit {
     CDATA_SECTION_FLAG = 1 << 16,
     START_TAG_FLAG = 1 << 17,
     END_TAG_FLAG = 1 << 18,
-    EMPTY_ELEMENT_TAG_FLAG = 1 << 19,
+    EMPTY_ELEMENT_TAG_FLAG = 1 << 19
   };
 
   int type_flags_;
@@ -137,10 +152,6 @@ class HtmlDocumentUnit {
   String content_;
   const HtmlDocumentAttribute *attributes_;
   std::size_t num_attributes_;
-
-  // Disallows copy and assignment.
-  HtmlDocumentUnit(const HtmlDocumentUnit &);
-  HtmlDocumentUnit &operator=(const HtmlDocumentUnit &);
 };
 
 inline HtmlDocumentUnit::UnitType HtmlDocumentUnit::type() const {

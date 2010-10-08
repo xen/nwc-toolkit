@@ -11,16 +11,21 @@ class CharacterReference {
  public:
   class EncodeQuotes {};
 
-  // Encode()s return if the string has been modified (true) or not (false).
+  // Special characters in the given string are replaced with character
+  // references. If there are no such characters, Encode() returns false.
+  // Otherwise, it returns true.
   static bool Encode(const String &src, StringBuilder *dest);
   static bool Encode(const String &src, StringBuilder *dest, EncodeQuotes);
 
+  // Character references in the given string are replaced with the original
+  // characters. If there are no character references, Decode() returns false,
+  // Otherwise, it returns true.
   static bool Decode(const String &src, StringBuilder *dest);
 
  private:
   enum { MAX_CODE_POINT = 0x10FFFF };
 
-  static bool DecodeCharref(String *charref, StringBuilder *dest);
+  static bool DecodeCharacterReference(String *charref, StringBuilder *dest);
 
   static bool DecodeHexadecimalCharacterReference(
       String *charref, StringBuilder *dest);

@@ -113,31 +113,51 @@ bool CharacterEncoding::DetectFromResponseHeader(
 
 bool CharacterEncoding::DetectFromHtmlHeader(
     const String &str, StringBuilder *encoding) {
-  static const CharTable DELIM_TABLE(" \t'\";");
+  static const String COMMENT_START_MARK = "<!--";
+  static const String COMMENT_END_MARK = "-->";
+
+  static const String META_TAG_START_MARK = "<meta";
+
+  static const CharTable CHARSET_DELIM_TABLE(" \t\r\n'\";");
   static const CharTable TAG_NAME_TABLE("A-Za-z/!?");
 
   encoding->Clear();
   for (String avail = str; !avail.is_empty(); ) {
     avail.set_begin(avail.FindFirstOf('<').begin());
-    if (avail.StartsWith("<!--")) {
-      avail.set_begin(avail.SubString(4).Find("-->").end());
-    } else if (avail.StartsWith("<meta", ToLower())) {
-      String end_of_tag = avail.SubString(5).FindFirstOf('>');
-      String tag(avail.begin() + 1, end_of_tag.begin());
-      if (!tag.Find("http-equiv", ToLower()).is_empty() &&
-          !tag.Find("Content-Type", ToLower()).is_empty()) {
-        String charset = tag.Find("charset=", ToLower());
-        charset.Assign(charset.end(), tag.end());
-        charset.set_end(charset.FindFirstOf(DELIM_TABLE).begin());
-        charset = charset.Strip().Strip("'\"");
-        if (!charset.is_empty()) {
-          encoding->Assign(charset, ToUpper());
-          return true;
+    if (avail.StartsWith(COMMENT_START_MARK)) {
+      avail.set_begin(avail.SubString(
+          COMMENT_START_MARK.length()).Find(COMMENT_END_MARK).end());
+    } else if (avail.StartsWith(META_TAG_START_MARK, ToLower())) {
+      String tag_end = avail.SubString(
+          META_TAG_START_MARK.length()).FindFirstOf('>');
+      String tag(avail.begin() + 1, tag_end.begin());
+
+      String charset_name = tag.Find("charset");
+      String charset_value(charset_name.end(), tag.end());
+      charset_value = charset_value.StripLeft();
+      if (charset_value.StartsWith("=")) {
+        charset_value = charset_value.SubString(1).StripLeft();
+        if (!charset_value.is_empty() &&
+            (charset_value[0] == '"' || charset_value[0] == '\'')) {
+          char quote = charset_value[0];
+          charset_value = charset_value.SubString(1);
+          charset_value.set_end(charset_value.FindFirstOf(quote).begin());
+          if (!charset_value.is_empty()) {
+            encoding->Assign(charset_value, ToUpper());
+            return true;
+          }
+        } else {
+          charset_value.set_end(charset_value.FindFirstOf(
+              CHARSET_DELIM_TABLE).begin());
+          if (!charset_value.is_empty()) {
+            encoding->Assign(charset_value, ToUpper());
+            return true;
+          }
         }
       }
-      avail.set_begin(end_of_tag.end());
+      avail.set_begin(tag_end.end());
     } else if (avail.StartsWith("</head", ToLower()) ||
-                avail.StartsWith("<body", ToLower())) {
+        avail.StartsWith("<body", ToLower())) {
       return false;
     } else if (avail.length() > 1 && TAG_NAME_TABLE.Get(avail[1])) {
       avail.set_begin(avail.FindFirstOf('>').end());
@@ -164,8 +184,8 @@ bool CharacterEncoding::DetectFromXmlHeader(
     encoding->Assign("UCS-2LE");
   } else if (str.StartsWith(UCS2_BE, sizeof(UCS2_BE))) {
     encoding->Assign("UCS-2BE");
-  } else if (str.StartsWith("<?")) {
-    String tag(str.begin() + 2, str.Find("?>").begin());
+  } else if (str.StartsWith("<?xml", ToLower())) {
+    String tag(str.begin() + 5, str.Find("?>").begin());
     String charset(tag.Find("encoding", ToLower()).end(), tag.end());
     charset = charset.StripLeft();
     if (charset.StartsWith("=")) {
@@ -179,9 +199,8 @@ bool CharacterEncoding::DetectFromXmlHeader(
         return true;
       }
     }
-    return false;
   }
-  return true;
+  return false;
 }
 
 }  // namespace nwc_toolkit

@@ -121,6 +121,7 @@ int main() {
   }
 
   std::ofstream file("test-coder.dat", std::ios::binary);
+  assert(file.is_open());
   file.write(&data[0], data.size());
   assert(file.good());
   file.close();

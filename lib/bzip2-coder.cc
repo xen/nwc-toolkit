@@ -90,7 +90,11 @@ bool Bzip2Coder::Code(int action) {
   if (ret == BZ_STREAM_END) {
     is_end_ = true;
   }
-  return (ret >= 0) || (ret == BZ_PARAM_ERROR);
+  // If both `stream_.avail_in' and `stream_.avail_out' are zeros,
+  // BZ2_bzCompress() returns an error.
+  //  - If `action' == BZ_RUN, it returns BZ_PARAM_ERROR.
+  //  - If `action' == BZ_FINISH, it returns BZ_SEQUENCE_ERROR.
+  return (ret >= 0) || (ret == BZ_PARAM_ERROR) || (ret == BZ_SEQUENCE_ERROR);
 }
 
 }  // namespace nwc_toolkit

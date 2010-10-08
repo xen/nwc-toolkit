@@ -10,7 +10,15 @@ namespace nwc_toolkit {
 class HtmlDocumentAttribute {
  public:
   HtmlDocumentAttribute() : name_(), value_() {}
+  HtmlDocumentAttribute(const HtmlDocumentAttribute &rhs)
+      : name_(rhs.name()), value_(rhs.value()) {}
   ~HtmlDocumentAttribute() {}
+
+  HtmlDocumentAttribute &operator=(const HtmlDocumentAttribute &rhs) {
+    name_ = rhs.name();
+    value_ = rhs.value();
+    return *this;
+  }
 
   const String &name() const {
     return name_;
@@ -34,10 +42,6 @@ class HtmlDocumentAttribute {
  private:
   String name_;
   String value_;
-
-  // Disallows copy and assignment.
-  HtmlDocumentAttribute(const HtmlDocumentAttribute &);
-  HtmlDocumentAttribute &operator=(const HtmlDocumentAttribute &);
 };
 
 }  // namespace nwc_toolkit

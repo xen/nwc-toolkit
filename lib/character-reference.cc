@@ -185,7 +185,7 @@ bool CharacterReference::Decode(const String &src, StringBuilder *dest) {
 
     String charref(amp.begin(), avail.end());
     if (!amp.is_empty()) {
-      if (DecodeCharref(&charref, dest)) {
+      if (DecodeCharacterReference(&charref, dest)) {
         modified = true;
       } else {
         dest->Append('&');
@@ -197,7 +197,8 @@ bool CharacterReference::Decode(const String &src, StringBuilder *dest) {
   return modified;
 }
 
-bool CharacterReference::DecodeCharref(String *charref, StringBuilder *dest) {
+bool CharacterReference::DecodeCharacterReference(
+    String *charref, StringBuilder *dest) {
   if (charref->length() < 3) {
     return false;
   } else if ((*charref)[1] == '#') {
