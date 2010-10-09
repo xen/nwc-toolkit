@@ -33,6 +33,10 @@ void TestPlainText() {
   assert(document.unit(0).is_cdata_section() == false);
   assert(document.unit(0).text_content() == "1 &lt; 2");
 
+  nwc_toolkit::StringBuilder text;
+  document.ExtractText(&text);
+  assert(text.str() == "1 &lt; 2\n");
+
   document.Clear();
 
   assert(document.body().is_empty());
@@ -40,6 +44,9 @@ void TestPlainText() {
   assert(document.content_type().is_empty());
   assert(document.parser_mode() == nwc_toolkit::HtmlDocument::UNDEFINED_MODE);
   assert(document.num_units() == 0);
+
+  document.ExtractText(&text);
+  assert(text.str() == "1 &lt; 2\n");
 
   entry.Clear();
 
@@ -59,6 +66,9 @@ void TestPlainText() {
   assert(document.unit(0).src() == "2 &gt; 1");
   assert(document.unit(0).is_cdata_section() == false);
   assert(document.unit(0).text_content() == "2 &gt; 1");
+
+  document.ExtractText(&text);
+  assert(text.str() == "1 &lt; 2\n2 &gt; 1\n");
 }
 
 void TestXml() {
@@ -126,6 +136,10 @@ void TestXml() {
       nwc_toolkit::HtmlDocumentUnit::COMMENT_UNIT);
   assert(document.unit(6).src() == "<!-- comment -->");
   assert(document.unit(6).text_content() == " comment ");
+
+  nwc_toolkit::StringBuilder text;
+  document.ExtractText(&text);
+  assert(text.str() == "<Text>&lt;Abc&gt;\n");
 }
 
 void TestSimpleHtmlDocuments() {
@@ -203,6 +217,10 @@ void TestSimpleHtmlDocuments() {
   assert(document.unit(6).src() == "<!-- comment -->");
   assert(document.unit(6).text_content() == " comment ");
 
+  nwc_toolkit::StringBuilder text;
+  document.ExtractText(&text);
+  assert(text.str() == "<Text>\n");
+
   entry.Clear();
   entry.set_body("<meta charset=\"euc-jp\">");
 
@@ -222,6 +240,9 @@ void TestSimpleHtmlDocuments() {
   assert(document.unit(0).num_attributes() == 1);
   assert(document.unit(0).attribute(0).name() == "charset");
   assert(document.unit(0).attribute(0).value() == "euc-jp");
+
+  document.ExtractText(&text);
+  assert(text.str() == "<Text>\n");
 }
 
 void TestComplexHtmlDocuments() {
@@ -261,6 +282,10 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(2).tag_name() == "script");
   assert(document.unit(2).num_attributes() == 0);
 
+  nwc_toolkit::StringBuilder text;
+  document.ExtractText(&text);
+  assert(text.str().is_empty());
+
   entry.Clear();
   entry.set_body("<style type=\"text/css\"><!--\n-->\n</style>");
 
@@ -295,8 +320,11 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(2).tag_name() == "style");
   assert(document.unit(2).num_attributes() == 0);
 
+  document.ExtractText(&text);
+  assert(text.str().is_empty());
+
   entry.Clear();
-  entry.set_body("<plaintext></plaintext>");
+  entry.set_body("<plaintext> \n \t</plaintext>\r\n");
 
   assert(document.Parse(entry));
 
@@ -315,9 +343,12 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(0).num_attributes() == 0);
 
   assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
-  assert(document.unit(1).src() == "</plaintext>");
+  assert(document.unit(1).src() == " \n \t</plaintext>\r\n");
   assert(document.unit(1).is_cdata_section() == false);
-  assert(document.unit(1).text_content() == "</plaintext>");
+  assert(document.unit(1).text_content() == " \n \t</plaintext>\r\n");
+
+  document.ExtractText(&text);
+  assert(text.str() == "</plaintext>\n");
 }
 
 }  // namespace

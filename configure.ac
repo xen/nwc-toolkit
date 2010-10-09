@@ -50,8 +50,12 @@ Project URL: http://tukaani.org/xz/])])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
 AC_TYPE_UINT8_T
+AC_TYPE_INT32_T
 
 # Checks for library functions.
+AC_CHECK_FUNCS([memmove])
+AC_CHECK_FUNCS([strtol])
+
 AC_CHECK_LIB([iconv], [iconv], , [AC_MSG_ERROR([\
 The NWC Toolkit requires libiconv.
 

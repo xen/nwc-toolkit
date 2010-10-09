@@ -56,6 +56,8 @@ class HtmlDocument {
 
   void ExtractText(StringBuilder *dest);
 
+  static bool IsBlockTag(const String &tag_name);
+
  private:
   enum TextUnitFlags {
     CDATA_SECTION_FLAG = 1 << 0,
@@ -66,6 +68,25 @@ class HtmlDocument {
     START_TAG_FLAG = 1 << 10,
     END_TAG_FLAG = 1 << 11,
     EMPTY_ELEMENT_TAG_FLAG = 1 << 12
+  };
+
+  enum TextExtractorModeFlags {
+    SCRIPT_MODE_FLAG = 1 << 20,
+    STYLE_MODE_FLAG = 1 << 21,
+    XMP_MODE_FLAG = 1 << 22,
+    PLAINTEXT_MODE_FLAG = 1 << 23,
+    PRE_MODE_FLAG = 1 << 24,
+    LISTING_MODE_FLAG = 1 << 25,
+
+    PLAIN_MODE_FLAGS = SCRIPT_MODE_FLAG | STYLE_MODE_FLAG
+        | XMP_MODE_FLAG | PLAINTEXT_MODE_FLAG,
+    INVISIBLE_MODE_FLAGS = SCRIPT_MODE_FLAG | STYLE_MODE_FLAG,
+    PRE_MODE_FLAGS = PRE_MODE_FLAG | LISTING_MODE_FLAG
+  };
+
+  enum EndOfLineHandler {
+    KEEP_END_OF_LINE,
+    REPLACE_END_OF_LINE
   };
 
   StringBuilder body_;
@@ -104,6 +125,13 @@ class HtmlDocument {
 
   void FixTagUnits();
   void FixAttributes();
+
+  static void AppendEndOfLineToText(StringBuilder *text);
+  static void AppendToText(const String &str,
+      EndOfLineHandler end_of_line_handler, StringBuilder *text);
+
+  static void UpdateTextExtractorModeFlags(
+      const HtmlDocumentUnit &unit, int *mode_flags);
 
   // Disallows copy and assignment.
   HtmlDocument(const HtmlDocument &);

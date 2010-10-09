@@ -2,10 +2,39 @@
 
 #include <nwc-toolkit/html-document.h>
 
+#include <unordered_set>
+
 #include <nwc-toolkit/character-encoding.h>
 #include <nwc-toolkit/character-reference.h>
+#include <nwc-toolkit/string-hash.h>
 
 namespace nwc_toolkit {
+namespace {
+
+const std::unordered_set<String, StringHash> &GetBlockTagNameSet() {
+  const char *tag_names[] = {
+    "address", "article", "aside", "blockquote", "br", "caption", "center",
+    "dd", "dialog", "dir", "div", "dl", "dt", "fieldset", "figure",
+    "footer", "form", "frame", "h1", "h2", "h3", "h4", "h5", "h6",
+    "header", "hr", "isindex", "legenda", "li", "menu", "multicol", "nav",
+    "noframes", "noscript", "ol", "p", "pre", "section", "table", "tbody",
+    "td", "tfoot", "th", "thead", "title", "tr", "ul", "xmp"
+  };
+
+  static bool is_initialized = false;
+  static std::unordered_set<String, StringHash> tag_name_set;
+
+  if (!is_initialized) {
+    std::size_t num_keys = sizeof(tag_names) / sizeof(tag_names[0]);
+    for (std::size_t i = 0; i < num_keys; ++i) {
+      tag_name_set.insert(tag_names[i]);
+    }
+    is_initialized = true;
+  }
+  return tag_name_set;
+}
+
+}  // namespace
 
 HtmlDocument::HtmlDocument()
     : body_(),
@@ -49,11 +78,52 @@ bool HtmlDocument::Parse(const HtmlArchiveEntry &entry) {
   } else if (ParseAsXml(body) || ParseAsHtml(body)) {
     return true;
   }
+
+  Clear();
   return false;
 }
 
 void HtmlDocument::ExtractText(StringBuilder *dest) {
-  // To be implemented.
+  int mode_flags = 0;
+  if (parser_mode() == PLAIN_TEXT_MODE) {
+    mode_flags |= PLAINTEXT_MODE_FLAG;
+  }
+
+  for (std::size_t i = 0; i < num_units(); ++i) {
+    const HtmlDocumentUnit &unit = this->unit(i);
+    switch (unit.type()) {
+      case HtmlDocumentUnit::TEXT_UNIT: {
+        if ((mode_flags & INVISIBLE_MODE_FLAGS) != 0) {
+          break;
+        } else if (unit.is_cdata_section() ||
+            ((mode_flags & (PLAIN_MODE_FLAGS | PRE_MODE_FLAGS)) != 0)) {
+          AppendToText(unit.text_content(), KEEP_END_OF_LINE, dest);
+        } else {
+          AppendToText(unit.text_content(), REPLACE_END_OF_LINE, dest);
+        }
+        break;
+      }
+      case HtmlDocumentUnit::TAG_UNIT: {
+        UpdateTextExtractorModeFlags(unit, &mode_flags);
+        if (IsBlockTag(unit.tag_name())) {
+          AppendEndOfLineToText(dest);
+        }
+        break;
+      }
+      case HtmlDocumentUnit::COMMENT_UNIT:
+      case HtmlDocumentUnit::OTHER_UNIT:
+      default: {
+        break;
+      }
+    }
+  }
+  AppendEndOfLineToText(dest);
+}
+
+bool HtmlDocument::IsBlockTag(const String &tag_name) {
+  static const std::unordered_set<String, StringHash> block_tag_name_set =
+      GetBlockTagNameSet();
+  return block_tag_name_set.find(tag_name) != block_tag_name_set.end();
 }
 
 void HtmlDocument::ClearUnits() {
@@ -537,7 +607,7 @@ void HtmlDocument::AppendOtherUnit(const String &src,
 
 void HtmlDocument::FixTagUnits() {
   std::size_t total_num_attributes = 0;
-  for (std::size_t i = 0; i < units_.size(); ++i) {
+  for (std::size_t i = 0; i < num_units(); ++i) {
     if (units_[i].type() != HtmlDocumentUnit::TAG_UNIT) {
       continue;
     }
@@ -561,6 +631,69 @@ void HtmlDocument::FixAttributes() {
     temp_buf_.Clear();
     if (CharacterReference::Decode(attributes_[i].value(), &temp_buf_)) {
       attributes_[i].set_value(string_pool_.Append(temp_buf_.str()));
+    }
+  }
+}
+
+void HtmlDocument::AppendEndOfLineToText(StringBuilder *text) {
+  if (text->is_empty()) {
+    return;
+  } else if (IsSpace()((*text)[text->length() - 1])) {
+    (*text)[text->length() - 1] = '\n';
+  } else {
+    text->Append('\n');
+  }
+}
+
+void HtmlDocument::AppendToText(const String &str,
+    EndOfLineHandler end_of_line_handler, StringBuilder *text) {
+  for (std::size_t i = 0; i < str.length(); ++i) {
+    if (IsSpace()(str[i])) {
+      if (text->is_empty()) {
+        continue;
+      } else if ((end_of_line_handler == KEEP_END_OF_LINE) &&
+          ((str[i] == '\r') || (str[i] == '\n'))) {
+        AppendEndOfLineToText(text);
+      } else if (!IsSpace()((*text)[text->length() - 1])) {
+        text->Append(' ');
+      }
+    } else if (!IsCntrl()(str[i])) {
+      text->Append(str[i]);
+    }
+  }
+}
+
+void HtmlDocument::UpdateTextExtractorModeFlags(
+    const HtmlDocumentUnit &unit, int *mode_flags) {
+  if (unit.is_empty_element_tag()) {
+    if (unit.tag_name() == "plaintext") {
+      *mode_flags |= PLAINTEXT_MODE_FLAG;
+    }
+  } else if (unit.is_start_tag()) {
+    if (unit.tag_name() == "script") {
+      *mode_flags |= SCRIPT_MODE_FLAG;
+    } else if (unit.tag_name() == "style") {
+      *mode_flags |= STYLE_MODE_FLAG;
+    } else if (unit.tag_name() == "xmp") {
+      *mode_flags |= XMP_MODE_FLAG;
+    } else if (unit.tag_name() == "plaintext") {
+      *mode_flags |= PLAINTEXT_MODE_FLAG;
+    } else if (unit.tag_name() == "pre") {
+      *mode_flags |= PRE_MODE_FLAG;
+    } else if (unit.tag_name() == "listing") {
+      *mode_flags |= LISTING_MODE_FLAG;
+    }
+  } else if (unit.is_end_tag()) {
+    if (unit.tag_name() == "script") {
+      *mode_flags &= ~SCRIPT_MODE_FLAG;
+    } else if (unit.tag_name() == "style") {
+      *mode_flags &= ~STYLE_MODE_FLAG;
+    } else if (unit.tag_name() == "xmp") {
+      *mode_flags &= ~XMP_MODE_FLAG;
+    } else if (unit.tag_name() == "pre") {
+      *mode_flags &= ~PRE_MODE_FLAG;
+    } else if (unit.tag_name() == "listing") {
+      *mode_flags &= ~LISTING_MODE_FLAG;
     }
   }
 }
