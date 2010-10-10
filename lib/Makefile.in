@@ -75,8 +75,9 @@ am_libnwc_toolkit_a_OBJECTS = bzip2-coder.$(OBJEXT) \
 	character-encoding.$(OBJEXT) character-reference.$(OBJEXT) \
 	gzip-coder.$(OBJEXT) html-document.$(OBJEXT) \
 	html-archive-entry.$(OBJEXT) input-file.$(OBJEXT) \
-	output-file.$(OBJEXT) token-trie.$(OBJEXT) \
-	unicode-normalizer.$(OBJEXT) xz-coder.$(OBJEXT)
+	output-file.$(OBJEXT) text-filter.$(OBJEXT) \
+	token-trie.$(OBJEXT) unicode-normalizer.$(OBJEXT) \
+	xz-coder.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -187,47 +188,49 @@ top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include
 lib_LIBRARIES = libnwc-toolkit.a
 libnwc_toolkit_a_SOURCES = \
-	bzip2-coder.cc \
-	character-encoding.cc \
-	character-reference.cc \
-	gzip-coder.cc \
-	html-document.cc \
-	html-archive-entry.cc \
-	input-file.cc \
-	output-file.cc \
-	token-trie.cc \
-	unicode-normalizer.cc \
-	xz-coder.cc
+  bzip2-coder.cc \
+  character-encoding.cc \
+  character-reference.cc \
+  gzip-coder.cc \
+  html-document.cc \
+  html-archive-entry.cc \
+  input-file.cc \
+  output-file.cc \
+  text-filter.cc \
+  token-trie.cc \
+  unicode-normalizer.cc \
+  xz-coder.cc
 
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
-	../include/nwc-toolkit/bzip2-coder.h \
-	../include/nwc-toolkit/char-cond.h \
-	../include/nwc-toolkit/char-filter.h \
-	../include/nwc-toolkit/char-table.h \
-	../include/nwc-toolkit/char-type.h \
-	../include/nwc-toolkit/character-encoding.h \
-	../include/nwc-toolkit/character-reference.h \
-	../include/nwc-toolkit/coder.h \
-	../include/nwc-toolkit/darts.h \
-	../include/nwc-toolkit/gzip-coder.h \
-	../include/nwc-toolkit/html-document-attribute.h \
-	../include/nwc-toolkit/html-document-unit.h \
-	../include/nwc-toolkit/html-document.h \
-	../include/nwc-toolkit/html-archive-entry.h \
-	../include/nwc-toolkit/input-file.h \
-	../include/nwc-toolkit/int-traits.h \
-	../include/nwc-toolkit/mecab-archive-entry.h \
-	../include/nwc-toolkit/output-file.h \
-	../include/nwc-toolkit/string-builder.h \
-	../include/nwc-toolkit/string-hash.h \
-	../include/nwc-toolkit/string-pool.h \
-	../include/nwc-toolkit/string.h \
-	../include/nwc-toolkit/text-archive-entry.h \
-	../include/nwc-toolkit/token-map.h \
-	../include/nwc-toolkit/token-trie.h \
-	../include/nwc-toolkit/unicode-normalizer.h \
-	../include/nwc-toolkit/xz-coder.h
+  ../include/nwc-toolkit/bzip2-coder.h \
+  ../include/nwc-toolkit/char-cond.h \
+  ../include/nwc-toolkit/char-filter.h \
+  ../include/nwc-toolkit/char-table.h \
+  ../include/nwc-toolkit/char-type.h \
+  ../include/nwc-toolkit/character-encoding.h \
+  ../include/nwc-toolkit/character-reference.h \
+  ../include/nwc-toolkit/coder.h \
+  ../include/nwc-toolkit/darts.h \
+  ../include/nwc-toolkit/gzip-coder.h \
+  ../include/nwc-toolkit/html-document-attribute.h \
+  ../include/nwc-toolkit/html-document-unit.h \
+  ../include/nwc-toolkit/html-document.h \
+  ../include/nwc-toolkit/html-archive-entry.h \
+  ../include/nwc-toolkit/input-file.h \
+  ../include/nwc-toolkit/int-traits.h \
+  ../include/nwc-toolkit/mecab-archive-entry.h \
+  ../include/nwc-toolkit/output-file.h \
+  ../include/nwc-toolkit/string-builder.h \
+  ../include/nwc-toolkit/string-hash.h \
+  ../include/nwc-toolkit/string-pool.h \
+  ../include/nwc-toolkit/string.h \
+  ../include/nwc-toolkit/text-archive-entry.h \
+  ../include/nwc-toolkit/text-filter.h \
+  ../include/nwc-toolkit/token-map.h \
+  ../include/nwc-toolkit/token-trie.h \
+  ../include/nwc-toolkit/unicode-normalizer.h \
+  ../include/nwc-toolkit/xz-coder.h
 
 all: all-am
 
@@ -314,6 +317,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-document.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token-trie.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unicode-normalizer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xz-coder.Po@am__quote@

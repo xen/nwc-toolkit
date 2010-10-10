@@ -14,7 +14,7 @@ class Coder {
     ENCODER_MODE,
     DECODER_MODE };
 
-  enum {
+  enum Preset {
     DEFAULT_PRESET = -1,
     BEST_SPEED_PRESET = -2,
     BEST_COMPRESSION_PRESET = -3,

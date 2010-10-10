@@ -13,7 +13,7 @@ namespace {
 ::UNormalizationMode ConvertFormToMode(
     UnicodeNormalizer::NormalizationForm form) {
   switch (form) {
-    case UnicodeNormalizer::DEFAULT_NORMALIZATION_FORM: {
+    case UnicodeNormalizer::DEFAULT_FORM: {
       return UNORM_DEFAULT;
     }
     case UnicodeNormalizer::NFC: {
@@ -61,6 +61,7 @@ void ExtractStringFromUnicodeString(const UnicodeString &unistr,
 }  // namespace
 
 bool UnicodeNormalizer::Normalize(NormalizationForm form,
+    IllegalInputHandler illegal_input_handler,
     const String &src, StringBuilder *dest) {
   ::UNormalizationMode mode = ConvertFormToMode(form);
   if (mode == UNORM_NONE) {
@@ -76,16 +77,18 @@ bool UnicodeNormalizer::Normalize(NormalizationForm form,
   }
 
   std::int32_t last_pos = 0;
-  for (std::int32_t pos = 0; pos < unicode_dest.length(); ++pos) {
-    // ::UnicodeString's constructors replace illegal input with U+FFFD.
-    // And the U+FFFDs should be skipped in string extraction.
-    if (unicode_dest[pos] == 0xFFFD) {
-      ExtractStringFromUnicodeString(unicode_dest, last_pos, pos, dest);
-      last_pos = pos + 1;
+  if (illegal_input_handler == REMOVE_REPLACEMENT_CHARACTERS) {
+    for (std::int32_t pos = 0; pos < unicode_dest.length(); ++pos) {
+      // ICU replaces illegal input with U+FFFDs, and the U+FFFDs are
+      // skipped here if `REMOVE_REPLACEMENT_CHARACTERS' is given.
+      if (unicode_dest[pos] == 0xFFFD) {
+        ExtractStringFromUnicodeString(unicode_dest, last_pos, pos, dest);
+        last_pos = pos + 1;
+      }
     }
   }
-  ExtractStringFromUnicodeString(
-      unicode_dest, last_pos, unicode_dest.length(), dest);
+  ExtractStringFromUnicodeString(unicode_dest,
+      last_pos, unicode_dest.length(), dest);
   return true;
 }
 

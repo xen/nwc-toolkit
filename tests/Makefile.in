@@ -44,8 +44,9 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
 	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
-	test-text-archive-entry$(EXEEXT) test-token-map$(EXEEXT) \
-	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
+	test-text-archive-entry$(EXEEXT) test-text-filter$(EXEEXT) \
+	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
+	test-unicode-normalizer$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -68,8 +69,9 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
 	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
-	test-text-archive-entry$(EXEEXT) test-token-map$(EXEEXT) \
-	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
+	test-text-archive-entry$(EXEEXT) test-text-filter$(EXEEXT) \
+	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
+	test-unicode-normalizer$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -148,6 +150,9 @@ am_test_text_archive_entry_OBJECTS =  \
 test_text_archive_entry_OBJECTS =  \
 	$(am_test_text_archive_entry_OBJECTS)
 test_text_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_text_filter_OBJECTS = test-text-filter.$(OBJEXT)
+test_text_filter_OBJECTS = $(am_test_text_filter_OBJECTS)
+test_text_filter_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_token_map_OBJECTS = test-token-map.$(OBJEXT)
 test_token_map_OBJECTS = $(am_test_token_map_OBJECTS)
 test_token_map_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -180,8 +185,9 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
 	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
-	$(test_text_archive_entry_SOURCES) $(test_token_map_SOURCES) \
-	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
+	$(test_text_archive_entry_SOURCES) $(test_text_filter_SOURCES) \
+	$(test_token_map_SOURCES) $(test_token_trie_SOURCES) \
+	$(test_unicode_normalizer_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
@@ -194,8 +200,9 @@ DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
 	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
-	$(test_text_archive_entry_SOURCES) $(test_token_map_SOURCES) \
-	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
+	$(test_text_archive_entry_SOURCES) $(test_text_filter_SOURCES) \
+	$(test_token_map_SOURCES) $(test_token_trie_SOURCES) \
+	$(test_unicode_normalizer_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -336,6 +343,8 @@ test_string_pool_SOURCES = test-string-pool.cc
 test_string_pool_LDADD = ../lib/libnwc-toolkit.a
 test_text_archive_entry_SOURCES = test-text-archive-entry.cc
 test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+test_text_filter_SOURCES = test-text-filter.cc
+test_text_filter_LDADD = ../lib/libnwc-toolkit.a
 test_token_map_SOURCES = test-token-map.cc
 test_token_map_LDADD = ../lib/libnwc-toolkit.a
 test_token_trie_SOURCES = test-token-trie.cc
@@ -442,6 +451,9 @@ test-string-pool$(EXEEXT): $(test_string_pool_OBJECTS) $(test_string_pool_DEPEND
 test-text-archive-entry$(EXEEXT): $(test_text_archive_entry_OBJECTS) $(test_text_archive_entry_DEPENDENCIES) 
 	@rm -f test-text-archive-entry$(EXEEXT)
 	$(CXXLINK) $(test_text_archive_entry_OBJECTS) $(test_text_archive_entry_LDADD) $(LIBS)
+test-text-filter$(EXEEXT): $(test_text_filter_OBJECTS) $(test_text_filter_DEPENDENCIES) 
+	@rm -f test-text-filter$(EXEEXT)
+	$(CXXLINK) $(test_text_filter_OBJECTS) $(test_text_filter_LDADD) $(LIBS)
 test-token-map$(EXEEXT): $(test_token_map_OBJECTS) $(test_token_map_DEPENDENCIES) 
 	@rm -f test-token-map$(EXEEXT)
 	$(CXXLINK) $(test_token_map_OBJECTS) $(test_token_map_LDADD) $(LIBS)
@@ -479,6 +491,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-pool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-archive-entry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-map.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-trie.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-unicode-normalizer.Po@am__quote@

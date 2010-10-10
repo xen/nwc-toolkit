@@ -33,7 +33,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = nwc-toolkit-extract-text$(EXEEXT)
+bin_PROGRAMS = nwc-toolkit-text-extractor$(EXEEXT) \
+	nwc-toolkit-text-filter$(EXEEXT) \
+	nwc-toolkit-unicode-normalizer$(EXEEXT)
 subdir = tools
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -45,11 +47,21 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_nwc_toolkit_extract_text_OBJECTS =  \
-	nwc-toolkit-extract-text.$(OBJEXT)
-nwc_toolkit_extract_text_OBJECTS =  \
-	$(am_nwc_toolkit_extract_text_OBJECTS)
-nwc_toolkit_extract_text_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_nwc_toolkit_text_extractor_OBJECTS =  \
+	nwc-toolkit-text-extractor.$(OBJEXT)
+nwc_toolkit_text_extractor_OBJECTS =  \
+	$(am_nwc_toolkit_text_extractor_OBJECTS)
+nwc_toolkit_text_extractor_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_nwc_toolkit_text_filter_OBJECTS =  \
+	nwc-toolkit-text-filter.$(OBJEXT)
+nwc_toolkit_text_filter_OBJECTS =  \
+	$(am_nwc_toolkit_text_filter_OBJECTS)
+nwc_toolkit_text_filter_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_nwc_toolkit_unicode_normalizer_OBJECTS =  \
+	nwc-toolkit-unicode-normalizer.$(OBJEXT)
+nwc_toolkit_unicode_normalizer_OBJECTS =  \
+	$(am_nwc_toolkit_unicode_normalizer_OBJECTS)
+nwc_toolkit_unicode_normalizer_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -81,8 +93,12 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(nwc_toolkit_extract_text_SOURCES)
-DIST_SOURCES = $(nwc_toolkit_extract_text_SOURCES)
+SOURCES = $(nwc_toolkit_text_extractor_SOURCES) \
+	$(nwc_toolkit_text_filter_SOURCES) \
+	$(nwc_toolkit_unicode_normalizer_SOURCES)
+DIST_SOURCES = $(nwc_toolkit_text_extractor_SOURCES) \
+	$(nwc_toolkit_text_filter_SOURCES) \
+	$(nwc_toolkit_unicode_normalizer_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -180,10 +196,17 @@ top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include `icu-config --cppflags`
 AM_LDFLAGS = `icu-config --ldflags`
 bin_SCRIPTS = \
-	nwc-toolkit-config
+  nwc-toolkit-config
 
-nwc_toolkit_extract_text_SOURCES = nwc-toolkit-extract-text.cc
-nwc_toolkit_extract_text_LDADD = ../lib/libnwc-toolkit.a
+nwc_toolkit_text_extractor_SOURCES = nwc-toolkit-text-extractor.cc
+nwc_toolkit_text_extractor_LDADD = ../lib/libnwc-toolkit.a
+nwc_toolkit_text_filter_SOURCES = nwc-toolkit-text-filter.cc
+nwc_toolkit_text_filter_LDADD = ../lib/libnwc-toolkit.a
+nwc_toolkit_unicode_normalizer_SOURCES = nwc-toolkit-unicode-normalizer.cc
+nwc_toolkit_unicode_normalizer_LDADD = ../lib/libnwc-toolkit.a
+EXTRA_DIST = \
+  nwc-toolkit-config
+
 all: all-am
 
 .SUFFIXES:
@@ -255,9 +278,15 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-nwc-toolkit-extract-text$(EXEEXT): $(nwc_toolkit_extract_text_OBJECTS) $(nwc_toolkit_extract_text_DEPENDENCIES) 
-	@rm -f nwc-toolkit-extract-text$(EXEEXT)
-	$(CXXLINK) $(nwc_toolkit_extract_text_OBJECTS) $(nwc_toolkit_extract_text_LDADD) $(LIBS)
+nwc-toolkit-text-extractor$(EXEEXT): $(nwc_toolkit_text_extractor_OBJECTS) $(nwc_toolkit_text_extractor_DEPENDENCIES) 
+	@rm -f nwc-toolkit-text-extractor$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_text_extractor_OBJECTS) $(nwc_toolkit_text_extractor_LDADD) $(LIBS)
+nwc-toolkit-text-filter$(EXEEXT): $(nwc_toolkit_text_filter_OBJECTS) $(nwc_toolkit_text_filter_DEPENDENCIES) 
+	@rm -f nwc-toolkit-text-filter$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_text_filter_OBJECTS) $(nwc_toolkit_text_filter_LDADD) $(LIBS)
+nwc-toolkit-unicode-normalizer$(EXEEXT): $(nwc_toolkit_unicode_normalizer_OBJECTS) $(nwc_toolkit_unicode_normalizer_DEPENDENCIES) 
+	@rm -f nwc-toolkit-unicode-normalizer$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_unicode_normalizer_OBJECTS) $(nwc_toolkit_unicode_normalizer_LDADD) $(LIBS)
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -299,7 +328,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-extract-text.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-text-extractor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-text-filter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-unicode-normalizer.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

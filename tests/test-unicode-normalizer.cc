@@ -25,5 +25,19 @@ int main() {
       nwc_toolkit::UnicodeNormalizer::NFKC, "… ．？！ ㌧㌦", &dest));
   assert(dest.str() == "ABC 123... .?! トンドル");
 
+  dest.Clear();
+
+  assert(nwc_toolkit::UnicodeNormalizer::Normalize(
+      nwc_toolkit::UnicodeNormalizer::NFKC, "\xFF\xFF", &dest));
+  assert(dest.str() == "\xEF\xBF\xBD\xEF\xBF\xBD");
+
+  dest.Clear();
+
+  assert(nwc_toolkit::UnicodeNormalizer::Normalize(
+      nwc_toolkit::UnicodeNormalizer::NFKC,
+      nwc_toolkit::UnicodeNormalizer::REMOVE_REPLACEMENT_CHARACTERS,
+      "\xFF\xFF", &dest));
+  assert(dest.str().is_empty());
+
   return 0;
 }

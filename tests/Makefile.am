@@ -2,30 +2,31 @@ AM_CXXFLAGS = -Wall -Weffc++ -std=c++0x -I../include `icu-config --cppflags`
 AM_LDFLAGS = `icu-config --ldflags`
 
 TESTS = \
-	test-char-cond \
-	test-char-filter \
-	test-char-table \
-	test-char-type \
-	test-character-encoding \
-	test-character-reference \
-	test-coder \
-	test-darts \
-	test-file-io \
-	test-html-document \
-	test-html-document-attribute \
-	test-html-document-unit \
-	test-html-archive-entry \
-	test-iconv \
-	test-int-traits \
-	test-mecab-archive-entry \
-	test-string \
-	test-string-builder \
-	test-string-hash \
-	test-string-pool \
-	test-text-archive-entry \
-	test-token-map \
-	test-token-trie \
-	test-unicode-normalizer
+  test-char-cond \
+  test-char-filter \
+  test-char-table \
+  test-char-type \
+  test-character-encoding \
+  test-character-reference \
+  test-coder \
+  test-darts \
+  test-file-io \
+  test-html-document \
+  test-html-document-attribute \
+  test-html-document-unit \
+  test-html-archive-entry \
+  test-iconv \
+  test-int-traits \
+  test-mecab-archive-entry \
+  test-string \
+  test-string-builder \
+  test-string-hash \
+  test-string-pool \
+  test-text-archive-entry \
+  test-text-filter \
+  test-token-map \
+  test-token-trie \
+  test-unicode-normalizer
 
 noinst_PROGRAMS = $(TESTS)
 
@@ -91,6 +92,9 @@ test_string_pool_LDADD = ../lib/libnwc-toolkit.a
 
 test_text_archive_entry_SOURCES = test-text-archive-entry.cc
 test_text_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+
+test_text_filter_SOURCES = test-text-filter.cc
+test_text_filter_LDADD = ../lib/libnwc-toolkit.a
 
 test_token_map_SOURCES = test-token-map.cc
 test_token_map_LDADD = ../lib/libnwc-toolkit.a
