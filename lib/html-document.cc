@@ -527,21 +527,23 @@ void HtmlDocument::ParseHtmlOtherUnit(String *tag) {
 void HtmlDocument::ParseHtmlSpecialTag(const String &body_left,
     const String &tag_name, String *tag) {
   for (String avail = body_left; !avail.is_empty(); ) {
-    tag->Assign(avail.Find("</").begin(), avail.end());
-    if (tag->length() > 2) {
-      avail = tag->SubString(2);
-      if (avail.StartsWith(tag_name, ToLower())) {
-        avail = avail.SubString(tag_name.length());
-        if (avail.is_empty() || avail[0] == '>' || IsSpace()(avail[0])) {
-          String text_content(body_left.begin(), tag->begin());
-          AppendTextUnit(text_content, text_content, PLAIN_TEXT_FLAG);
-          ParseHtmlTagUnit(tag);
-          return;
-        }
+    String start_mark = avail.Find("</").begin();
+    if (start_mark.is_empty()) {
+      break;
+    }
+    tag->Assign(start_mark.begin(), avail.end());
+    avail = tag->SubString(2);
+    if (avail.StartsWith(tag_name, ToLower())) {
+      avail = avail.SubString(tag_name.length());
+      if (avail.is_empty() || avail[0] == '>' || IsSpace()(avail[0])) {
+        String text_content(body_left.begin(), tag->begin());
+        AppendTextUnit(text_content, text_content, PLAIN_TEXT_FLAG);
+        ParseHtmlTagUnit(tag);
+        return;
       }
     }
-    avail.set_begin(tag->end());
   }
+  AppendTextUnit(body_left, body_left, PLAIN_TEXT_FLAG);
 }
 
 void HtmlDocument::AppendTextUnit(const String &src,
