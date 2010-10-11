@@ -5011,7 +5011,7 @@ if test "x$ac_cv_header_bzlib_h" = x""yes; then :
 
 else
   as_fn_error "\
-The NWC Toolkit requires zlib.
+The NWC Toolkit requires libbz2.
 
 Project URL: http://www.bzip.org/" "$LINENO" 5
 fi
@@ -5239,7 +5239,7 @@ _ACEOF
 
 else
   as_fn_error "\
-The NWC Toolkit requires zlib.
+The NWC Toolkit requires libbz2.
 
 Project URL: http://www.bzip.org/" "$LINENO" 5
 fi

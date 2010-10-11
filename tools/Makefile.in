@@ -83,7 +83,7 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-SCRIPTS = $(bin_SCRIPTS)
+SCRIPTS = $(bin_SCRIPTS) $(noinst_SCRIPTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -198,6 +198,9 @@ AM_LDFLAGS = `icu-config --ldflags`
 bin_SCRIPTS = \
   nwc-toolkit-config
 
+noinst_SCRIPTS = \
+  cgi/text-extractor.py
+
 nwc_toolkit_text_extractor_SOURCES = nwc-toolkit-text-extractor.cc
 nwc_toolkit_text_extractor_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_text_filter_SOURCES = nwc-toolkit-text-filter.cc
@@ -205,7 +208,8 @@ nwc_toolkit_text_filter_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_unicode_normalizer_SOURCES = nwc-toolkit-unicode-normalizer.cc
 nwc_toolkit_unicode_normalizer_LDADD = ../lib/libnwc-toolkit.a
 EXTRA_DIST = \
-  nwc-toolkit-config
+  $(bin_SCRIPTS) \
+  $(noinst_SCRIPTS)
 
 all: all-am
 

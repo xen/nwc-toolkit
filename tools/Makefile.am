@@ -4,6 +4,9 @@ AM_LDFLAGS = `icu-config --ldflags`
 bin_SCRIPTS = \
   nwc-toolkit-config
 
+noinst_SCRIPTS = \
+  cgi/text-extractor.py
+
 bin_PROGRAMS = \
   nwc-toolkit-text-extractor \
   nwc-toolkit-text-filter \
@@ -19,4 +22,5 @@ nwc_toolkit_unicode_normalizer_SOURCES = nwc-toolkit-unicode-normalizer.cc
 nwc_toolkit_unicode_normalizer_LDADD = ../lib/libnwc-toolkit.a
 
 EXTRA_DIST = \
-  nwc-toolkit-config
+  $(bin_SCRIPTS) \
+  $(noinst_SCRIPTS)
