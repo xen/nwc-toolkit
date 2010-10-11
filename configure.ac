@@ -38,7 +38,7 @@ The NWC Toolkit requires zlib.
 Project URL: http://www.zlib.net/])])
 
 AC_CHECK_HEADER([bzlib.h], , [AC_MSG_ERROR([\
-The NWC Toolkit requires zlib.
+The NWC Toolkit requires libbz2.
 
 Project URL: http://www.bzip.org/])])
 
@@ -67,7 +67,7 @@ The NWC Toolkit requires zlib.
 Project URL: http://www.zlib.net/])])
 
 AC_CHECK_LIB([bz2], [BZ2_bzopen], , [AC_MSG_ERROR([\
-The NWC Toolkit requires zlib.
+The NWC Toolkit requires libbz2.
 
 Project URL: http://www.bzip.org/])])
 

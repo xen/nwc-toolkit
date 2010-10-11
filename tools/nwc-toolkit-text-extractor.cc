@@ -94,7 +94,7 @@ void TextExtractor::ParseOptions(int *argc, char *argv[]) {
   int new_argc = 1;
   for (int i = 1; i < *argc; ++i) {
     nwc_toolkit::String arg = argv[i];
-    if (arg.Compare("--arhive", nwc_toolkit::ToLower()) == 0) {
+    if (arg.Compare("--archive", nwc_toolkit::ToLower()) == 0) {
       set_format(HTML_ARCHIVE);
     } else if (arg.Compare("--document", nwc_toolkit::ToLower()) == 0) {
       set_format(HTML_DOCUMENT);
@@ -229,11 +229,27 @@ bool TextExtractor::ExtractFromHtmlDocument(nwc_toolkit::InputFile *input_file,
   }
 
   nwc_toolkit::HtmlDocument document;
-  nwc_toolkit::StringBuilder text;
   if (document.Parse(body.str())) {
+    nwc_toolkit::StringBuilder text;
     document.ExtractText(&text);
-    text.Append('\n');
-    if (!output_file->Write(text.str())) {
+    nwc_toolkit::StringBuilder *temp = &text;
+
+    nwc_toolkit::StringBuilder normalized_text;
+    if (with_unicode_normalization()) {
+      if (!nwc_toolkit::UnicodeNormalizer::Normalize(
+          form_, handler_, temp->str(), &normalized_text)) {
+      }
+      temp = &normalized_text;
+    }
+
+    nwc_toolkit::StringBuilder filtered_text;
+    if (with_text_filter()) {
+      nwc_toolkit::TextFilter::Filter(temp->str(), &filtered_text);
+      temp = &filtered_text;
+    }
+
+    temp->Append('\n');
+    if (!output_file->Write(temp->str())) {
       std::cerr << "error: failed to output text" << std::endl;
       return false;
     }
@@ -309,7 +325,7 @@ int main(int argc, char *argv[]) {
     if (!input_file.Open(NULL)) {
       std::cerr << "error: failed to open standard input: " << std::endl;
       return -3;
-    } else if (text_extractor.Extract(&input_file, &output_file)) {
+    } else if (!text_extractor.Extract(&input_file, &output_file)) {
       return -4;
     }
   }
@@ -323,7 +339,7 @@ int main(int argc, char *argv[]) {
       std::cerr << "error: failed to open input file: "
           << input_file_path << std::endl;
       return -3;
-    } else if (text_extractor.Extract(&input_file, &output_file)) {
+    } else if (!text_extractor.Extract(&input_file, &output_file)) {
       return -4;
     }
   }
