@@ -18,7 +18,7 @@ const std::unordered_set<String, StringHash> &GetBlockTagNameSet() {
     "footer", "form", "frame", "h1", "h2", "h3", "h4", "h5", "h6",
     "header", "hr", "isindex", "legenda", "li", "menu", "multicol", "nav",
     "noframes", "noscript", "ol", "p", "pre", "section", "table", "tbody",
-    "td", "tfoot", "th", "thead", "title", "tr", "ul", "xmp"
+    "td", "textarea", "tfoot", "th", "thead", "title", "tr", "ul", "xmp"
   };
 
   static bool is_initialized = false;
@@ -208,10 +208,13 @@ bool HtmlDocument::ParseAsHtml(const String &body) {
       } else {
         ParseHtmlTagUnit(&tag);
         const String &tag_name = units_.back().tag_name();
-        if (tag_name == "script" || tag_name == "style" || tag_name == "xmp") {
+        if ((tag_name.Compare("script", ToLower()) == 0) ||
+            (tag_name.Compare("style", ToLower()) == 0) ||
+            (tag_name.Compare("textarea", ToLower()) == 0) ||
+            (tag_name.Compare("xmp", ToLower()) == 0)) {
           avail.set_begin(tag.end());
           ParseHtmlSpecialTag(avail, tag_name, &tag);
-        } else if (tag_name == "plaintext") {
+        } else if (tag_name.Compare("plaintext", ToLower()) == 0) {
           avail.set_begin(tag.end());
           AppendTextUnit(avail, avail, PLAIN_TEXT_FLAG);
           body_left.Clear();
@@ -537,7 +540,11 @@ void HtmlDocument::ParseHtmlSpecialTag(const String &body_left,
       avail = avail.SubString(tag_name.length());
       if (avail.is_empty() || avail[0] == '>' || IsSpace()(avail[0])) {
         String text_content(body_left.begin(), tag->begin());
-        AppendTextUnit(text_content, text_content, PLAIN_TEXT_FLAG);
+        if (tag_name.Compare("textarea", ToLower()) != 0) {
+          AppendTextUnit(text_content, text_content, PLAIN_TEXT_FLAG);
+        } else {
+          AppendTextUnit(text_content, text_content);
+        }
         ParseHtmlTagUnit(tag);
         return;
       }
@@ -684,6 +691,8 @@ void HtmlDocument::UpdateTextExtractorModeFlags(
       *mode_flags |= PRE_MODE_FLAG;
     } else if (unit.tag_name() == "listing") {
       *mode_flags |= LISTING_MODE_FLAG;
+    } else if (unit.tag_name() == "textarea") {
+      *mode_flags |= TEXTAREA_MODE_FLAG;
     }
   } else if (unit.is_end_tag()) {
     if (unit.tag_name() == "script") {
@@ -696,6 +705,8 @@ void HtmlDocument::UpdateTextExtractorModeFlags(
       *mode_flags &= ~PRE_MODE_FLAG;
     } else if (unit.tag_name() == "listing") {
       *mode_flags &= ~LISTING_MODE_FLAG;
+    } else if (unit.tag_name() == "textarea") {
+      *mode_flags &= ~TEXTAREA_MODE_FLAG;
     }
   }
 }

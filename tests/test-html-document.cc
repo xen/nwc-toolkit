@@ -249,7 +249,8 @@ void TestComplexHtmlDocuments() {
   nwc_toolkit::HtmlDocument document;
 
   nwc_toolkit::HtmlArchiveEntry entry;
-  entry.set_body("<script type=\"text/javascript\"><!--\n// -->\n</script>");
+  entry.set_body("<script type=\"text/javascript\">"
+      "<b></b><!--\n// -->\n</script>");
 
   assert(document.Parse(entry));
 
@@ -270,9 +271,9 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(0).attribute(0).value() == "text/javascript");
 
   assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
-  assert(document.unit(1).src() == "<!--\n// -->\n");
+  assert(document.unit(1).src() == "<b></b><!--\n// -->\n");
   assert(document.unit(1).is_cdata_section() == false);
-  assert(document.unit(1).text_content() == "<!--\n// -->\n");
+  assert(document.unit(1).text_content() == "<b></b><!--\n// -->\n");
 
   assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
   assert(document.unit(2).src() == "</script>");
@@ -349,6 +350,42 @@ void TestComplexHtmlDocuments() {
 
   document.ExtractText(&text);
   assert(text.str() == "</plaintext>\n");
+
+  entry.Clear();
+  entry.set_body("<TEXTAREA><A>&lt;/A&gt;</TEXTAREA>");
+
+  assert(document.Parse(entry));
+
+  assert(document.src_encoding() == "CP932");
+  assert(document.content_type().is_empty());
+  assert(document.parser_mode() == nwc_toolkit::HtmlDocument::HTML_MODE);
+
+  assert(document.num_units() == 3);
+
+  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).src() == "<TEXTAREA>");
+  assert(document.unit(0).is_start_tag());
+  assert(document.unit(0).is_end_tag() == false);
+  assert(document.unit(0).is_empty_element_tag() == false);
+  assert(document.unit(0).tag_name() == "textarea");
+  assert(document.unit(0).num_attributes() == 0);
+
+  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(1).src() == "<A>&lt;/A&gt;");
+  assert(document.unit(1).is_cdata_section() == false);
+  assert(document.unit(1).text_content() == "<A></A>");
+
+  assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(2).src() == "</TEXTAREA>");
+  assert(document.unit(2).is_start_tag() == false);
+  assert(document.unit(2).is_end_tag());
+  assert(document.unit(2).is_empty_element_tag() == false);
+  assert(document.unit(2).tag_name() == "textarea");
+  assert(document.unit(2).num_attributes() == 0);
+
+  text.Clear();
+  document.ExtractText(&text);
+  assert(text.str() == "<A></A>\n");
 }
 
 }  // namespace
