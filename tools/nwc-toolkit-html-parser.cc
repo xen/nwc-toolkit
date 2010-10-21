@@ -1,39 +1,58 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
+#include <errno.h>
+#include <error.h>
+#include <getopt.h>
+
 #include <cstdlib>
 #include <iostream>
 
 #include <nwc-toolkit/character-reference.h>
 #include <nwc-toolkit/html-document.h>
 
+#define NWC_TOOLKIT_ERROR(fmt, ...) \
+  error_at_line(-(__LINE__), errno, __FILE__, __LINE__, fmt, ## __VA_ARGS__)
+
 namespace {
 
-class HtmlParser {
- public:
-  HtmlParser() {}
-  ~HtmlParser() {}
+nwc_toolkit::String output_file_name;
+bool is_help_mode = false;
 
-  void ParseOptions(int *argc, char *argv[]);
+void ParseOptions(int argc, char *argv[]) {
+  static const struct option long_options[] = {
+    { "output", 1, NULL, 'o' },
+    { "help", 0, NULL, 'h' },
+    { NULL, 0, NULL, '\0' }
+  };
 
-  bool Parse(nwc_toolkit::InputFile *input_file,
-      nwc_toolkit::OutputFile *output_file);
-
- private:
-  // Disallows copy and assignment.
-  HtmlParser(const HtmlParser &);
-  HtmlParser &operator=(const HtmlParser &);
-};
-
-void HtmlParser::ParseOptions(int *argc, char *argv[]) {
-  int new_argc = 1;
-  for (int i = 1; i < *argc; ++i) {
-    nwc_toolkit::String arg = argv[i];
-    argv[new_argc++] = argv[i];
+  int value;
+  while ((value = ::getopt_long(argc, argv,
+      "o:h", long_options, NULL)) != -1) {
+    switch (value) {
+      case 'o': {
+        output_file_name = optarg;
+        break;
+      }
+      case 'h': {
+        is_help_mode = true;
+        break;
+      }
+      default: {
+        NWC_TOOLKIT_ERROR("invalid option");
+      }
+    }
   }
-  *argc = new_argc;
 }
 
-bool HtmlParser::Parse(nwc_toolkit::InputFile *input_file,
+void PrintHelp(const char *command) {
+  std::cerr << "Usage: " << command << " [OPTION]... [FILE]...\n\n"
+      "Options:\n"
+      "  -o, --output=[FILE]  write result to FILE (default: stdout)\n"
+      "  -h, --help    print this help\n"
+      << std::flush;
+}
+
+void Parse(nwc_toolkit::InputFile *input_file,
     nwc_toolkit::OutputFile *output_file) {
   nwc_toolkit::String line;
   nwc_toolkit::StringBuilder body;
@@ -43,8 +62,7 @@ bool HtmlParser::Parse(nwc_toolkit::InputFile *input_file,
 
   nwc_toolkit::HtmlDocument document;
   if (!document.Parse(body.str())) {
-    std::cerr << "error: failed to parse document" << std::endl;
-    return false;
+    NWC_TOOLKIT_ERROR("failed to parse document");
   }
 
   nwc_toolkit::StringBuilder name_buf;
@@ -86,88 +104,48 @@ bool HtmlParser::Parse(nwc_toolkit::InputFile *input_file,
         break;
       }
       default: {
-        std::cerr << "error: undefined document unit" << std::endl;
-        return false;
+        NWC_TOOLKIT_ERROR("invalid document unit");
       }
     }
   }
-  return true;
-}
-
-void PrintHelp(const char *command) {
-  std::cerr << "Usage: " << command << " [OPTION]... [FILE]...\n\n"
-      "Options:\n"
-      "  --output=[FILE]  output Parseed texts to this file\n"
-      "  --help      print this help\n"
-      << std::flush;
 }
 
 }  // namespace
 
 int main(int argc, char *argv[]) {
-  HtmlParser html_parser;
-  html_parser.ParseOptions(&argc, argv);
-
-  nwc_toolkit::String output_file_path;
-
-  int new_argc = 1;
-  for (int i = 1; i < argc; ++i) {
-    nwc_toolkit::String arg = argv[i];
-    if (arg.StartsWith("--output", nwc_toolkit::ToLower())) {
-      arg = arg.SubString(8);
-      if (arg.StartsWith("=")) {
-        output_file_path = arg.SubString(1);
-      } else if (arg.is_empty()) {
-        if ((i + 1) < argc) {
-          output_file_path = argv[++i];
-        } else {
-          PrintHelp(argv[0]);
-          return -1;
-        }
-      } else {
-        argv[new_argc++] = argv[i];
-      }
-    } else if (arg.Compare("--help", nwc_toolkit::ToLower()) == 0) {
-      PrintHelp(argv[0]);
-      return 0;
-    } else {
-      argv[new_argc++] = argv[i];
-    }
+  ParseOptions(argc, argv);
+  if (is_help_mode) {
+    PrintHelp(argv[0]);
+    return 0;
   }
-  argc = new_argc;
 
   nwc_toolkit::OutputFile output_file;
-  std::cerr << "output: " << (output_file_path.is_empty()
-      ? "standard output" : output_file_path) << std::endl;
-  if (!output_file.Open(output_file_path)) {
-    std::cerr << "error: failed to open output file: "
-        << output_file_path << std::endl;
-    return -2;
+  std::cerr << "output: " << (output_file_name.is_empty()
+      ? "(standard output)" : output_file_name) << std::endl;
+  if (!output_file.Open(output_file_name)) {
+    NWC_TOOLKIT_ERROR("failed to open output file: %s",
+        output_file_name.ptr());
   }
 
-  if (argc == 1) {
+  if (optind == argc) {
     nwc_toolkit::InputFile input_file;
-    std::cerr << "input: standard input" << std::endl;
+    std::cerr << "input: (standard input)" << std::endl;
     if (!input_file.Open(NULL)) {
-      std::cerr << "error: failed to open standard input: " << std::endl;
-      return -3;
-    } else if (!html_parser.Parse(&input_file, &output_file)) {
-      return -4;
+      NWC_TOOLKIT_ERROR("failed to open standard input");
     }
+    Parse(&input_file, &output_file);
   }
 
-  for (int i = 1; i < argc; ++i) {
-    nwc_toolkit::String input_file_path = argv[i];
+  for (int i = optind; i < argc; ++i) {
+    nwc_toolkit::String input_file_name = argv[i];
+    std::cerr << "input: " << (input_file_name.is_empty()
+        ? "(standard input)" : input_file_name) << std::endl;
     nwc_toolkit::InputFile input_file;
-    std::cerr << "input: " << (input_file_path.is_empty()
-        ? "standard input" : input_file_path) << std::endl;
-    if (!input_file.Open(input_file_path)) {
-      std::cerr << "error: failed to open input file: "
-          << input_file_path << std::endl;
-      return -3;
-    } else if (!html_parser.Parse(&input_file, &output_file)) {
-      return -4;
+    if (!input_file.Open(input_file_name)) {
+      NWC_TOOLKIT_ERROR("failed to open input file: %s",
+          input_file_name.ptr());
     }
+    Parse(&input_file, &output_file);
   }
 
   return 0;

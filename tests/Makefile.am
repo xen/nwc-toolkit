@@ -11,6 +11,7 @@ TESTS = \
   test-coder \
   test-darts \
   test-file-io \
+  test-heap-queue \
   test-html-document \
   test-html-document-attribute \
   test-html-document-unit \
@@ -56,6 +57,9 @@ test_darts_LDADD = ../lib/libnwc-toolkit.a
 
 test_file_io_SOURCES = test-file-io.cc
 test_file_io_LDADD = ../lib/libnwc-toolkit.a
+
+test_heap_queue_SOURCES = test-heap-queue.cc
+test_heap_queue_LDADD = ../lib/libnwc-toolkit.a
 
 test_html_document_SOURCES = test-html-document.cc
 test_html_document_LDADD = ../lib/libnwc-toolkit.a

@@ -94,7 +94,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
      border-radius: 10px;
      -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
-     box-shadow: 0 1px 2px rgba(0,0,0,.5)
+     box-shadow: 0 1px 2px rgba(0,0,0,.5);
      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.5);
      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.5);
      display: block;
@@ -120,7 +120,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
      border-radius: 10px;
      -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
-     box-shadow: 0 1px 2px rgba(0,0,0,.5)
+     box-shadow: 0 1px 2px rgba(0,0,0,.5);
      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.5);
      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.5);
      color: #444;
@@ -153,7 +153,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
      border-radius: 20px;
      -webkit-border-radius: 20px;
      -moz-border-radius: 20px;
-     box-shadow: 0 1px 2px rgba(0,0,0,.2)
+     box-shadow: 0 1px 2px rgba(0,0,0,.2);
      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
      color: #FFF;
@@ -198,7 +198,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
  <body>
   <table id="header">
    <tr>
-    <th rowspan="2"><a href="http://s-yata.jp/corpus/nwc2010/" id="logo">NWC</a></th>
+    <th rowspan="2"><a href="http://code.google.com/p/nwc-toolkit/" id="logo">NWC</a></th>
     <td id="title">HTML テキスト抽出</td>
    </tr>
    <tr>
@@ -326,7 +326,7 @@ def PrintText(text):
 def ExtractTextFromArchive(archive):
   import subprocess
   sub_process = subprocess.Popen(
-      "nwc-toolkit-text-extractor --archive --1 --nfkc --filter",
+      "nwc-toolkit-text-extractor --archive -n 1 --NFKC --filter",
       shell = True, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
   sub_process.stdin.write(archive)
   sub_process.stdin.close()
@@ -341,7 +341,7 @@ def ExtractTextFromArchive(archive):
 def ExtractTextFromDocument(document):
   import subprocess
   sub_process = subprocess.Popen(
-      "nwc-toolkit-text-extractor --document --nfkc --filter",
+      "nwc-toolkit-text-extractor --single --NFKC --filter",
       shell = True, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
   sub_process.stdin.write(document)
   sub_process.stdin.close()

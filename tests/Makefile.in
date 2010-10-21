@@ -37,7 +37,7 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
 	test-darts$(EXEEXT) test-file-io$(EXEEXT) \
-	test-html-document$(EXEEXT) \
+	test-heap-queue$(EXEEXT) test-html-document$(EXEEXT) \
 	test-html-document-attribute$(EXEEXT) \
 	test-html-document-unit$(EXEEXT) \
 	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
@@ -62,7 +62,7 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
 	test-darts$(EXEEXT) test-file-io$(EXEEXT) \
-	test-html-document$(EXEEXT) \
+	test-heap-queue$(EXEEXT) test-html-document$(EXEEXT) \
 	test-html-document-attribute$(EXEEXT) \
 	test-html-document-unit$(EXEEXT) \
 	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
@@ -104,6 +104,9 @@ test_darts_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_file_io_OBJECTS = test-file-io.$(OBJEXT)
 test_file_io_OBJECTS = $(am_test_file_io_OBJECTS)
 test_file_io_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_heap_queue_OBJECTS = test-heap-queue.$(OBJEXT)
+test_heap_queue_OBJECTS = $(am_test_heap_queue_OBJECTS)
+test_heap_queue_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_html_archive_entry_OBJECTS =  \
 	test-html-archive-entry.$(OBJEXT)
 test_html_archive_entry_OBJECTS =  \
@@ -178,7 +181,7 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
 	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
-	$(test_html_archive_entry_SOURCES) \
+	$(test_heap_queue_SOURCES) $(test_html_archive_entry_SOURCES) \
 	$(test_html_document_SOURCES) \
 	$(test_html_document_attribute_SOURCES) \
 	$(test_html_document_unit_SOURCES) $(test_iconv_SOURCES) \
@@ -193,7 +196,7 @@ DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
 	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
-	$(test_html_archive_entry_SOURCES) \
+	$(test_heap_queue_SOURCES) $(test_html_archive_entry_SOURCES) \
 	$(test_html_document_SOURCES) \
 	$(test_html_document_attribute_SOURCES) \
 	$(test_html_document_unit_SOURCES) $(test_iconv_SOURCES) \
@@ -319,6 +322,8 @@ test_darts_SOURCES = test-darts.cc
 test_darts_LDADD = ../lib/libnwc-toolkit.a
 test_file_io_SOURCES = test-file-io.cc
 test_file_io_LDADD = ../lib/libnwc-toolkit.a
+test_heap_queue_SOURCES = test-heap-queue.cc
+test_heap_queue_LDADD = ../lib/libnwc-toolkit.a
 test_html_document_SOURCES = test-html-document.cc
 test_html_document_LDADD = ../lib/libnwc-toolkit.a
 test_html_document_attribute_SOURCES = test-html-document-attribute.cc
@@ -415,6 +420,9 @@ test-darts$(EXEEXT): $(test_darts_OBJECTS) $(test_darts_DEPENDENCIES)
 test-file-io$(EXEEXT): $(test_file_io_OBJECTS) $(test_file_io_DEPENDENCIES) 
 	@rm -f test-file-io$(EXEEXT)
 	$(CXXLINK) $(test_file_io_OBJECTS) $(test_file_io_LDADD) $(LIBS)
+test-heap-queue$(EXEEXT): $(test_heap_queue_OBJECTS) $(test_heap_queue_DEPENDENCIES) 
+	@rm -f test-heap-queue$(EXEEXT)
+	$(CXXLINK) $(test_heap_queue_OBJECTS) $(test_heap_queue_LDADD) $(LIBS)
 test-html-archive-entry$(EXEEXT): $(test_html_archive_entry_OBJECTS) $(test_html_archive_entry_DEPENDENCIES) 
 	@rm -f test-html-archive-entry$(EXEEXT)
 	$(CXXLINK) $(test_html_archive_entry_OBJECTS) $(test_html_archive_entry_LDADD) $(LIBS)
@@ -479,6 +487,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-coder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-darts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-file-io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-heap-queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-document-attribute.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-document-unit.Po@am__quote@

@@ -56,6 +56,8 @@ AC_TYPE_INT32_T
 AC_CHECK_FUNCS([memmove])
 AC_CHECK_FUNCS([strtol])
 
+AC_FUNC_ERROR_AT_LINE
+
 AC_CHECK_LIB([iconv], [iconv], , [AC_MSG_ERROR([\
 The NWC Toolkit requires libiconv.
 
