@@ -42,11 +42,11 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-html-document-unit$(EXEEXT) \
 	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
-	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
-	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
-	test-text-archive-entry$(EXEEXT) test-text-filter$(EXEEXT) \
-	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
-	test-unicode-normalizer$(EXEEXT)
+	test-multikey-sort$(EXEEXT) test-string$(EXEEXT) \
+	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
+	test-string-pool$(EXEEXT) test-text-archive-entry$(EXEEXT) \
+	test-text-filter$(EXEEXT) test-token-map$(EXEEXT) \
+	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -67,11 +67,11 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-html-document-unit$(EXEEXT) \
 	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
-	test-string$(EXEEXT) test-string-builder$(EXEEXT) \
-	test-string-hash$(EXEEXT) test-string-pool$(EXEEXT) \
-	test-text-archive-entry$(EXEEXT) test-text-filter$(EXEEXT) \
-	test-token-map$(EXEEXT) test-token-trie$(EXEEXT) \
-	test-unicode-normalizer$(EXEEXT)
+	test-multikey-sort$(EXEEXT) test-string$(EXEEXT) \
+	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
+	test-string-pool$(EXEEXT) test-text-archive-entry$(EXEEXT) \
+	test-text-filter$(EXEEXT) test-token-map$(EXEEXT) \
+	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -136,6 +136,9 @@ am_test_mecab_archive_entry_OBJECTS =  \
 test_mecab_archive_entry_OBJECTS =  \
 	$(am_test_mecab_archive_entry_OBJECTS)
 test_mecab_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_multikey_sort_OBJECTS = test-multikey-sort.$(OBJEXT)
+test_multikey_sort_OBJECTS = $(am_test_multikey_sort_OBJECTS)
+test_multikey_sort_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_string_OBJECTS = test-string.$(OBJEXT)
 test_string_OBJECTS = $(am_test_string_OBJECTS)
 test_string_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -186,11 +189,11 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_html_document_attribute_SOURCES) \
 	$(test_html_document_unit_SOURCES) $(test_iconv_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
-	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
-	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
-	$(test_text_archive_entry_SOURCES) $(test_text_filter_SOURCES) \
-	$(test_token_map_SOURCES) $(test_token_trie_SOURCES) \
-	$(test_unicode_normalizer_SOURCES)
+	$(test_multikey_sort_SOURCES) $(test_string_SOURCES) \
+	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
+	$(test_string_pool_SOURCES) $(test_text_archive_entry_SOURCES) \
+	$(test_text_filter_SOURCES) $(test_token_map_SOURCES) \
+	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
@@ -201,11 +204,11 @@ DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_html_document_attribute_SOURCES) \
 	$(test_html_document_unit_SOURCES) $(test_iconv_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
-	$(test_string_SOURCES) $(test_string_builder_SOURCES) \
-	$(test_string_hash_SOURCES) $(test_string_pool_SOURCES) \
-	$(test_text_archive_entry_SOURCES) $(test_text_filter_SOURCES) \
-	$(test_token_map_SOURCES) $(test_token_trie_SOURCES) \
-	$(test_unicode_normalizer_SOURCES)
+	$(test_multikey_sort_SOURCES) $(test_string_SOURCES) \
+	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
+	$(test_string_pool_SOURCES) $(test_text_archive_entry_SOURCES) \
+	$(test_text_filter_SOURCES) $(test_token_map_SOURCES) \
+	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -338,6 +341,8 @@ test_int_traits_SOURCES = test-int-traits.cc
 test_int_traits_LDADD = ../lib/libnwc-toolkit.a
 test_mecab_archive_entry_SOURCES = test-mecab-archive-entry.cc
 test_mecab_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+test_multikey_sort_SOURCES = test-multikey-sort.cc
+test_multikey_sort_LDADD = ../lib/libnwc-toolkit.a
 test_string_SOURCES = test-string.cc
 test_string_LDADD = ../lib/libnwc-toolkit.a
 test_string_builder_SOURCES = test-string-builder.cc
@@ -444,6 +449,9 @@ test-int-traits$(EXEEXT): $(test_int_traits_OBJECTS) $(test_int_traits_DEPENDENC
 test-mecab-archive-entry$(EXEEXT): $(test_mecab_archive_entry_OBJECTS) $(test_mecab_archive_entry_DEPENDENCIES) 
 	@rm -f test-mecab-archive-entry$(EXEEXT)
 	$(CXXLINK) $(test_mecab_archive_entry_OBJECTS) $(test_mecab_archive_entry_LDADD) $(LIBS)
+test-multikey-sort$(EXEEXT): $(test_multikey_sort_OBJECTS) $(test_multikey_sort_DEPENDENCIES) 
+	@rm -f test-multikey-sort$(EXEEXT)
+	$(CXXLINK) $(test_multikey_sort_OBJECTS) $(test_multikey_sort_LDADD) $(LIBS)
 test-string$(EXEEXT): $(test_string_OBJECTS) $(test_string_DEPENDENCIES) 
 	@rm -f test-string$(EXEEXT)
 	$(CXXLINK) $(test_string_OBJECTS) $(test_string_LDADD) $(LIBS)
@@ -495,6 +503,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-mecab-archive-entry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-multikey-sort.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-hash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-string-pool.Po@am__quote@

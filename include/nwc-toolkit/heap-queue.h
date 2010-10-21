@@ -33,6 +33,7 @@ class HeapQueue {
   void Enqueue(const T &value);
   void Dequeue();
 
+  // Equivalent to Dequeue() + Enqueue().
   void Replace(const T &value);
 
  private:

@@ -19,6 +19,7 @@ TESTS = \
   test-iconv \
   test-int-traits \
   test-mecab-archive-entry \
+  test-multikey-sort \
   test-string \
   test-string-builder \
   test-string-hash \
@@ -81,6 +82,9 @@ test_int_traits_LDADD = ../lib/libnwc-toolkit.a
 
 test_mecab_archive_entry_SOURCES = test-mecab-archive-entry.cc
 test_mecab_archive_entry_LDADD = ../lib/libnwc-toolkit.a
+
+test_multikey_sort_SOURCES = test-multikey-sort.cc
+test_multikey_sort_LDADD = ../lib/libnwc-toolkit.a
 
 test_string_SOURCES = test-string.cc
 test_string_LDADD = ../lib/libnwc-toolkit.a
