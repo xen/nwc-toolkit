@@ -4,8 +4,6 @@
 
 #include <nwc-toolkit/token-trie-tracer.h>
 
-#include <iostream>
-
 int main() {
   enum {
     MAX_DEPTH = 3,

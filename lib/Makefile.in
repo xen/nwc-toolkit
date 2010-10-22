@@ -75,9 +75,10 @@ am_libnwc_toolkit_a_OBJECTS = bzip2-coder.$(OBJEXT) \
 	character-encoding.$(OBJEXT) character-reference.$(OBJEXT) \
 	gzip-coder.$(OBJEXT) html-document.$(OBJEXT) \
 	html-archive-entry.$(OBJEXT) input-file.$(OBJEXT) \
-	output-file.$(OBJEXT) text-filter.$(OBJEXT) \
-	token-trie-tracer.$(OBJEXT) token-trie.$(OBJEXT) \
-	unicode-normalizer.$(OBJEXT) xz-coder.$(OBJEXT)
+	ngram-counter.$(OBJEXT) output-file.$(OBJEXT) \
+	text-filter.$(OBJEXT) token-trie-tracer.$(OBJEXT) \
+	token-trie.$(OBJEXT) unicode-normalizer.$(OBJEXT) \
+	xz-coder.$(OBJEXT)
 libnwc_toolkit_a_OBJECTS = $(am_libnwc_toolkit_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -195,6 +196,7 @@ libnwc_toolkit_a_SOURCES = \
   html-document.cc \
   html-archive-entry.cc \
   input-file.cc \
+  ngram-counter.cc \
   output-file.cc \
   text-filter.cc \
   token-trie-tracer.cc \
@@ -223,6 +225,7 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/int-traits.h \
   ../include/nwc-toolkit/mecab-archive-entry.h \
   ../include/nwc-toolkit/multikey-sort.h \
+  ../include/nwc-toolkit/ngram-counter.h \
   ../include/nwc-toolkit/output-file.h \
   ../include/nwc-toolkit/string-builder.h \
   ../include/nwc-toolkit/string-hash.h \
@@ -321,6 +324,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html-document.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input-file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ngram-counter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/token-trie-tracer.Po@am__quote@

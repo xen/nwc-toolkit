@@ -10,6 +10,7 @@ libnwc_toolkit_a_SOURCES = \
   html-document.cc \
   html-archive-entry.cc \
   input-file.cc \
+  ngram-counter.cc \
   output-file.cc \
   text-filter.cc \
   token-trie-tracer.cc \
@@ -38,6 +39,7 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/int-traits.h \
   ../include/nwc-toolkit/mecab-archive-entry.h \
   ../include/nwc-toolkit/multikey-sort.h \
+  ../include/nwc-toolkit/ngram-counter.h \
   ../include/nwc-toolkit/output-file.h \
   ../include/nwc-toolkit/string-builder.h \
   ../include/nwc-toolkit/string-hash.h \
