@@ -28,6 +28,8 @@ TESTS = \
   test-text-filter \
   test-token-map \
   test-token-trie \
+  test-token-trie-node \
+  test-token-trie-tracer \
   test-unicode-normalizer
 
 noinst_PROGRAMS = $(TESTS)
@@ -109,6 +111,12 @@ test_token_map_LDADD = ../lib/libnwc-toolkit.a
 
 test_token_trie_SOURCES = test-token-trie.cc
 test_token_trie_LDADD = ../lib/libnwc-toolkit.a
+
+test_token_trie_node_SOURCES = test-token-trie-node.cc
+test_token_trie_node_LDADD = ../lib/libnwc-toolkit.a
+
+test_token_trie_tracer_SOURCES = test-token-trie-tracer.cc
+test_token_trie_tracer_LDADD = ../lib/libnwc-toolkit.a
 
 test_unicode_normalizer_SOURCES = test-unicode-normalizer.cc
 test_unicode_normalizer_LDADD = ../lib/libnwc-toolkit.a

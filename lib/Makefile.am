@@ -12,6 +12,7 @@ libnwc_toolkit_a_SOURCES = \
   input-file.cc \
   output-file.cc \
   text-filter.cc \
+  token-trie-tracer.cc \
   token-trie.cc \
   unicode-normalizer.cc \
   xz-coder.cc
@@ -28,6 +29,7 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/coder.h \
   ../include/nwc-toolkit/darts.h \
   ../include/nwc-toolkit/gzip-coder.h \
+  ../include/nwc-toolkit/heap-queue.h \
   ../include/nwc-toolkit/html-document-attribute.h \
   ../include/nwc-toolkit/html-document-unit.h \
   ../include/nwc-toolkit/html-document.h \
@@ -35,6 +37,7 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/input-file.h \
   ../include/nwc-toolkit/int-traits.h \
   ../include/nwc-toolkit/mecab-archive-entry.h \
+  ../include/nwc-toolkit/multikey-sort.h \
   ../include/nwc-toolkit/output-file.h \
   ../include/nwc-toolkit/string-builder.h \
   ../include/nwc-toolkit/string-hash.h \
@@ -43,6 +46,8 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/text-archive-entry.h \
   ../include/nwc-toolkit/text-filter.h \
   ../include/nwc-toolkit/token-map.h \
+  ../include/nwc-toolkit/token-trie-node.h \
+  ../include/nwc-toolkit/token-trie-tracer.h \
   ../include/nwc-toolkit/token-trie.h \
   ../include/nwc-toolkit/unicode-normalizer.h \
   ../include/nwc-toolkit/xz-coder.h

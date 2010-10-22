@@ -2,20 +2,34 @@
 
 #include <nwc-toolkit/token-trie.h>
 
-#include <algorithm>
-
 namespace nwc_toolkit {
 
-TokenTrie::TokenTrie(std::size_t max_depth, std::size_t mem_usage)
-    : max_depth_(max_depth),
-      mem_usage_(mem_usage),
+TokenTrie::TokenTrie()
+    : max_depth_(DEFAULT_MAX_DEPTH),
+      memory_usage_(DEFAULT_MEMORY_USAGE),
       table_(),
       num_nodes_(0),
       total_length_(0),
       max_freq_(0) {}
 
+void TokenTrie::Reset(std::size_t max_depth, std::size_t memory_usage) {
+  Clear();
+  if (max_depth == 0) {
+    max_depth = DEFAULT_MAX_DEPTH;
+  } else if (max_depth < MIN_MAX_DEPTH) {
+    max_depth = MIN_MAX_DEPTH;
+  }
+  if (memory_usage == 0) {
+    memory_usage = DEFAULT_MEMORY_USAGE;
+  } else if (memory_usage < MIN_MEMORY_USAGE) {
+    memory_usage = MIN_MEMORY_USAGE;
+  }
+  max_depth_ = max_depth;
+  memory_usage_ = memory_usage;
+}
+
 void TokenTrie::Clear() {
-  std::vector<Node>().swap(table_);
+  std::vector<TokenTrieNode>().swap(table_);
   num_nodes_ = 0;
   total_length_ = 0;
   max_freq_ = 0;
@@ -23,7 +37,7 @@ void TokenTrie::Clear() {
 
 void TokenTrie::Insert(const int *tokens, std::size_t num_tokens) {
   if (is_empty()) {
-    Init();
+    InitTable();
   }
   for (std::size_t i = 0; i < num_tokens; ++i) {
     int node_id = ROOT_NODE_ID;
@@ -41,51 +55,35 @@ void TokenTrie::Insert(const int *tokens, std::size_t num_tokens) {
   }
 }
 
-bool TokenTrie::Trace(int node_id, std::vector<int> *token_ids, int *freq) {
-  if ((node_id == ROOT_NODE_ID) || (table_[node_id].from == INVALID_NODE_ID)) {
-    return false;
-  }
-  *freq = table_[node_id].freq;
-  std::size_t original_size = token_ids->size();
-  do {
-    token_ids->push_back(table_[node_id].token_id);
-    node_id = table_[node_id].from;
-  } while (node_id != ROOT_NODE_ID);
-  std::reverse(token_ids->begin() + original_size, token_ids->end());
-  return true;
-}
-
-void TokenTrie::Init() {
-  static const Node INITIAL_NODE = {
-    INVALID_NODE_ID,
-    INVALID_TOKEN_ID,
-    0
-  };
-  std::size_t table_size = mem_usage_ / sizeof(Node);
-  table_.resize(table_size, INITIAL_NODE);
-  table_[ROOT_NODE_ID].from = ROOT_NODE_ID;
+void TokenTrie::InitTable() {
+  std::size_t table_size = memory_usage_ / sizeof(TokenTrieNode);
+  table_.resize(table_size);
+  table_[ROOT_NODE_ID].set_prev_node_id(ROOT_NODE_ID);
   num_nodes_ = 1;
 }
 
-std::pair<int, bool> TokenTrie::InsertNode(int from, int token_id) {
-  int next_node_id = FindNext(from, token_id);
-  bool is_new_node = (table_[next_node_id].from == INVALID_NODE_ID);
+std::pair<int, bool> TokenTrie::InsertNode(int prev_node_id, int token_id) {
+  int next_node_id = FindNext(prev_node_id, token_id);
+  bool is_new_node = (table_[next_node_id].prev_node_id() == INVALID_NODE_ID);
   if (is_new_node) {
-    table_[next_node_id].from = from;
-    table_[next_node_id].token_id = token_id;
+    table_[next_node_id].set_prev_node_id(prev_node_id);
+    table_[next_node_id].set_token_id(token_id);
     ++num_nodes_;
   }
-  if (++table_[next_node_id].freq > max_freq_) {
-    max_freq_ = table_[next_node_id].freq;
+  int freq = table_[next_node_id].freq() + 1;
+  table_[next_node_id].set_freq(freq);
+  if (freq > max_freq_) {
+    max_freq_ = freq;
   }
   return std::make_pair(next_node_id, is_new_node);
 }
 
-int TokenTrie::FindNext(int from, int token_id) const {
-  int next = Hash(((0ULL + from) << 32) | token_id) % table_.size();
-  while (table_[next].from != INVALID_NODE_ID) {
-    if ((next != ROOT_NODE_ID) && (from == table_[next].from) &&
-        (token_id == table_[next].token_id)) {
+int TokenTrie::FindNext(int prev_node_id, int token_id) const {
+  int next = Hash(((0ULL + prev_node_id) << 32) | token_id) % table_.size();
+  while (table_[next].prev_node_id() != INVALID_NODE_ID) {
+    if ((next != ROOT_NODE_ID) &&
+        (prev_node_id == table_[next].prev_node_id()) &&
+        (token_id == table_[next].token_id())) {
       break;
     }
     next = (next + 1) % table_.size();

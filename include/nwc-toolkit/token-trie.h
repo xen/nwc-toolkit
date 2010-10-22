@@ -6,11 +6,26 @@
 #include <utility>
 #include <vector>
 
+#include "./token-trie-node.h"
+
 namespace nwc_toolkit {
 
 class TokenTrie {
  public:
-  TokenTrie(std::size_t max_depth, std::size_t mem_usage);
+  enum {
+    MIN_MAX_DEPTH = 1,
+    MIN_MEMORY_USAGE = 1 << 20,
+    DEFAULT_MAX_DEPTH = 5,
+    DEFAULT_MEMORY_USAGE = 256 << 20
+  };
+
+  enum {
+    ROOT_NODE_ID = 0,
+    INVALID_NODE_ID = TokenTrieNode::INVALID_NODE_ID,
+    INVALID_TOKEN_ID = TokenTrieNode::INVALID_TOKEN_ID,
+  };
+
+  TokenTrie();
   ~TokenTrie() {
     Clear();
   }
@@ -18,8 +33,8 @@ class TokenTrie {
   std::size_t max_depth() const {
     return max_depth_;
   }
-  std::size_t mem_usage() const {
-    return mem_usage_;
+  std::size_t memory_usage() const {
+    return memory_usage_;
   }
   std::size_t table_size() const {
     return table_.size();
@@ -33,39 +48,29 @@ class TokenTrie {
   int max_freq() const {
     return max_freq_;
   }
+  const TokenTrieNode &node(std::size_t node_id) const {
+    return table_[node_id];
+  }
 
   bool is_empty() const { return num_nodes_ == 0; }
 
+  void Reset(std::size_t max_depth = 0, std::size_t memory_usage = 0);
   void Clear();
 
   void Insert(const int *tokens, std::size_t num_tokens);
 
-  bool Trace(int node_id, std::vector<int> *token_ids, int *freq);
-
  private:
-  struct Node {
-    int from;
-    int token_id;
-    int freq;
-  };
-
-  const std::size_t max_depth_;
-  const std::size_t mem_usage_;
-  std::vector<Node> table_;
+  std::size_t max_depth_;
+  std::size_t memory_usage_;
+  std::vector<TokenTrieNode> table_;
   std::size_t num_nodes_;
   std::size_t total_length_;
   int max_freq_;
 
-  enum {
-    ROOT_NODE_ID = 0,
-    INVALID_NODE_ID = -1,
-    INVALID_TOKEN_ID = -1
-  };
+  void InitTable();
 
-  void Init();
-
-  std::pair<int, bool> InsertNode(int from, int token_id);
-  int FindNext(int from, int token_id) const;
+  std::pair<int, bool> InsertNode(int prev_node_id, int token_id);
+  int FindNext(int prev_node_id, int token_id) const;
 
   static unsigned int Hash(unsigned long long x) {
     x = (~x) + (x << 18);

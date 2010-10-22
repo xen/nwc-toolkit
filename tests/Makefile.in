@@ -46,7 +46,9 @@ TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
 	test-string-pool$(EXEEXT) test-text-archive-entry$(EXEEXT) \
 	test-text-filter$(EXEEXT) test-token-map$(EXEEXT) \
-	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
+	test-token-trie$(EXEEXT) test-token-trie-node$(EXEEXT) \
+	test-token-trie-tracer$(EXEEXT) \
+	test-unicode-normalizer$(EXEEXT)
 noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -71,7 +73,9 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-string-builder$(EXEEXT) test-string-hash$(EXEEXT) \
 	test-string-pool$(EXEEXT) test-text-archive-entry$(EXEEXT) \
 	test-text-filter$(EXEEXT) test-token-map$(EXEEXT) \
-	test-token-trie$(EXEEXT) test-unicode-normalizer$(EXEEXT)
+	test-token-trie$(EXEEXT) test-token-trie-node$(EXEEXT) \
+	test-token-trie-tracer$(EXEEXT) \
+	test-unicode-normalizer$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
@@ -165,6 +169,12 @@ test_token_map_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_token_trie_OBJECTS = test-token-trie.$(OBJEXT)
 test_token_trie_OBJECTS = $(am_test_token_trie_OBJECTS)
 test_token_trie_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_token_trie_node_OBJECTS = test-token-trie-node.$(OBJEXT)
+test_token_trie_node_OBJECTS = $(am_test_token_trie_node_OBJECTS)
+test_token_trie_node_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_token_trie_tracer_OBJECTS = test-token-trie-tracer.$(OBJEXT)
+test_token_trie_tracer_OBJECTS = $(am_test_token_trie_tracer_OBJECTS)
+test_token_trie_tracer_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_unicode_normalizer_OBJECTS =  \
 	test-unicode-normalizer.$(OBJEXT)
 test_unicode_normalizer_OBJECTS =  \
@@ -193,7 +203,9 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
 	$(test_string_pool_SOURCES) $(test_text_archive_entry_SOURCES) \
 	$(test_text_filter_SOURCES) $(test_token_map_SOURCES) \
-	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
+	$(test_token_trie_SOURCES) $(test_token_trie_node_SOURCES) \
+	$(test_token_trie_tracer_SOURCES) \
+	$(test_unicode_normalizer_SOURCES)
 DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
@@ -208,7 +220,9 @@ DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_string_builder_SOURCES) $(test_string_hash_SOURCES) \
 	$(test_string_pool_SOURCES) $(test_text_archive_entry_SOURCES) \
 	$(test_text_filter_SOURCES) $(test_token_map_SOURCES) \
-	$(test_token_trie_SOURCES) $(test_unicode_normalizer_SOURCES)
+	$(test_token_trie_SOURCES) $(test_token_trie_node_SOURCES) \
+	$(test_token_trie_tracer_SOURCES) \
+	$(test_unicode_normalizer_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -359,6 +373,10 @@ test_token_map_SOURCES = test-token-map.cc
 test_token_map_LDADD = ../lib/libnwc-toolkit.a
 test_token_trie_SOURCES = test-token-trie.cc
 test_token_trie_LDADD = ../lib/libnwc-toolkit.a
+test_token_trie_node_SOURCES = test-token-trie-node.cc
+test_token_trie_node_LDADD = ../lib/libnwc-toolkit.a
+test_token_trie_tracer_SOURCES = test-token-trie-tracer.cc
+test_token_trie_tracer_LDADD = ../lib/libnwc-toolkit.a
 test_unicode_normalizer_SOURCES = test-unicode-normalizer.cc
 test_unicode_normalizer_LDADD = ../lib/libnwc-toolkit.a
 all: all-am
@@ -476,6 +494,12 @@ test-token-map$(EXEEXT): $(test_token_map_OBJECTS) $(test_token_map_DEPENDENCIES
 test-token-trie$(EXEEXT): $(test_token_trie_OBJECTS) $(test_token_trie_DEPENDENCIES) 
 	@rm -f test-token-trie$(EXEEXT)
 	$(CXXLINK) $(test_token_trie_OBJECTS) $(test_token_trie_LDADD) $(LIBS)
+test-token-trie-node$(EXEEXT): $(test_token_trie_node_OBJECTS) $(test_token_trie_node_DEPENDENCIES) 
+	@rm -f test-token-trie-node$(EXEEXT)
+	$(CXXLINK) $(test_token_trie_node_OBJECTS) $(test_token_trie_node_LDADD) $(LIBS)
+test-token-trie-tracer$(EXEEXT): $(test_token_trie_tracer_OBJECTS) $(test_token_trie_tracer_DEPENDENCIES) 
+	@rm -f test-token-trie-tracer$(EXEEXT)
+	$(CXXLINK) $(test_token_trie_tracer_OBJECTS) $(test_token_trie_tracer_LDADD) $(LIBS)
 test-unicode-normalizer$(EXEEXT): $(test_unicode_normalizer_OBJECTS) $(test_unicode_normalizer_DEPENDENCIES) 
 	@rm -f test-unicode-normalizer$(EXEEXT)
 	$(CXXLINK) $(test_unicode_normalizer_OBJECTS) $(test_unicode_normalizer_LDADD) $(LIBS)
@@ -511,6 +535,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-archive-entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-text-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-map.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-trie-node.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-trie-tracer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-token-trie.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-unicode-normalizer.Po@am__quote@
 
