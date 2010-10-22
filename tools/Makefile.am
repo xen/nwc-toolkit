@@ -10,6 +10,7 @@ noinst_SCRIPTS = \
 bin_PROGRAMS = \
   nwc-toolkit-html-parser \
   nwc-toolkit-ngram-counter \
+  nwc-toolkit-ngram-merger \
   nwc-toolkit-text-extractor \
   nwc-toolkit-text-filter \
   nwc-toolkit-unicode-normalizer
@@ -19,6 +20,9 @@ nwc_toolkit_html_parser_LDADD = ../lib/libnwc-toolkit.a
 
 nwc_toolkit_ngram_counter_SOURCES = nwc-toolkit-ngram-counter.cc
 nwc_toolkit_ngram_counter_LDADD = ../lib/libnwc-toolkit.a
+
+nwc_toolkit_ngram_merger_SOURCES = nwc-toolkit-ngram-merger.cc
+nwc_toolkit_ngram_merger_LDADD = ../lib/libnwc-toolkit.a
 
 nwc_toolkit_text_extractor_SOURCES = nwc-toolkit-text-extractor.cc
 nwc_toolkit_text_extractor_LDADD = ../lib/libnwc-toolkit.a

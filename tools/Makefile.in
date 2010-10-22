@@ -35,6 +35,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = nwc-toolkit-html-parser$(EXEEXT) \
 	nwc-toolkit-ngram-counter$(EXEEXT) \
+	nwc-toolkit-ngram-merger$(EXEEXT) \
 	nwc-toolkit-text-extractor$(EXEEXT) \
 	nwc-toolkit-text-filter$(EXEEXT) \
 	nwc-toolkit-unicode-normalizer$(EXEEXT)
@@ -59,6 +60,11 @@ am_nwc_toolkit_ngram_counter_OBJECTS =  \
 nwc_toolkit_ngram_counter_OBJECTS =  \
 	$(am_nwc_toolkit_ngram_counter_OBJECTS)
 nwc_toolkit_ngram_counter_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_nwc_toolkit_ngram_merger_OBJECTS =  \
+	nwc-toolkit-ngram-merger.$(OBJEXT)
+nwc_toolkit_ngram_merger_OBJECTS =  \
+	$(am_nwc_toolkit_ngram_merger_OBJECTS)
+nwc_toolkit_ngram_merger_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_nwc_toolkit_text_extractor_OBJECTS =  \
 	nwc-toolkit-text-extractor.$(OBJEXT)
 nwc_toolkit_text_extractor_OBJECTS =  \
@@ -107,11 +113,13 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 SOURCES = $(nwc_toolkit_html_parser_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
+	$(nwc_toolkit_ngram_merger_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
 	$(nwc_toolkit_text_filter_SOURCES) \
 	$(nwc_toolkit_unicode_normalizer_SOURCES)
 DIST_SOURCES = $(nwc_toolkit_html_parser_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
+	$(nwc_toolkit_ngram_merger_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
 	$(nwc_toolkit_text_filter_SOURCES) \
 	$(nwc_toolkit_unicode_normalizer_SOURCES)
@@ -221,6 +229,8 @@ nwc_toolkit_html_parser_SOURCES = nwc-toolkit-html-parser.cc
 nwc_toolkit_html_parser_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_ngram_counter_SOURCES = nwc-toolkit-ngram-counter.cc
 nwc_toolkit_ngram_counter_LDADD = ../lib/libnwc-toolkit.a
+nwc_toolkit_ngram_merger_SOURCES = nwc-toolkit-ngram-merger.cc
+nwc_toolkit_ngram_merger_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_text_extractor_SOURCES = nwc-toolkit-text-extractor.cc
 nwc_toolkit_text_extractor_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_text_filter_SOURCES = nwc-toolkit-text-filter.cc
@@ -308,6 +318,9 @@ nwc-toolkit-html-parser$(EXEEXT): $(nwc_toolkit_html_parser_OBJECTS) $(nwc_toolk
 nwc-toolkit-ngram-counter$(EXEEXT): $(nwc_toolkit_ngram_counter_OBJECTS) $(nwc_toolkit_ngram_counter_DEPENDENCIES) 
 	@rm -f nwc-toolkit-ngram-counter$(EXEEXT)
 	$(CXXLINK) $(nwc_toolkit_ngram_counter_OBJECTS) $(nwc_toolkit_ngram_counter_LDADD) $(LIBS)
+nwc-toolkit-ngram-merger$(EXEEXT): $(nwc_toolkit_ngram_merger_OBJECTS) $(nwc_toolkit_ngram_merger_DEPENDENCIES) 
+	@rm -f nwc-toolkit-ngram-merger$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_ngram_merger_OBJECTS) $(nwc_toolkit_ngram_merger_LDADD) $(LIBS)
 nwc-toolkit-text-extractor$(EXEEXT): $(nwc_toolkit_text_extractor_OBJECTS) $(nwc_toolkit_text_extractor_DEPENDENCIES) 
 	@rm -f nwc-toolkit-text-extractor$(EXEEXT)
 	$(CXXLINK) $(nwc_toolkit_text_extractor_OBJECTS) $(nwc_toolkit_text_extractor_LDADD) $(LIBS)
@@ -360,6 +373,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-html-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-ngram-counter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-ngram-merger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-text-extractor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-text-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-unicode-normalizer.Po@am__quote@

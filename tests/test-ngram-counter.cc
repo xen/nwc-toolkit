@@ -70,7 +70,7 @@ void TestWakati() {
     assert(input_file.ReadLine(&line));
     assert(line.EndsWith("\n"));
     line = line.SubString(0, line.length() - 1);
-    nwc_toolkit::String freq(line.FindFirstOf('\t').end(), line.end());
+    nwc_toolkit::String freq(line.FindLastOf('\t').end(), line.end());
     assert(freq == "2");
   }
   assert(input_file.ReadLine(&line) == false);
@@ -111,7 +111,7 @@ void TestMecab() {
     assert(input_file.ReadLine(&line));
     assert(line.EndsWith("\n"));
     line = line.SubString(0, line.length() - 1);
-    nwc_toolkit::String freq(line.FindFirstOf('\t').end(), line.end());
+    nwc_toolkit::String freq(line.FindLastOf('\t').end(), line.end());
     assert(freq == "2");
 
     assert(line > last_line.str());
@@ -156,7 +156,7 @@ void TestChasen() {
     assert(input_file.ReadLine(&line));
     assert(line.EndsWith("\n"));
     line = line.SubString(0, line.length() - 1);
-    nwc_toolkit::String freq(line.FindFirstOf('\t').end(), line.end());
+    nwc_toolkit::String freq(line.FindLastOf('\t').end(), line.end());
     assert(freq == "2");
 
     assert(line > last_line.str());
