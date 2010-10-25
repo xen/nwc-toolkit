@@ -99,7 +99,7 @@ void ParseOptions(int argc, char *argv[]) {
           NWC_TOOLKIT_ERROR("invalid argument: `%c', %s", value, optarg);
         }
         if (memory_limit > (std::numeric_limits<std::size_t>::max() >> 20)) {
-          NWC_TOOLKIT_ERROR("too large memory usage: `%c', %s", value, optarg);
+          NWC_TOOLKIT_ERROR("too large memory limit: `%c', %s", value, optarg);
         }
         memory_limit <<= 20;
         break;

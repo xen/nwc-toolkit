@@ -2,6 +2,8 @@
 
 #include <nwc-toolkit/token-trie.h>
 
+#include <limits>
+
 namespace nwc_toolkit {
 
 TokenTrie::TokenTrie()
@@ -23,6 +25,11 @@ void TokenTrie::Reset(std::size_t max_depth, std::size_t memory_usage) {
     memory_usage = DEFAULT_MEMORY_USAGE;
   } else if (memory_usage < MIN_MEMORY_USAGE) {
     memory_usage = MIN_MEMORY_USAGE;
+  } else if ((memory_usage / sizeof(TokenTrieNode)) >
+      static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+    // TokenTrie uses a 32-bit signed integer for representing a node ID.
+    // Thus the size of hash table must be less than 2^31.
+    memory_usage = std::numeric_limits<int>::max() * sizeof(TokenTrieNode);
   }
   max_depth_ = max_depth;
   memory_usage_ = memory_usage;
