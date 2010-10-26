@@ -4,7 +4,7 @@
 #define NWC_TOOLKIT_OUTPUT_FILE_H_
 
 #include <cstdio>
-#include <memory>
+#include <tr1/memory>
 
 #include "./bzip2-coder.h"
 #include "./gzip-coder.h"
@@ -36,7 +36,7 @@ class OutputFile {
 
  private:
   FILE *file_;
-  std::shared_ptr<Coder> coder_;
+  std::tr1::shared_ptr<Coder> coder_;
   StringBuilder io_buf_;
 
   // Disallows copy and assignment.

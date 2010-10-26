@@ -199,10 +199,10 @@ void ExtractTextFromHtmlArchvie(nwc_toolkit::InputFile *input_file,
   }
   std::cerr << '\r' << status_error_count << " ("
       << std::fixed << std::setw(5) << std::setprecision(2)
-      << (100.0 * status_error_count / num_entries)
+      << ((num_entries != 0) ? (100.0 * status_error_count / num_entries) : 0.0)
       << "%) / " << parse_error_count << " ("
       << std::fixed << std::setw(5) << std::setprecision(2)
-      << (100.0 * parse_error_count / num_entries)
+      << ((num_entries != 0) ? (100.0 * parse_error_count / num_entries) : 0.0)
       << "%) / " << num_entries
       << " (" << (std::time(NULL) - start_time) << "sec)" << std::endl;
 }

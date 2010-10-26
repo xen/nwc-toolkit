@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -Wall -Weffc++ -std=gnu++0x -I../include
+AM_CXXFLAGS = -Wall -Weffc++ -I../include
 
 lib_LIBRARIES = libnwc-toolkit.a
 

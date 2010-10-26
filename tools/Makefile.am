@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -Wall -Weffc++ -std=gnu++0x -I../include `icu-config --cppflags`
+AM_CXXFLAGS = -Wall -Weffc++ -I../include `icu-config --cppflags`
 AM_LDFLAGS = `icu-config --ldflags`
 
 bin_SCRIPTS = \

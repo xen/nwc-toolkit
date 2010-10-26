@@ -3,8 +3,6 @@
 #ifndef NWC_TOOLKIT_XZ_CODER_H_
 #define NWC_TOOLKIT_XZ_CODER_H_
 
-#include <cstdint>
-
 #include <lzma.h>
 
 #include "./coder.h"
@@ -63,13 +61,13 @@ class XzCoder : public Coder {
   }
 
   void set_next_in(const void *next_in) {
-    stream_.next_in = static_cast<const std::uint8_t *>(next_in);
+    stream_.next_in = static_cast<const ::uint8_t *>(next_in);
   }
   void set_avail_in(std::size_t avail_in) {
     stream_.avail_in = avail_in;
   }
   void set_next_out(void *next_out) {
-    stream_.next_out = static_cast<std::uint8_t *>(next_out);
+    stream_.next_out = static_cast< ::uint8_t *>(next_out);
   }
   void set_avail_out(std::size_t avail_out) {
     stream_.avail_out = avail_out;

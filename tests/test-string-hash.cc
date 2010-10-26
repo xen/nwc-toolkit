@@ -3,9 +3,9 @@
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
-#include <memory>
 #include <string>
-#include <unordered_set>
+#include <tr1/memory>
+#include <tr1/unordered_set>
 #include <vector>
 
 #include <nwc-toolkit/string-hash.h>
@@ -13,12 +13,12 @@
 int main() {
   enum { KEY_LENGTH = 16, MAX_NUM_KEYS = 4096 };
 
-  typedef std::unordered_set<nwc_toolkit::String,
+  typedef std::tr1::unordered_set<nwc_toolkit::String,
     nwc_toolkit::StringHash> KeySet;
 
   std::srand(static_cast<unsigned int>(std::time(NULL)));
 
-  std::vector<std::shared_ptr<std::string> > key_pool;
+  std::vector<std::tr1::shared_ptr<std::string> > key_pool;
   std::vector<nwc_toolkit::String> keys;
   KeySet key_set;
 
@@ -30,7 +30,7 @@ int main() {
     }
     KeySet::iterator it = key_set.find(key);
     if (it == key_set.end()) {
-      std::shared_ptr<std::string> key_str(new std::string(
+      std::tr1::shared_ptr<std::string> key_str(new std::string(
         key.ptr(), key.length()));
       key_pool.push_back(key_str);
 

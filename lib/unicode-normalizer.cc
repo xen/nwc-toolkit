@@ -2,8 +2,6 @@
 
 #include <nwc-toolkit/unicode-normalizer.h>
 
-#include <cstdint>
-
 #include <unicode/normlzr.h>
 #include <unicode/unistr.h>
 
@@ -36,7 +34,7 @@ namespace {
 }
 
 void ExtractStringFromUnicodeString(const UnicodeString &unistr,
-    std::int32_t begin, std::int32_t end, StringBuilder *dest) {
+    ::int32_t begin, ::int32_t end, StringBuilder *dest) {
   if (begin >= end) {
     return;
   }
@@ -50,7 +48,7 @@ void ExtractStringFromUnicodeString(const UnicodeString &unistr,
   dest->Resize(dest->size());
   std::size_t avail = dest->length() - offset;
 
-  std::int32_t length = unistr.extract(begin, end - begin,
+  ::int32_t length = unistr.extract(begin, end - begin,
       dest->buf() + offset, avail, "UTF-8");
   dest->Resize(offset + length);
   if (static_cast<std::size_t>(length) > avail) {
@@ -76,9 +74,9 @@ bool UnicodeNormalizer::Normalize(NormalizationForm form,
     return false;
   }
 
-  std::int32_t last_pos = 0;
+  ::int32_t last_pos = 0;
   if (illegal_input_handler == REMOVE_REPLACEMENT_CHARACTERS) {
-    for (std::int32_t pos = 0; pos < unicode_dest.length(); ++pos) {
+    for (::int32_t pos = 0; pos < unicode_dest.length(); ++pos) {
       // ICU replaces illegal input with U+FFFDs, and the U+FFFDs are
       // skipped here if `REMOVE_REPLACEMENT_CHARACTERS' is given.
       if (unicode_dest[pos] == 0xFFFD) {

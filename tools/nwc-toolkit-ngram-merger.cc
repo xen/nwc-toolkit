@@ -157,8 +157,8 @@ bool Merge(int num_file_names, char *file_names[],
   std::cerr << '\r' << "input: " << input_count
       << ", output: " << output_count << " ("
       << std::fixed << std::setprecision(2)
-      << (100.0 * output_count / input_count) << "%)"
-      << " (" << (std::time(NULL) - start_time) << "sec)" << std::endl;
+      << ((input_count != 0) ? (100.0 * output_count / input_count) : 0.0)
+      << "%) (" << (std::time(NULL) - start_time) << "sec)" << std::endl;
   delete [] pairs;
   return true;
 }

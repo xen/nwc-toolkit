@@ -2,7 +2,7 @@
 
 #include <nwc-toolkit/html-document.h>
 
-#include <unordered_set>
+#include <tr1/unordered_set>
 
 #include <nwc-toolkit/character-encoding.h>
 #include <nwc-toolkit/character-reference.h>
@@ -11,7 +11,9 @@
 namespace nwc_toolkit {
 namespace {
 
-const std::unordered_set<String, StringHash> &GetBlockTagNameSet() {
+typedef std::tr1::unordered_set<String, StringHash> TagNameSet;
+
+const TagNameSet &GetBlockTagNameSet() {
   const char *tag_names[] = {
     "address", "article", "aside", "blockquote", "br", "caption", "center",
     "dd", "dialog", "dir", "div", "dl", "dt", "fieldset", "figure",
@@ -22,7 +24,7 @@ const std::unordered_set<String, StringHash> &GetBlockTagNameSet() {
   };
 
   static bool is_initialized = false;
-  static std::unordered_set<String, StringHash> tag_name_set;
+  static TagNameSet tag_name_set;
 
   if (!is_initialized) {
     std::size_t num_keys = sizeof(tag_names) / sizeof(tag_names[0]);
@@ -121,8 +123,7 @@ void HtmlDocument::ExtractText(StringBuilder *dest) {
 }
 
 bool HtmlDocument::IsBlockTag(const String &tag_name) {
-  static const std::unordered_set<String, StringHash> block_tag_name_set =
-      GetBlockTagNameSet();
+  static const TagNameSet &block_tag_name_set = GetBlockTagNameSet();
   return block_tag_name_set.find(tag_name) != block_tag_name_set.end();
 }
 

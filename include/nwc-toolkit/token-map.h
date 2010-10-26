@@ -3,7 +3,7 @@
 #ifndef NWC_TOOLKIT_TOKEN_MAP_H_
 #define NWC_TOOLKIT_TOKEN_MAP_H_
 
-#include <unordered_map>
+#include <tr1/unordered_map>
 #include <vector>
 
 #include "./string-hash.h"
@@ -48,7 +48,7 @@ class TokenMap {
   }
 
  private:
-  typedef std::unordered_map<String, int, StringHash> MapType;
+  typedef std::tr1::unordered_map<String, int, StringHash> MapType;
 
   StringPool pool_;
   MapType map_;
