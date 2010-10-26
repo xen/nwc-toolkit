@@ -23,8 +23,8 @@ int main() {
     assert(cond_cstring(c) == ((c == '\0') || ((c >= 'A') && (c <= 'C'))));
   }
 
-  static const nwc_toolkit::CondTable cond_table(
-    nwc_toolkit::CharTable("-A-Z"));
+  static const nwc_toolkit::CharTable HYPHEN_AND_CAPITAL_LETTERS("-A-Z");
+  static const nwc_toolkit::CondTable cond_table(HYPHEN_AND_CAPITAL_LETTERS);
   for (int c = 0; c < 256; ++c) {
     assert(cond_table(c) == ((c == '-') || ((c >= 'A') && (c <= 'Z'))));
   }
