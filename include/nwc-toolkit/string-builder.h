@@ -80,7 +80,12 @@ class StringBuilder {
   template <typename T>
   StringBuilder &Assign(const String &str, T filter) {
     Clear();
-    return Append(str, filter);
+    Append(str, filter);
+
+    // gcc-4.4.1 generates wrong binary if this meaningless assignment
+    // does not exist. Hmm...
+    length_ = str.length();
+    return *this;
   }
 
   StringBuilder &Append() {
