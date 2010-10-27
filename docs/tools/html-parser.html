@@ -7,7 +7,7 @@
  </head>
  <body>
   <div id="header">
-   <div class="left">Text Filter - NWC Toolkit</div>
+   <div class="left">HTML Parser - NWC Toolkit</div>
    <div class="right">Last modified: 27 October 2010</div>
    <div class="end"></div>
   </div><!-- header -->
@@ -27,7 +27,7 @@ Tag: &lt;body&gt;
 Text: 4bytes
 Tag: &lt;/body&gt;
 Tag: &lt;/html&gt;</pre>
-    </div>
+    </div><!-- float -->
     <p>
      <kbd>nwc-toolkit-html-parser</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つです．HTML 文書を解析して，タグやテキストの一覧を出力するようになっています．テキストを正しく抽出できない HTML 文書を見つけた場合など，HTML パーサの動作を確認したいときに便利です．
     </p>
@@ -52,7 +52,7 @@ Usage: nwc-toolkit-html-parser [OPTION]... [FILE]...
 Options:
   -o, --output=[FILE]  write result to FILE (default: stdout)
   -h, --help    print this help</pre>
-     </div>
+     </div><!-- float -->
      <ul>
       <li>
        <kbd>-o, --output</kbd>
@@ -72,10 +72,10 @@ Options:
      <h3>実行例</h3>
      <div class="float">
       <pre class="console">$ nwc-toolkit-html-parser input.html</pre>
-     </div>
+     </div><!-- float -->
      <div class="float">
       <pre class="console">$ cat input.html | nwc-toolkit-html-parser</pre>
-     </div>
+     </div><!-- float -->
      <p>
       入力する HTML 文書が <kbd>input.html</kbd> であれば，コマンドライン引数として <kbd>input.html</kbd> を指定します．入力ファイルの指定がなければ標準入力を使用するので，<kbd>nwc-toolkit-html-parser</kbd> の入力側に別のコマンドをパイプで接続することもできます．
      </p>
@@ -89,7 +89,7 @@ Options:
    </div><!-- section -->
   </div><!-- body -->
   <div id="footer">
-   <div class="left">Text Filter - NWC Toolkit</div>
+   <div class="left">HTML Parser - NWC Toolkit</div>
    <div class="right">
   ‮moc.liamg@atay.umusus‭
    </div>

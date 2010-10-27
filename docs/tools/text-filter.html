@@ -92,7 +92,7 @@ Usage: nwc-toolkit-text-filter [OPTION]... [FILE]...
 Options:
   -o, --output=[FILE]  write result to FILE (default: stdout)
   -h, --help    print this help</pre>
-     </div>
+     </div><!-- float -->
      <ul>
       <li>
        <kbd>-o, --output</kbd>
@@ -112,12 +112,12 @@ Options:
      <h3>実行例</h3>
      <div class="float">
       <pre class="console">$ nwc-toolkit-text-filter input-1.gz input-2.gz -o output.gz</pre>
-     </div>
+     </div><!-- float -->
      <div class="float">
       <pre class="console">$ gzip -dc input-1.gz input-2.gz | \
   nwc-toolkit-text-filter input-1.gz | \
   gzip -c output.gz</pre>
-     </div>
+     </div><!-- float -->
      <p>
       入力ファイルが <kbd>input-1.gz</kbd>, <kbd>input-2.gz</kbd>，出力ファイルが <kbd>output.gz</kbd> であれば，コマンドライン引数として <kbd>input-1.gz</kbd>, <kbd>input-2.gz</kbd>, <kbd>-o output.gz</kbd> を指定します．<kbd>gzip</kbd> をパイプで接続するより効率良く圧縮ファイルを操作できます．
      </p>

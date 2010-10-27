@@ -20,13 +20,57 @@
    <div class="section">
     <h2><a name="introduction">概要</a></h2>
     <p>
-     <kbd>nwc-toolkit-text-extractor</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つです．HTTP ヘッダと HTML 文書の組を入力として，文字コードの判別，UTF-8 への統一，HTML の解析，テキストの抽出，Unicode 正規化，句点や疑問符による区切り，文字数や文字種によるフィルタリングを順番に適用するようになっています．HTTP ヘッダは文字コードや MIME タイプの取得に使っているだけなので，処理効率や判別精度に多少の影響はあるものの，HTML 文書のみを入力としてもテキストを抽出することはできます．
+     <kbd>nwc-toolkit-text-extractor</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つであり，<a href="./html-parser.html">nwc-toolkit-html-parser</a>, <a href="./unicode-normalizer.html">nwc-toolkit-unicode-normalizer</a>, <a href="./text-filter.html">nwc-toolkit-text-filter</a> を併せた内容になっています．それぞれの詳細については，個別のドキュメントを参照してください．
+    </p>
+    <div class="float">
+     <pre class="code">http://www.example.com/
+200
+39
+Content-Type: text/html; charset=utf-8
+101
+&lt;html&gt;
+ &lt;head&gt;&lt;title&gt;Title   X&lt;/title&gt;&lt;/head&gt;
+ &lt;body&gt;&lt;h1&gt;Heading&lt;/h1&gt;&lt;p&gt;Paragraph&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;
+...</pre>
+    </div><!-- float -->
+    <div class="float">
+     <pre class="code">Title X
+Heading
+Paragraph
+
+...</pre>
+    </div><!-- float -->
+    <p>
+     HTML アーカイブ，もしくは単体の HTML 文書を入力として，文字コードの判別，UTF-8 への統一，HTML の解析，テキストの抽出，Unicode 正規化，句点や疑問符による区切り，文字数や文字種によるフィルタリングを順番に適用するようになっています．HTML アーカイブは URL や HTTP ヘッダを含むフォーマットであり，文字コードや MIME タイプを効率良く判定できます．
+    </p>
+    <ul>
+     <li>
+      HTML アーカイブのフォーマット
+      <ul>
+       <li>URL（改行区切り）</li>
+       <li>HTTP ステータスコード（改行区切り）</li>
+       <li>HTTP ヘッダの長さ（バイト単位，改行区切り）</li>
+       <li>HTTP ヘッダ（Content-Type のみを利用）</li>
+       <li>HTTP メッセージボディの長さ（バイト単位，改行区切り）</li>
+       <li>HTTP メッセージボディ（テキスト，HTML，XHTML に対応）</li>
+      </ul>
+     </li>
+    </ul>
+    <p>
+     各 HTML 文書から抽出されるテキストは，空行が終端になります．また，連続する空白については，単一の空白に置き換えられるようになっています．
     </p>
    </div><!-- section -->
    <div class="section">
     <h2><a name="usage">使い方</a></h2>
     <div class="subsection">
-     <h3>テキストアーカイブの作成</h3>
+     <h3>書式</h3>
+     <p>
+      ヘルプを表示するオプションは <kbd>-h</kbd>, <kbd>--help</kbd> です．いずれかを指定することにより，オプションのリストを確認できます．入力ファイルはオプション以外のコマンドライン引数により指定できます．指定がなければ標準入力を使用します．拡張子が <kbd>gz</kbd>, <kbd>bz2</kbd>, <kbd>xz</kbd> のいずれかであれば，入力ファイルを自動的に伸長します．出力ファイルは <kbd>-o</kbd>, <kbd>--output</kbd> により指定できます．指定がなければ標準出力を使用します．拡張子が <kbd>gz</kbd>, <kbd>bz2</kbd>, <kbd>xz</kbd> のいずれかであれば，出力ファイルを自動的に圧縮します．
+     </p>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>オプション</h3>
      <div class="float">
       <pre class="console">$ nwc-toolkit-text-extractor -h
 Usage: nwc-toolkit-text-extractor [OPTION]... [FILE]...
@@ -44,64 +88,100 @@ Options:
   -r, --remove   remove replacement characters
   -f, --filter   apply text filter
   -o, --output=[FILE]  write result to FILE (default: stdout)
-  -h, --help     print this help
-</pre>
-     </div>
-     <p>
-      テキストアーカイブの作成については，HTTP ヘッダと HTML 文書の組を入力として，文字コードの判別，UTF-8 への統一，HTML の解析，テキストの抽出，Unicode 正規化，句点や疑問符による区切り，文字数や文字種によるフィルタリングを順番に適用するようになっています．HTTP ヘッダは文字コードや MIME タイプの取得に使っているだけなので，処理効率や判別精度に多少の影響はあるものの，HTML 文書のみを入力としてもテキストアーカイブを作成することはできます．
-     </p>
+  -h, --help     print this help</pre>
+     </div><!-- float -->
      <ul>
       <li>
-       <a href="tools/text-extractor.html">nwc-toolkit-text-extractor</a>
+       <kbd>-a, --archive</kbd>
        <ul>
-        <li>文字コードの判別・変換からテキストの抽出，正規化，フィルタリングまでを一度におこなうツールです．Unicode 正規化と文字種によるフィルタリングについては，オプションにより制御できるようになっています．</li>
+        <li>入力を HTML アーカイブとして扱います．デフォルトの設定です．</li>
        </ul>
       </li>
       <li>
-       <a href="tools/html-parser.html">nwc-toolkit-html-parser</a>
+       <kbd>-s, --single</kbd>
        <ul>
-        <li>nwc-toolkit に含まれる HTML パーサの動作を確認するためのツールです．</li>
+        <li>入力を HTML 文書として扱います．</li>
        </ul>
       </li>
       <li>
-       <a href="tools/unicode-normalizer.html">nwc-toolkit-unicode-normalizer</a>
+       <kbd>-n, --entries</kbd>
        <ul>
-        <li>テキストに Unicode 正規化を適用するツールです．</li>
+        <li>HTML アーカイブを入力とするとき，文書数の上限を指定します．デフォルトの設定では無制限になっています．</li>
        </ul>
       </li>
       <li>
-       <a href="tools/text-filter.html">nwc-toolkit-text-filter</a>
+       <kbd>-c, --NFC</kbd>
        <ul>
-        <li>句点・感嘆符・疑問符を手がかりとしてテキストを区切り，さらに文字数や文字種によるフィルタリングを適用するツールです．</li>
+        <li>NFC を正規化形式として選択します．デフォルトの設定です．詳細については <a href="./unicode-normalizer.html">Unicode 正規化ツールのドキュメント</a>を参照してください．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-d, --NFD</kbd>
+       <ul>
+        <li>NFD を正規化形式として選択します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-C, --NFKC</kbd>
+       <ul>
+        <li>NFKC を正規化形式として選択します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-K, --NFKD</kbd>
+       <ul>
+        <li>NFKD を正規化形式として選択します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-k, --keep</kbd>
+       <ul>
+        <li>不正な文字を U+FFFD（REPLACEMENT CHARACTER）に置換します．デフォルトの設定です．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-r, --remove</kbd>
+       <ul>
+        <li>不正な文字を削除します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-f, --filter</kbd>
+       <ul>
+        <li>簡易文抽出を適用します．詳細については<a href="./text-filter.html">簡易文抽出ツールのドキュメント</a>を参照してください．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-o, --output</kbd>
+       <ul>
+        <li>出力ファイルを指定します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-h, --help</kbd>
+       <ul>
+        <li>ヘルプを表示します．</li>
        </ul>
       </li>
      </ul>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3>N-gram コーパスの作成</h3>
+     <h3>実行例</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-text-extractor html-archive.xz -o html-archive.txt.gz</pre>
+     </div><!-- float -->
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-text-extractor -s html-document.html -o html-document.txt.gz</pre>
+     </div><!-- float -->
      <p>
-      N-gram コーパスの作成については，<a href="http://chasen-legacy.sourceforge.jp/">茶筌（ChaSen）</a>や <a href="http://mecab.sourceforge.net/">MeCab</a> による形態素解析の結果を入力として，単語 N-gram の出現頻度を求めるようになっています．改行コードを文の区切り，空白を単語の区切りとする単純なフォーマットのテキストからでも N-gram コーパスを作成できるので，単語分割に使うツールは形態素解析器でなくても問題ありません．
+      入力ファイルが <kbd>input-1.gz</kbd>, <kbd>input-2.gz</kbd>，出力ファイルが <kbd>output.gz</kbd> であれば，コマンドライン引数として <kbd>input-1.gz</kbd>, <kbd>input-2.gz</kbd>, <kbd>-o output.gz</kbd> を指定します．<kbd>gzip</kbd> をパイプで接続するより効率良く圧縮ファイルを操作できます．
      </p>
-     <ul>
-      <li>
-       <a href="tools/ngram-counter.html">nwc-toolkit-ngram-counter</a>
-       <ul>
-        <li>分かち書きされたテキストを入力として単語 N-gram の頻度を求めるツールです．割り当てられたメモリにすべての N-gram を展開できないときは，出力が複数のファイルに分割されるので，<a href="tools/ngram-merger.html">nwc-toolkit-ngram-merger</a> によるマージが必要になります．</li>
-       </ul>
-      </li>
-      <li>
-       <a href="tools/ngram-merger.html">nwc-toolkit-ngram-merger</a>
-       <ul>
-        <li>N-gram コーパスをマージするツールです．</li>
-       </ul>
-      </li>
-     </ul>
     </div><!-- subsection -->
    </div><!-- section -->
    <div class="section">
-    <h2><a name="conclusion">おわりに</a></h2>
+    <h2><a name="note">備考</a></h2>
     <p>
-     作成中です．
+     特にありません．
     </p>
    </div><!-- section -->
   </div><!-- body -->
