@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ja">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>簡易文抽出ツール - NWC Toolkit</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+ </head>
+ <body>
+  <div id="header">
+   <div class="left">Text Filter - NWC Toolkit</div>
+   <div class="right">Last modified: 27 October 2010</div>
+   <div class="end"></div>
+  </div><!-- header -->
+  <div id="body">
+   <h1>簡易文抽出ツール - NWC Toolkit</h1>
+   <p id="abstract">
+    <span id="heading">Abstract: </span>
+     nwc-toolkit-text-filter は文字数や文字種を条件として UTF-8 のテキストから日本語の文を抽出するツールです．正確に日本語を抽出することを目的にしたツールではないので，精度には期待しないでください．
+   </p><!-- abstract -->
+   <div class="section">
+    <h2><a name="introduction">概要</a></h2>
+    <p>
+     <kbd>nwc-toolkit-text-filter</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つです．文字数や文字種を条件として UTF-8 のテキストから抽出した文を出力するようになっています．文字数や文字種を条件とする緩いフィルタなので，適合率・再現率ともに期待はできません．
+    </p>
+    <p>
+     文を抽出するフィルタの内容は，<a href="http://www.gsk.or.jp/catalog/GSK2007-C/GSK2007C_README.utf8.txt">Web 日本語 N グラム第 1 版</a>における対象文の同定・選別とほぼ同じです．具体的には，句点・感嘆符・疑問符（<var>"."</var>, <var>"!"</var>, <var>"?"</var>, <var>"．"</var>, <var>"。"</var>, <var>"！"</var>, <var>"？"</var>）を区切りとして文を抽出した後，以下の条件を一つでも満たす文は排除するようになっています．
+    </p>
+    <ul>
+     <li>5 文字以下もしくは 1024 文字以上（空白を除く）</li>
+     <li>ひらがなが文全体の 5% 未満（空白を除く）</li>
+     <li>
+      日本語の文字が文全体の 70% 未満（空白を除く）
+      <ul>
+       <li>日本語の文字として扱うコードポイント
+        <ul>
+         <li>U+3040 - U+30FF（ひらがな，カタカナ）</li>
+         <li>U+31F0 - U+31FF（カタカナ拡張）</li>
+         <li>U+3400 - U+34BF（CJK 統合漢字拡張 A の一部）</li>
+         <li>U+4E00 - U+9FFF（CJK 統合漢字）</li>
+         <li>U+F900 - U+FAFF（CJK 互換漢字）</li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+    <p>
+     文を抽出するとき，表示の方向を制御する文字や代替文字は削除するようになっています．削除されるコードポイントは以下の通りです．
+    </p>
+    <ul>
+     <li>表示の方向を制御する文字
+      <ul>
+       <li>U+200E（LEFT-TO-RIGHT MARK）</li>
+       <li>U+200F（RIGHT-TO-LEFT MARK）</li>
+       <li>U+202A（LEFT-TO-RIGHT EMBEDDING）</li>
+       <li>U+202B（RIGHT-TO-LEFT EMBEDDING）</li>
+       <li>U+202C（POP DIRECTIONAL FORMATTING）</li>
+       <li>U+202D（LEFT-TO-RIGHT OVERRIDE）</li>
+       <li>U+202E（RIGHT-TO-LEFT OVERRIDE）</li>
+      </ul>
+     </li>
+     <li>代替文字
+      <ul>
+       <li>U+FFFD（REPLACEMENT CHARACTER）</li>
+      </ul>
+     </li>
+     <li>Byte Order Mark（BOM）     
+      <ul>
+       <li>U+FEFF（ZERO WIDTH NO-BREAK SPACE）</li>
+      </ul>
+     </li>
+     <li>無効なコードポイント
+      <ul>
+       <li>U+FFFE</li>
+      </ul>
+     </li>
+    </ul>
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="usage">使い方</a></h2>
+    <div class="subsection">
+     <h3>書式</h3>
+     <p>
+      ヘルプを表示するオプションは <kbd>-h</kbd>, <kbd>--help</kbd> です．いずれかを指定することにより，オプションのリストを確認できます．入力ファイルはオプション以外のコマンドライン引数により指定できます．指定がなければ標準入力を使用します．拡張子が <kbd>gz</kbd>, <kbd>bz2</kbd>, <kbd>xz</kbd> のいずれかであれば，入力ファイルを自動的に伸長します．出力ファイルは <kbd>-o</kbd>, <kbd>--output</kbd> により指定できます．指定がなければ標準出力を使用します．拡張子が <kbd>gz</kbd>, <kbd>bz2</kbd>, <kbd>xz</kbd> のいずれかであれば，出力ファイルを自動的に圧縮します．
+     </p>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>オプション</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-text-filter -h
+Usage: nwc-toolkit-text-filter [OPTION]... [FILE]...
+
+Options:
+  -o, --output=[FILE]  write result to FILE (default: stdout)
+  -h, --help    print this help</pre>
+     </div>
+     <ul>
+      <li>
+       <kbd>-o, --output</kbd>
+       <ul>
+        <li>出力ファイルを指定します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-h, --help</kbd>
+       <ul>
+        <li>ヘルプを表示します．</li>
+       </ul>
+      </li>
+     </ul>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>実行例</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-text-filter input-1.gz input-2.gz -o output.gz</pre>
+     </div>
+     <div class="float">
+      <pre class="console">$ gzip -dc input-1.gz input-2.gz | \
+  nwc-toolkit-text-filter input-1.gz | \
+  gzip -c output.gz</pre>
+     </div>
+     <p>
+      入力ファイルが <kbd>input-1.gz</kbd>, <kbd>input-2.gz</kbd>，出力ファイルが <kbd>output.gz</kbd> であれば，コマンドライン引数として <kbd>input-1.gz</kbd>, <kbd>input-2.gz</kbd>, <kbd>-o output.gz</kbd> を指定します．<kbd>gzip</kbd> をパイプで接続するより効率良く圧縮ファイルを操作できます．
+     </p>
+    </div><!-- subsection -->
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="note">備考</a></h2>
+    <p>
+     特にありません．
+    </p>
+   </div><!-- section -->
+  </div><!-- body -->
+  <div id="footer">
+   <div class="left">Text Filter - NWC Toolkit</div>
+   <div class="right">
+  ‮moc.liamg@atay.umusus‭
+   </div>
+   <div class="end"></div>
+  </div><!-- footer -->
+ </body>
+</html>

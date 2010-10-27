@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ja">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>テキスト抽出ツール - NWC Toolkit</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+ </head>
+ <body>
+  <div id="header">
+   <div class="left">Text Extractor - NWC Toolkit</div>
+   <div class="right">Last modified: 27 October 2010</div>
+   <div class="end"></div>
+  </div><!-- header -->
+  <div id="body">
+   <h1>テキスト抽出ツール - NWC Toolkit</h1>
+   <p id="abstract">
+    <span id="heading">Abstract: </span>
+     nwc-toolkit-text-extractor はウェブページからテキストを抽出するツールであり，文字コードの変換や HTML 文書の解析，Unicode 正規化などをまとめておこなうことができます．
+   </p><!-- abstract -->
+   <div class="section">
+    <h2><a name="introduction">概要</a></h2>
+    <p>
+     <kbd>nwc-toolkit-text-extractor</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つです．HTTP ヘッダと HTML 文書の組を入力として，文字コードの判別，UTF-8 への統一，HTML の解析，テキストの抽出，Unicode 正規化，句点や疑問符による区切り，文字数や文字種によるフィルタリングを順番に適用するようになっています．HTTP ヘッダは文字コードや MIME タイプの取得に使っているだけなので，処理効率や判別精度に多少の影響はあるものの，HTML 文書のみを入力としてもテキストを抽出することはできます．
+    </p>
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="usage">使い方</a></h2>
+    <div class="subsection">
+     <h3>テキストアーカイブの作成</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-text-extractor -h
+Usage: nwc-toolkit-text-extractor [OPTION]... [FILE]...
+
+Options:
+  -a, --archive  extract text from HTML archives (default)
+  -s, --single   extract text from HTML documents
+  -n, --entries  limit the maximum number of entries (default: 0)
+  -c, --NFC      Normalization Form C (default)
+  -d, --NFD      Normalization Form D
+  -C, --NFKC     Normalization Form KC
+  -D, --NFKD     Normalization Form KD
+                 C = Composition, D = Decomposition, K = Compatibility
+  -k, --keep     keep replacement characters (default)
+  -r, --remove   remove replacement characters
+  -f, --filter   apply text filter
+  -o, --output=[FILE]  write result to FILE (default: stdout)
+  -h, --help     print this help
+</pre>
+     </div>
+     <p>
+      テキストアーカイブの作成については，HTTP ヘッダと HTML 文書の組を入力として，文字コードの判別，UTF-8 への統一，HTML の解析，テキストの抽出，Unicode 正規化，句点や疑問符による区切り，文字数や文字種によるフィルタリングを順番に適用するようになっています．HTTP ヘッダは文字コードや MIME タイプの取得に使っているだけなので，処理効率や判別精度に多少の影響はあるものの，HTML 文書のみを入力としてもテキストアーカイブを作成することはできます．
+     </p>
+     <ul>
+      <li>
+       <a href="tools/text-extractor.html">nwc-toolkit-text-extractor</a>
+       <ul>
+        <li>文字コードの判別・変換からテキストの抽出，正規化，フィルタリングまでを一度におこなうツールです．Unicode 正規化と文字種によるフィルタリングについては，オプションにより制御できるようになっています．</li>
+       </ul>
+      </li>
+      <li>
+       <a href="tools/html-parser.html">nwc-toolkit-html-parser</a>
+       <ul>
+        <li>nwc-toolkit に含まれる HTML パーサの動作を確認するためのツールです．</li>
+       </ul>
+      </li>
+      <li>
+       <a href="tools/unicode-normalizer.html">nwc-toolkit-unicode-normalizer</a>
+       <ul>
+        <li>テキストに Unicode 正規化を適用するツールです．</li>
+       </ul>
+      </li>
+      <li>
+       <a href="tools/text-filter.html">nwc-toolkit-text-filter</a>
+       <ul>
+        <li>句点・感嘆符・疑問符を手がかりとしてテキストを区切り，さらに文字数や文字種によるフィルタリングを適用するツールです．</li>
+       </ul>
+      </li>
+     </ul>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>N-gram コーパスの作成</h3>
+     <p>
+      N-gram コーパスの作成については，<a href="http://chasen-legacy.sourceforge.jp/">茶筌（ChaSen）</a>や <a href="http://mecab.sourceforge.net/">MeCab</a> による形態素解析の結果を入力として，単語 N-gram の出現頻度を求めるようになっています．改行コードを文の区切り，空白を単語の区切りとする単純なフォーマットのテキストからでも N-gram コーパスを作成できるので，単語分割に使うツールは形態素解析器でなくても問題ありません．
+     </p>
+     <ul>
+      <li>
+       <a href="tools/ngram-counter.html">nwc-toolkit-ngram-counter</a>
+       <ul>
+        <li>分かち書きされたテキストを入力として単語 N-gram の頻度を求めるツールです．割り当てられたメモリにすべての N-gram を展開できないときは，出力が複数のファイルに分割されるので，<a href="tools/ngram-merger.html">nwc-toolkit-ngram-merger</a> によるマージが必要になります．</li>
+       </ul>
+      </li>
+      <li>
+       <a href="tools/ngram-merger.html">nwc-toolkit-ngram-merger</a>
+       <ul>
+        <li>N-gram コーパスをマージするツールです．</li>
+       </ul>
+      </li>
+     </ul>
+    </div><!-- subsection -->
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="conclusion">おわりに</a></h2>
+    <p>
+     作成中です．
+    </p>
+   </div><!-- section -->
+  </div><!-- body -->
+  <div id="footer">
+   <div class="left">Text Extractor - NWC Toolkit</div>
+   <div class="right">
+  ‮moc.liamg@atay.umusus‭
+   </div>
+   <div class="end"></div>
+  </div><!-- footer -->
+ </body>
+</html>

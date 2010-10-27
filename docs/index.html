@@ -8,13 +8,11 @@
  <body>
   <div id="header">
    <div class="left">Nihongo Web Ccorpus (NWC) Toolkit</div>
-   <div class="right">Last modified: 26 October 2010</div>
+   <div class="right">Last modified: 27 October 2010</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
-   <h1>
-    日本語ウェブコーパス用ツールキット
-   </h1>
+   <h1>日本語ウェブコーパス用ツールキット</h1>
    <p id="abstract">
     <span id="heading">Abstract: </span>
      nwc-toolkit は日本語ウェブコーパスを扱うために開発されたソフトウェアです．日本語で記述された HTML 文書からテキストを抽出したり，Unicode 正規化や簡単なフィルタリングを施したりできるほか，分かち書きしたテキストから N-gram コーパスを作成することが可能です．
@@ -157,7 +155,6 @@ $ sudo make install</pre>
 $ sudo vi /etc/ld.so.conf
 ... # 最終行に /usr/local/lib を追加します．
 /usr/local/lib
-# /etc/ld.so.conf.d/libiconv.conf というを読み込む設定になっている場合，/etc/
 $ sudo ldconfig</pre>
      </div><!-- float -->
      <p>
@@ -166,9 +163,9 @@ $ sudo ldconfig</pre>
     </div><!-- subsection -->
    </div><!-- section -->
    <div class="section">
-    <h2><a name="sample">ツール</a></h2>
+    <h2><a name="tools">ツール</a></h2>
     <div class="subsection">
-     <h3><a name="sample">テキストアーカイブの作成</a></h3>
+     <h3>テキストアーカイブの作成</h3>
      <p>
       テキストアーカイブの作成については，HTTP ヘッダと HTML 文書の組を入力として，文字コードの判別，UTF-8 への統一，HTML の解析，テキストの抽出，Unicode 正規化，句点や疑問符による区切り，文字数や文字種によるフィルタリングを順番に適用するようになっています．HTTP ヘッダは文字コードや MIME タイプの取得に使っているだけなので，処理効率や判別精度に多少の影響はあるものの，HTML 文書のみを入力としてもテキストアーカイブを作成することはできます．
      </p>
@@ -200,7 +197,7 @@ $ sudo ldconfig</pre>
      </ul>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="sample">N-gram コーパスの作成</a></h3>
+     <h3>N-gram コーパスの作成</h3>
      <p>
       N-gram コーパスの作成については，<a href="http://chasen-legacy.sourceforge.jp/">茶筌（ChaSen）</a>や <a href="http://mecab.sourceforge.net/">MeCab</a> による形態素解析の結果を入力として，単語 N-gram の出現頻度を求めるようになっています．改行コードを文の区切り，空白を単語の区切りとする単純なフォーマットのテキストからでも N-gram コーパスを作成できるので，単語分割に使うツールは形態素解析器でなくても問題ありません．
      </p>
@@ -223,7 +220,7 @@ $ sudo ldconfig</pre>
    <div class="section">
     <h2><a name="conclusion">おわりに</a></h2>
     <p>
-     作成中です．
+     <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> のインストール方法とツールの概要を説明しました．これらのツールを使うことにより，収集したウェブページからテキストを抽出したり，N-gram コーパスを作成したりすることができます．<a href="http://s-yata.jp/corpus/nwc2010/">日本語ウェブコーパス</a>以外に使うこともできるので，お気軽にご利用ください．
     </p>
    </div><!-- section -->
   </div><!-- body -->
