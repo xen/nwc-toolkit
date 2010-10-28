@@ -42,10 +42,11 @@ enum {
 };
 
 const char * const DEFAULT_OUTPUT_FILE_PREFIX = "ngms-%Y%m%d-%H%M%S";
+const char * const DEFAULT_OUTPUT_FILE_EXTENSION = "gz";
 
 int max_file_id = DEFAULT_MAX_FILE_ID;
 nwc_toolkit::String output_file_prefix;
-nwc_toolkit::String output_file_extension = "gz";
+nwc_toolkit::String output_file_extension = DEFAULT_OUTPUT_FILE_EXTENSION;
 bool is_help_mode = false;
 
 nwc_toolkit::NgramCounter ngram_counter;
@@ -160,10 +161,12 @@ void PrintHelp(const char *command) {
       "Options:\n"
       "  -n, --tokens=[N: " << MIN_MAX_NGRAM_LENGTH
       << '-' << MAX_MAX_NGRAM_LENGTH << "]\n"
-      "                  limit the length of n-grams to N (default: 5)\n"
+      "                  limit the length of n-grams to N (default: "
+      << DEFAULT_MAX_NGRAM_LENGTH << ")\n"
       "  -l, --memory=[N: " << MIN_MEMORY_LIMIT
       << '-' << MAX_MEMORY_LIMIT << "]\n"
-      "                  limit the memory usage to N MiB (default: 1024)\n"
+      "                  limit the memory usage to N MiB (default: "
+      << DEFAULT_MEMORY_LIMIT << ")\n"
       "  -w, --wakati    input wakati-formatted text (default)\n"
       "  -m, --mecab     input mecab-formatted text\n"
       "  -c, --chasen    input chasen-formatted text\n"
@@ -171,11 +174,13 @@ void PrintHelp(const char *command) {
       "  -s, --sort      sort result\n"
       "  -p, --prefix=[S]     set the prefix of output files\n"
       "                       (default: "<< DEFAULT_OUTPUT_FILE_PREFIX << ")\n"
-      "  -e, --extension=[S]  set the extension of output files (default: gz)\n"
+      "  -e, --extension=[S]  set the extension of output files (default: "
+      << DEFAULT_OUTPUT_FILE_EXTENSION << ")\n"
       "                       gz, bz2, or xz forces compression of result\n"
       "  -f, --files=[N: " << MIN_MAX_FILE_ID
       << '-' << MAX_MAX_FILE_ID << "]\n"
-      "                  limit the number of output files to N (default: 100)\n"
+      "                  limit the number of output files to N + 1 (default: "
+      << DEFAULT_MAX_FILE_ID << ")\n"
       "  -h, --help      print this help\n"
       << std::flush;
 }

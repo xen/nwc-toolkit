@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ja">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>N-gram コーパス統合ツール - NWC Toolkit</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+ </head>
+ <body>
+  <div id="header">
+   <div class="left">N-gram Merger - NWC Toolkit</div>
+   <div class="right">Last modified: 28 October 2010</div>
+   <div class="end"></div>
+  </div><!-- header -->
+  <div id="body">
+   <h1>N-gram コーパス統合ツール - NWC Toolkit</h1>
+   <p id="abstract">
+    <span id="heading">Abstract: </span>
+     nwc-toolkit-ngram-merger は N-gram コーパスを統合するためのツールです．整列済みの N-gram コーパスをマージして，指定した頻度以上の N-gram を出力します．
+   </p><!-- abstract -->
+   <div class="section">
+    <h2><a name="introduction">概要</a></h2>
+    <p>
+     <kbd>nwc-toolkit-ngram-merger</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つです．<a href="./ngram-counter.html">nwc-toolkit-ngram-counter</a> により出力された複数の N-gram コーパスをマージして，オプションで指定した頻度以上の N-gram を出力するようになっています．整列済みの N-gram コーパスを入力とするので，<a href="./ngram-counter.html">nwc-toolkit-ngram-counter</a> を実行する段階で <kbd>-s</kbd>, <kbd>--sort</kbd> を指定しておくか，あらためて整列した後で <kbd>nwc-toolkit-ngram-merger</kbd> を実行する必要があります．
+    </p>
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="usage">使い方</a></h2>
+    <div class="subsection">
+     <h3>書式</h3>
+     <p>
+      ヘルプを表示するオプションは <kbd>-h</kbd>, <kbd>--help</kbd> です．いずれかを指定することにより，オプションのリストを確認できます．入力ファイルはオプション以外のコマンドライン引数により指定できます．指定がなければ標準入力を使用します．拡張子が <var>gz</var>, <var>bz2</var>, <var>xz</var> のいずれかであれば，入力ファイルを自動的に伸長します．出力ファイルは <kbd>-o</kbd>, <kbd>--output</kbd> により指定できます．指定がなければ標準出力を使用します．拡張子が <var>gz</var>, <var>bz2</var>, <var>xz</var> のいずれかであれば，出力ファイルを自動的に圧縮します．
+     </p>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>オプション</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-ngram-merger -h
+Usage: nwc-toolkit-ngram-merger [OPTION]... [FILE]...
+
+Options:
+  -n, --threshold=[N]  cut off n-grams whose frequencies are less than N
+  -o, --output=[FILE]  write result to FILE (default: stdout)
+  -h, --help           print this help</pre>
+     </div><!-- float -->
+     <ul>
+      <li>
+       <kbd>-n, --threshold</kbd>
+       <ul>
+        <li>指定した頻度以上の N-gram を出力します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-o, --output</kbd>
+       <ul>
+        <li>出力ファイルを指定します．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-h, --help</kbd>
+       <ul>
+        <li>ヘルプを表示します．</li>
+       </ul>
+      </li>
+     </ul>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>実行例</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-ngram-merger ngms-*.gz -o merged-ngms.gz -n 10</pre>
+     </div><!-- float -->
+     <p>
+      入力する N-gram コーパスが <var>ngms-*.gz</var>，出力する N-gram コーパスが <var>merged-ngms.gz</var>，頻度に対する閾値が <var>10</var> であれば，コマンドライン引数として <kbd>ngms-*.gz</kbd>, <kbd>-o merged-ngms.gz</kbd>, <kbd>-n 10</kbd> を指定します．
+     </p>
+    </div><!-- subsection -->
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="note">備考</a></h2>
+    <p>
+     特にありません．
+    </p>
+   </div><!-- section -->
+  </div><!-- body -->
+  <div id="footer">
+   <div class="left">N-gram Merger - NWC Toolkit</div>
+   <div class="right">
+  ‮moc.liamg@atay.umusus‭
+   </div>
+   <div class="end"></div>
+  </div><!-- footer -->
+ </body>
+</html>

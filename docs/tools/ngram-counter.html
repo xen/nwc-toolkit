@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ja">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>N-gram 頻度計数ツール - NWC Toolkit</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+ </head>
+ <body>
+  <div id="header">
+   <div class="left">N-gram Counter - NWC Toolkit</div>
+   <div class="right">Last modified: 28 October 2010</div>
+   <div class="end"></div>
+  </div><!-- header -->
+  <div id="body">
+   <h1>N-gram 頻度計数ツール - NWC Toolkit</h1>
+   <p id="abstract">
+    <span id="heading">Abstract: </span>
+     nwc-toolkit-ngram-counter は分かち書きされたテキストに含まれる N-gram の頻度を計数するツールです．N-gram の異なり数が大きい場合，出力される N-gram コーパスは複数のファイルに分割されるので，nwc-toolkit-ngram-merger によるマージが必要になります．
+   </p><!-- abstract -->
+   <div class="section">
+    <h2><a name="introduction">概要</a></h2>
+    <p>
+     <kbd>nwc-toolkit-ngram-counter</kbd> は <a href="http://code.google.com/p/nwc-toolkit/">nwc-toolkit</a> を構成するツールの一つです．分かち書きされたテキストを入力として，N-gram の頻度を計数するようになっています．すべての N-gram をメモリ上に展開できないときは，複数のファイルに分割して出力します．出力ファイルは <a href="nwc-toolkit-ngram-merger">nwc-toolkit-ngram-merger</a> を使ってマージすることができます．
+    </p>
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="usage">使い方</a></h2>
+    <div class="subsection">
+     <h3>書式</h3>
+     <p>
+      ヘルプを表示するオプションは <kbd>-h</kbd>, <kbd>--help</kbd> です．いずれかを指定することにより，オプションのリストを確認できます．入力ファイルはオプション以外のコマンドライン引数により指定できます．指定がなければ標準入力を使用します．拡張子が <var>gz</var>, <var>bz2</var>, <var>xz</var> のいずれかであれば，入力ファイルを自動的に伸長します．出力ファイルは <kbd>-p</kbd>, <kbd>--prefix</kbd> と <kbd>-e</kbd>, <kbd>--extension</kbd> により指定できます．拡張子が <var>gz</var>, <var>bz2</var>, <var>xz</var> のいずれかであれば，出力ファイルを自動的に圧縮します．
+     </p>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>オプション</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-ngram-counter -h
+Usage: nwc-toolkit-ngram-counter [OPTION]... [FILE]...
+
+Options:
+  -n, --tokens=[N: 1-32]
+                  limit the length of n-grams to N (default: 5)
+  -l, --memory=[N: 2-262144]
+                  limit the memory usage to N MiB (default: 1024)
+  -w, --wakati    input wakati-formatted text (default)
+  -m, --mecab     input mecab-formatted text
+  -c, --chasen    input chasen-formatted text
+  -b, --boundary  count sentence boundaries as &lt;S&gt; and &lt;/S&gt;
+  -s, --sort      sort result
+  -p, --prefix=[S]     set the prefix of output files
+                       (default: ngms-%Y%m%d-%H%M%S)
+  -e, --extension=[S]  set the extension of output files (default: gz)
+                       gz, bz2, or xz forces compression of result
+  -f, --files=[N: 0-9999]
+                  limit the number of output files to N + 1 (default: 99)
+  -h, --help      print this help</pre>
+     </div><!-- float -->
+     <ul>
+      <li>
+       <kbd>-n, --tokens</kbd>
+       <ul>
+        <li><var>N</var> が指定した値以下の <var>N</var>-gram のみを頻度計数の対象にします．デフォルトの設定は <var>5</var> です．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-l, --memory</kbd>
+       <ul>
+        <li>割り当てるメモリの上限を MiB 単位で指定します．デフォルトの設定は <var>1GiB</var> です．メモリの割り当てを大きくすれば，より多くの N-gram をメモリ上に展開できるようになり，出力ファイルの分割数を抑えることができます．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-w, --wakati</kbd>
+       <ul>
+        <li>入力を MeCab による分かち書きの結果として扱います．具体的には，改行を文の区切り，空白を単語の区切りとして扱います．デフォルトの設定です．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-m, --mecab</kbd>
+       <ul>
+        <li>入力を MeCab による形態素解析結果として扱います．具体的には，<var>"EOS"</var> だけの行を文区切り，各行の水平タブまでを単語として扱います．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-c, --chasen</kbd>
+       <ul>
+        <li>入力を ChaSen による形態素解析結果として扱います．具体的には <kbd>-m, --mecab</kbd> と同じです．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-b, --boundary</kbd>
+       <ul>
+        <li>文の先頭を <var>"&lt;S&gt;"</var>，文の終端を <var>"&lt;/S&gt;"</var> として頻度計数の対象にします．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-s, --sort</kbd>
+       <ul>
+        <li>N-gram コーパスを整列してから出力します．<a href="nwc-toolkit-ngram-merger">nwc-toolkit-ngram-merger</a> によるマージを予定している状況では便利ですが，整列用のメモリを確保する必要があり，メモリ上に展開できる N-gram の数が少なくなるので，出力ファイルの分割数は大きくなります．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-p, --prefix</kbd>
+       <ul>
+        <li>出力ファイルのプレフィックスを指定します．デフォルトの設定は <var>ngms-%Y%m%d-%H%M%S</var> であり，2010 年 10 月 28 日の正午に実行された場合であれば，<var>ngms-20101028-120000</var> のように変換されます．ただし，日時への変換が有効になるのはデフォルトの設定を用いた場合のみです．最終的に出力されるファイルの名前は <var>prefix.NNNN.extension</var> になります．<var>NNNN</var> にはファイルの ID が入り，<var>.extension</var> は拡張子の設定が空文字列でない場合にのみ有効になります．
+        </li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-e, --extension</kbd>
+       <ul>
+        <li>出力ファイルの拡張子を指定します．デフォルトの設定は <var>gz</var> です．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-f, --files</kbd>
+       <ul>
+        <li>出力ファイルの数に上限を <var>N + 1</var> に設定します．デフォルトの設定は <var>99</var> です．</li>
+       </ul>
+      </li>
+      <li>
+       <kbd>-h, --help</kbd>
+       <ul>
+        <li>ヘルプを表示します．</li>
+       </ul>
+      </li>
+     </ul>
+    </div><!-- subsection -->
+    <div class="subsection">
+     <h3>実行例</h3>
+     <div class="float">
+      <pre class="console">$ nwc-toolkit-ngram-counter -n 7 -mbs mecabs/*.xz</pre>
+     </div><!-- float -->
+     <p>
+      <a href="http://s-yata.jp/corpus/nwc2010/htmls/">HTML アーカイブ</a>の作成に用いたオプションは <kbd>-n 7 -mbs</kbd> です．入力するファイルが <var>mecabs/*.xz</var> であれば，コマンドライン引数として <kbd>mecabs/*.xz</kbd> も指定することになります．
+     </p>
+    </div><!-- subsection -->
+   </div><!-- section -->
+   <div class="section">
+    <h2><a name="note">備考</a></h2>
+    <p>
+     特にありません．
+    </p>
+   </div><!-- section -->
+  </div><!-- body -->
+  <div id="footer">
+   <div class="left">N-gram Counter - NWC Toolkit</div>
+   <div class="right">
+  ‮moc.liamg@atay.umusus‭
+   </div>
+   <div class="end"></div>
+  </div><!-- footer -->
+ </body>
+</html>

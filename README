@@ -1,1 +1,15 @@
 Project URL: http://code.google.com/p/nwc-toolkit/
+
+nwc-toolkit は[http://s-yata.jp/corpus/nwc2010/ 日本語ウェブコーパス]を作成するために開発されたソフトウェアです．[http://s-yata.jp/corpus/nwc2010/htmls/ HTML アーカイブ]から[http://s-yata.jp/corpus/nwc2010/texts/ テキストアーカイブ]を作成するツールと，分かち書きしたテキストから [http://s-yata.jp/corpus/nwc2010/ngrams/ N-gram コーパス]を作成するツールで構成されています．サイズが 1TiB を超える HTML アーカイブを想定して C++ で開発されたツールなので，正規表現を多用する HTML パーサなどと比べれば，かなり高速に動作します．
+
+== ドキュメント ==
+
+ * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/index.html nwc-toolkit（日本語ウェブコーパス用ツールキット）]
+  * テキストアーカイブの作成
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/text-extractor.html nwc-toolkit-text-extractor（テキスト抽出ツール）]
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/html-parser.html nwc-toolkit-html-parser（HTML 解析ツール）]
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/unicode-normalizer.html nwc-toolkit-unicode-normalizer（Unicode 正規化ツール）]
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/text-filter.html nwc-toolkit-text-filter（簡易文抽出ツール）]
+  * N-gram コーパスの作成
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/ngram-counter.html nwc-toolkit-ngram-counter（N-gram 頻度計数ツール）]
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/ngram-merger.html nwc-toolkit-ngram-merger（N-gram コーパス統合ツール）]
