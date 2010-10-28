@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.65)
-AC_INIT([nwc-toolkit], [0.0.0], [syata@acm.org])
+AC_INIT([nwc-toolkit], [0.0.1], [syata@acm.org])
 AC_CONFIG_SRCDIR([include/nwc-toolkit/string.h])
 AM_INIT_AUTOMAKE
 

@@ -7,6 +7,7 @@ nwc-toolkit は[http://s-yata.jp/corpus/nwc2010/ 日本語ウェブコーパス]
  * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/index.html nwc-toolkit（日本語ウェブコーパス用ツールキット）]
   * テキストアーカイブの作成
    * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/text-extractor.html nwc-toolkit-text-extractor（テキスト抽出ツール）]
+    * [http://s-yata.jp/apps/nwc-toolkit/text-extractor テキスト抽出ツールのウェブサービス]
    * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/html-parser.html nwc-toolkit-html-parser（HTML 解析ツール）]
    * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/unicode-normalizer.html nwc-toolkit-unicode-normalizer（Unicode 正規化ツール）]
    * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/text-filter.html nwc-toolkit-text-filter（簡易文抽出ツール）]
