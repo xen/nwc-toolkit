@@ -12,6 +12,7 @@ libnwc_toolkit_a_SOURCES = \
   input-file.cc \
   ngram-counter.cc \
   output-file.cc \
+  sha1-digest.cc \
   text-filter.cc \
   token-trie-tracer.cc \
   token-trie.cc \
@@ -41,6 +42,7 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/multikey-sort.h \
   ../include/nwc-toolkit/ngram-counter.h \
   ../include/nwc-toolkit/output-file.h \
+  ../include/nwc-toolkit/sha1-digest.h \
   ../include/nwc-toolkit/string-builder.h \
   ../include/nwc-toolkit/string-hash.h \
   ../include/nwc-toolkit/string-pool.h \

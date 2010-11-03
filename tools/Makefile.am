@@ -8,12 +8,16 @@ noinst_SCRIPTS = \
   cgi/text-extractor.py
 
 bin_PROGRAMS = \
+  nwc-toolkit-html-digest \
   nwc-toolkit-html-parser \
   nwc-toolkit-ngram-counter \
   nwc-toolkit-ngram-merger \
   nwc-toolkit-text-extractor \
   nwc-toolkit-text-filter \
   nwc-toolkit-unicode-normalizer
+
+nwc_toolkit_html_digest_SOURCES = nwc-toolkit-html-digest.cc
+nwc_toolkit_html_digest_LDADD = ../lib/libnwc-toolkit.a
 
 nwc_toolkit_html_parser_SOURCES = nwc-toolkit-html-parser.cc
 nwc_toolkit_html_parser_LDADD = ../lib/libnwc-toolkit.a

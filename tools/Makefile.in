@@ -33,7 +33,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = nwc-toolkit-html-parser$(EXEEXT) \
+bin_PROGRAMS = nwc-toolkit-html-digest$(EXEEXT) \
+	nwc-toolkit-html-parser$(EXEEXT) \
 	nwc-toolkit-ngram-counter$(EXEEXT) \
 	nwc-toolkit-ngram-merger$(EXEEXT) \
 	nwc-toolkit-text-extractor$(EXEEXT) \
@@ -50,6 +51,11 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_nwc_toolkit_html_digest_OBJECTS =  \
+	nwc-toolkit-html-digest.$(OBJEXT)
+nwc_toolkit_html_digest_OBJECTS =  \
+	$(am_nwc_toolkit_html_digest_OBJECTS)
+nwc_toolkit_html_digest_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_nwc_toolkit_html_parser_OBJECTS =  \
 	nwc-toolkit-html-parser.$(OBJEXT)
 nwc_toolkit_html_parser_OBJECTS =  \
@@ -111,13 +117,15 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(nwc_toolkit_html_parser_SOURCES) \
+SOURCES = $(nwc_toolkit_html_digest_SOURCES) \
+	$(nwc_toolkit_html_parser_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
 	$(nwc_toolkit_ngram_merger_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
 	$(nwc_toolkit_text_filter_SOURCES) \
 	$(nwc_toolkit_unicode_normalizer_SOURCES)
-DIST_SOURCES = $(nwc_toolkit_html_parser_SOURCES) \
+DIST_SOURCES = $(nwc_toolkit_html_digest_SOURCES) \
+	$(nwc_toolkit_html_parser_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
 	$(nwc_toolkit_ngram_merger_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
@@ -225,6 +233,8 @@ bin_SCRIPTS = \
 noinst_SCRIPTS = \
   cgi/text-extractor.py
 
+nwc_toolkit_html_digest_SOURCES = nwc-toolkit-html-digest.cc
+nwc_toolkit_html_digest_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_html_parser_SOURCES = nwc-toolkit-html-parser.cc
 nwc_toolkit_html_parser_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_ngram_counter_SOURCES = nwc-toolkit-ngram-counter.cc
@@ -312,6 +322,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+nwc-toolkit-html-digest$(EXEEXT): $(nwc_toolkit_html_digest_OBJECTS) $(nwc_toolkit_html_digest_DEPENDENCIES) 
+	@rm -f nwc-toolkit-html-digest$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_html_digest_OBJECTS) $(nwc_toolkit_html_digest_LDADD) $(LIBS)
 nwc-toolkit-html-parser$(EXEEXT): $(nwc_toolkit_html_parser_OBJECTS) $(nwc_toolkit_html_parser_DEPENDENCIES) 
 	@rm -f nwc-toolkit-html-parser$(EXEEXT)
 	$(CXXLINK) $(nwc_toolkit_html_parser_OBJECTS) $(nwc_toolkit_html_parser_LDADD) $(LIBS)
@@ -371,6 +384,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-html-digest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-html-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-ngram-counter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-ngram-merger.Po@am__quote@

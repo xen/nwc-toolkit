@@ -209,10 +209,11 @@ bool HtmlDocument::ParseAsHtml(const String &body) {
       } else {
         ParseHtmlTagUnit(&tag);
         const String &tag_name = units_.back().tag_name();
-        if ((tag_name.Compare("script", ToLower()) == 0) ||
-            (tag_name.Compare("style", ToLower()) == 0) ||
-            (tag_name.Compare("textarea", ToLower()) == 0) ||
-            (tag_name.Compare("xmp", ToLower()) == 0)) {
+        if (!units_.back().is_end_tag() &&
+            ((tag_name.Compare("script", ToLower()) == 0) ||
+             (tag_name.Compare("style", ToLower()) == 0) ||
+             (tag_name.Compare("textarea", ToLower()) == 0) ||
+             (tag_name.Compare("xmp", ToLower()) == 0))) {
           avail.set_begin(tag.end());
           ParseHtmlSpecialTag(avail, tag_name, &tag);
         } else if (tag_name.Compare("plaintext", ToLower()) == 0) {
@@ -531,11 +532,11 @@ void HtmlDocument::ParseHtmlOtherUnit(String *tag) {
 void HtmlDocument::ParseHtmlSpecialTag(const String &body_left,
     const String &tag_name, String *tag) {
   for (String avail = body_left; !avail.is_empty(); ) {
-    String start_mark = avail.Find("</").begin();
+    String start_mark = avail.Find("</");
+    tag->Assign(start_mark.begin(), avail.end());
     if (start_mark.is_empty()) {
       break;
     }
-    tag->Assign(start_mark.begin(), avail.end());
     avail = tag->SubString(2);
     if (avail.StartsWith(tag_name, ToLower())) {
       avail = avail.SubString(tag_name.length());

@@ -21,6 +21,7 @@ TESTS = \
   test-mecab-archive-entry \
   test-multikey-sort \
   test-ngram-counter \
+  test-sha1-digest \
   test-string \
   test-string-builder \
   test-string-hash \
@@ -91,6 +92,9 @@ test_multikey_sort_LDADD = ../lib/libnwc-toolkit.a
 
 test_ngram_counter_SOURCES = test-ngram-counter.cc
 test_ngram_counter_LDADD = ../lib/libnwc-toolkit.a
+
+test_sha1_digest_SOURCES = test-sha1-digest.cc
+test_sha1_digest_LDADD = ../lib/libnwc-toolkit.a
 
 test_string_SOURCES = test-string.cc
 test_string_LDADD = ../lib/libnwc-toolkit.a
