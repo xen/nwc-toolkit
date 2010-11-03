@@ -57,11 +57,10 @@ void Sha1Digest::Finish() {
     index = 0;
   }
 
-  memset(block_ + index, 0, 64 - index);
-  while (index < 64) {
+  memset(block_ + index, 0, 56 - index);
+  for (index = 56; index < 64; ++index) {
     block_[index] = static_cast<unsigned char>(
         (length_ * 8) >> ((63 - index) * 8));
-    ++index;
   }
   ProcessBlock();
 
