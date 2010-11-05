@@ -56,7 +56,7 @@ void PrintHelp(const char *command) {
       << std::flush;
 }
 
-void Digest(nwc_toolkit::InputFile *input_file,
+void Calculate(nwc_toolkit::InputFile *input_file,
     nwc_toolkit::OutputFile *output_file) {
   std::time_t start_time = std::time(NULL);
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
     if (!input_file.Open(NULL)) {
       NWC_TOOLKIT_ERROR("failed to open standard input");
     }
-    Digest(&input_file, &output_file);
+    Calculate(&input_file, &output_file);
   }
 
   for (int i = optind; i < argc; ++i) {
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
       NWC_TOOLKIT_ERROR("failed to open input file: %s",
           input_file_name.ptr());
     }
-    Digest(&input_file, &output_file);
+    Calculate(&input_file, &output_file);
   }
 
   return 0;
