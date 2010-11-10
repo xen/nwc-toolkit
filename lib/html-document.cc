@@ -92,9 +92,9 @@ void HtmlDocument::ExtractText(StringBuilder *dest) {
   }
 
   for (std::size_t i = 0; i < num_units(); ++i) {
-    const HtmlDocumentUnit &unit = this->unit(i);
+    const HtmlUnit &unit = this->unit(i);
     switch (unit.type()) {
-      case HtmlDocumentUnit::TEXT_UNIT: {
+      case HtmlUnit::TEXT_UNIT: {
         if ((mode_flags & INVISIBLE_MODE_FLAGS) != 0) {
           break;
         } else if (unit.is_cdata_section() ||
@@ -105,15 +105,15 @@ void HtmlDocument::ExtractText(StringBuilder *dest) {
         }
         break;
       }
-      case HtmlDocumentUnit::TAG_UNIT: {
+      case HtmlUnit::TAG_UNIT: {
         UpdateTextExtractorModeFlags(unit, &mode_flags);
         if (IsBlockTag(unit.tag_name())) {
           AppendEndOfLineToText(dest);
         }
         break;
       }
-      case HtmlDocumentUnit::COMMENT_UNIT:
-      case HtmlDocumentUnit::OTHER_UNIT:
+      case HtmlUnit::COMMENT_UNIT:
+      case HtmlUnit::OTHER_UNIT:
       default: {
         break;
       }
@@ -338,7 +338,7 @@ bool HtmlDocument::ParseXmlTagUnit(String *tag) {
     }
     attribute_value.set_end(attribute_value_end.begin());
 
-    HtmlDocumentAttribute attribute;
+    HtmlAttribute attribute;
     attribute.set_name(attribute_name);
     attribute.set_value(attribute_value);
     attributes_.push_back(attribute);
@@ -486,7 +486,7 @@ void HtmlDocument::ParseHtmlTagUnit(String *tag) {
       }
     }
 
-    HtmlDocumentAttribute attribute;
+    HtmlAttribute attribute;
     attribute.set_name(attribute_name);
     attribute.set_value(attribute_value);
     attributes_.push_back(attribute);
@@ -561,8 +561,8 @@ void HtmlDocument::AppendTextUnit(const String &src,
     return;
   }
 
-  HtmlDocumentUnit unit;
-  unit.set_type(HtmlDocumentUnit::TEXT_UNIT);
+  HtmlUnit unit;
+  unit.set_type(HtmlUnit::TEXT_UNIT);
   unit.set_src(src);
   unit.set_text_content(text_content);
   if ((text_unit_flags & (CDATA_SECTION_FLAG | PLAIN_TEXT_FLAG)) == 0) {
@@ -579,10 +579,10 @@ void HtmlDocument::AppendTextUnit(const String &src,
 
 void HtmlDocument::AppendTagUnit(const String &src,
     const String &tag_name, std::size_t num_attributes, int tag_unit_flags) {
-  static const HtmlDocumentAttribute DUMMY_ATTRIBUTE;
+  static const HtmlAttribute DUMMY_ATTRIBUTE;
 
-  HtmlDocumentUnit unit;
-  unit.set_type(HtmlDocumentUnit::TAG_UNIT);
+  HtmlUnit unit;
+  unit.set_type(HtmlUnit::TAG_UNIT);
   unit.set_src(src);
   unit.set_tag_name(tag_name);
   unit.set_attributes(&DUMMY_ATTRIBUTE, num_attributes);
@@ -600,8 +600,8 @@ void HtmlDocument::AppendTagUnit(const String &src,
 
 void HtmlDocument::AppendCommentUnit(const String &src,
     const String &comment) {
-  HtmlDocumentUnit unit;
-  unit.set_type(HtmlDocumentUnit::COMMENT_UNIT);
+  HtmlUnit unit;
+  unit.set_type(HtmlUnit::COMMENT_UNIT);
   unit.set_src(src);
   unit.set_comment(comment);
   units_.push_back(unit);
@@ -609,8 +609,8 @@ void HtmlDocument::AppendCommentUnit(const String &src,
 
 void HtmlDocument::AppendOtherUnit(const String &src,
     const String &other_content) {
-  HtmlDocumentUnit unit;
-  unit.set_type(HtmlDocumentUnit::OTHER_UNIT);
+  HtmlUnit unit;
+  unit.set_type(HtmlUnit::OTHER_UNIT);
   unit.set_src(src);
   unit.set_other_content(other_content);
   units_.push_back(unit);
@@ -619,7 +619,7 @@ void HtmlDocument::AppendOtherUnit(const String &src,
 void HtmlDocument::FixTagUnits() {
   std::size_t total_num_attributes = 0;
   for (std::size_t i = 0; i < num_units(); ++i) {
-    if (units_[i].type() != HtmlDocumentUnit::TAG_UNIT) {
+    if (units_[i].type() != HtmlUnit::TAG_UNIT) {
       continue;
     }
     temp_buf_.Assign(units_[i].tag_name(), ToLower());
@@ -675,7 +675,7 @@ void HtmlDocument::AppendToText(const String &str,
 }
 
 void HtmlDocument::UpdateTextExtractorModeFlags(
-    const HtmlDocumentUnit &unit, int *mode_flags) {
+    const HtmlUnit &unit, int *mode_flags) {
   if (unit.is_empty_element_tag()) {
     if (unit.tag_name() == "plaintext") {
       *mode_flags |= PLAINTEXT_MODE_FLAG;

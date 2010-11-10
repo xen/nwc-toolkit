@@ -33,7 +33,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = nwc-toolkit-duplicate-detector$(EXEEXT) \
+bin_PROGRAMS = nwc-toolkit-content-extractor$(EXEEXT) \
+	nwc-toolkit-duplicate-detector$(EXEEXT) \
 	nwc-toolkit-hash-calculator$(EXEEXT) \
 	nwc-toolkit-html-parser$(EXEEXT) \
 	nwc-toolkit-ngram-counter$(EXEEXT) \
@@ -52,6 +53,11 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_nwc_toolkit_content_extractor_OBJECTS =  \
+	nwc-toolkit-content-extractor.$(OBJEXT)
+nwc_toolkit_content_extractor_OBJECTS =  \
+	$(am_nwc_toolkit_content_extractor_OBJECTS)
+nwc_toolkit_content_extractor_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_nwc_toolkit_duplicate_detector_OBJECTS =  \
 	nwc-toolkit-duplicate-detector.$(OBJEXT)
 nwc_toolkit_duplicate_detector_OBJECTS =  \
@@ -123,7 +129,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(nwc_toolkit_duplicate_detector_SOURCES) \
+SOURCES = $(nwc_toolkit_content_extractor_SOURCES) \
+	$(nwc_toolkit_duplicate_detector_SOURCES) \
 	$(nwc_toolkit_hash_calculator_SOURCES) \
 	$(nwc_toolkit_html_parser_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
@@ -131,7 +138,8 @@ SOURCES = $(nwc_toolkit_duplicate_detector_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
 	$(nwc_toolkit_text_filter_SOURCES) \
 	$(nwc_toolkit_unicode_normalizer_SOURCES)
-DIST_SOURCES = $(nwc_toolkit_duplicate_detector_SOURCES) \
+DIST_SOURCES = $(nwc_toolkit_content_extractor_SOURCES) \
+	$(nwc_toolkit_duplicate_detector_SOURCES) \
 	$(nwc_toolkit_hash_calculator_SOURCES) \
 	$(nwc_toolkit_html_parser_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
@@ -241,6 +249,8 @@ bin_SCRIPTS = \
 noinst_SCRIPTS = \
   cgi/text-extractor.py
 
+nwc_toolkit_content_extractor_SOURCES = nwc-toolkit-content-extractor.cc
+nwc_toolkit_content_extractor_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_duplicate_detector_SOURCES = nwc-toolkit-duplicate-detector.cc
 nwc_toolkit_duplicate_detector_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_hash_calculator_SOURCES = nwc-toolkit-hash-calculator.cc
@@ -332,6 +342,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+nwc-toolkit-content-extractor$(EXEEXT): $(nwc_toolkit_content_extractor_OBJECTS) $(nwc_toolkit_content_extractor_DEPENDENCIES) 
+	@rm -f nwc-toolkit-content-extractor$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_content_extractor_OBJECTS) $(nwc_toolkit_content_extractor_LDADD) $(LIBS)
 nwc-toolkit-duplicate-detector$(EXEEXT): $(nwc_toolkit_duplicate_detector_OBJECTS) $(nwc_toolkit_duplicate_detector_DEPENDENCIES) 
 	@rm -f nwc-toolkit-duplicate-detector$(EXEEXT)
 	$(CXXLINK) $(nwc_toolkit_duplicate_detector_OBJECTS) $(nwc_toolkit_duplicate_detector_LDADD) $(LIBS)
@@ -397,6 +410,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-content-extractor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-duplicate-detector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-hash-calculator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-html-parser.Po@am__quote@

@@ -28,7 +28,7 @@ void TestPlainText() {
 
   assert(document.num_units() == 1);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(0).src() == "1 &lt; 2");
   assert(document.unit(0).is_cdata_section() == false);
   assert(document.unit(0).text_content() == "1 &lt; 2");
@@ -62,7 +62,7 @@ void TestPlainText() {
 
   assert(document.num_units() == 1);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(0).src() == "2 &gt; 1");
   assert(document.unit(0).is_cdata_section() == false);
   assert(document.unit(0).text_content() == "2 &gt; 1");
@@ -90,13 +90,13 @@ void TestXml() {
 
   assert(document.num_units() == 7);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::OTHER_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::OTHER_UNIT);
   assert(document.unit(0).src() ==
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
   assert(document.unit(0).other_content() ==
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
-  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(1).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(1).src() == "<html Lang=\"J&#65;\">");
   assert(document.unit(1).is_start_tag());
   assert(document.unit(1).is_end_tag() == false);
@@ -106,17 +106,17 @@ void TestXml() {
   assert(document.unit(1).attribute(0).name() == "lang");
   assert(document.unit(1).attribute(0).value() == "JA");
 
-  assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(2).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(2).src() == "&lt;Text&gt;");
   assert(document.unit(2).is_cdata_section() == false);
   assert(document.unit(2).text_content() == "<Text>");
 
-  assert(document.unit(3).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(3).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(3).src() == "<![CDATA[&lt;Abc&gt;]]>");
   assert(document.unit(3).is_cdata_section());
   assert(document.unit(3).text_content() == "&lt;Abc&gt;");
 
-  assert(document.unit(4).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(4).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(4).is_start_tag());
   assert(document.unit(4).is_end_tag() == false);
   assert(document.unit(4).is_empty_element_tag());
@@ -124,7 +124,7 @@ void TestXml() {
   assert(document.unit(4).tag_name() == "br");
   assert(document.unit(4).num_attributes() == 0);
 
-  assert(document.unit(5).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(5).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(5).is_start_tag() == false);
   assert(document.unit(5).is_end_tag());
   assert(document.unit(5).is_empty_element_tag() == false);
@@ -133,7 +133,7 @@ void TestXml() {
   assert(document.unit(5).num_attributes() == 0);
 
   assert(document.unit(6).type() ==
-      nwc_toolkit::HtmlDocumentUnit::COMMENT_UNIT);
+      nwc_toolkit::HtmlUnit::COMMENT_UNIT);
   assert(document.unit(6).src() == "<!-- comment -->");
   assert(document.unit(6).text_content() == " comment ");
 
@@ -164,7 +164,7 @@ void TestSimpleHtmlDocuments() {
 
   assert(document.num_units() == 7);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(0).src() == "<html Lang=\"J&#65;\">");
   assert(document.unit(0).is_start_tag());
   assert(document.unit(0).is_end_tag() == false);
@@ -174,7 +174,7 @@ void TestSimpleHtmlDocuments() {
   assert(document.unit(0).attribute(0).name() == "lang");
   assert(document.unit(0).attribute(0).value() == "JA");
 
-  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(1).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(1).src() == "<meta http-equiv=\"Content-Type\" "
       "content=\"text/html; charset=UTF-8\">");
   assert(document.unit(1).is_start_tag());
@@ -187,16 +187,16 @@ void TestSimpleHtmlDocuments() {
   assert(document.unit(1).attribute(1).name() == "content");
   assert(document.unit(1).attribute(1).value() == "text/html; charset=UTF-8");
 
-  assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(2).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(2).src() == "&lt;Text&gt;");
   assert(document.unit(2).is_cdata_section() == false);
   assert(document.unit(2).text_content() == "<Text>");
 
-  assert(document.unit(3).type() == nwc_toolkit::HtmlDocumentUnit::OTHER_UNIT);
+  assert(document.unit(3).type() == nwc_toolkit::HtmlUnit::OTHER_UNIT);
   assert(document.unit(3).src() == "<![CDATA[&lt;Abc&gt;]]>");
   assert(document.unit(3).text_content() == "<![CDATA[&lt;Abc&gt;]]>");
 
-  assert(document.unit(4).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(4).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(4).is_start_tag());
   assert(document.unit(4).is_end_tag() == false);
   assert(document.unit(4).is_empty_element_tag());
@@ -204,7 +204,7 @@ void TestSimpleHtmlDocuments() {
   assert(document.unit(4).tag_name() == "br");
   assert(document.unit(4).num_attributes() == 0);
 
-  assert(document.unit(5).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(5).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(5).is_start_tag() == false);
   assert(document.unit(5).is_end_tag());
   assert(document.unit(5).is_empty_element_tag() == false);
@@ -213,7 +213,7 @@ void TestSimpleHtmlDocuments() {
   assert(document.unit(5).num_attributes() == 0);
 
   assert(document.unit(6).type() ==
-      nwc_toolkit::HtmlDocumentUnit::COMMENT_UNIT);
+      nwc_toolkit::HtmlUnit::COMMENT_UNIT);
   assert(document.unit(6).src() == "<!-- comment -->");
   assert(document.unit(6).text_content() == " comment ");
 
@@ -231,7 +231,7 @@ void TestSimpleHtmlDocuments() {
 
   assert(document.num_units() == 1);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(0).src() == "<meta charset=\"euc-jp\">");
   assert(document.unit(0).is_start_tag());
   assert(document.unit(0).is_end_tag() == false);
@@ -260,7 +260,7 @@ void TestComplexHtmlDocuments() {
 
   assert(document.num_units() == 3);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(0).src() == "<script type=\"text/javascript\">");
   assert(document.unit(0).is_start_tag());
   assert(document.unit(0).is_end_tag() == false);
@@ -270,12 +270,12 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(0).attribute(0).name() == "type");
   assert(document.unit(0).attribute(0).value() == "text/javascript");
 
-  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(1).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(1).src() == "<b></b><!--\n// -->\n");
   assert(document.unit(1).is_cdata_section() == false);
   assert(document.unit(1).text_content() == "<b></b><!--\n// -->\n");
 
-  assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(2).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(2).src() == "</script>");
   assert(document.unit(2).is_start_tag() == false);
   assert(document.unit(2).is_end_tag());
@@ -298,7 +298,7 @@ void TestComplexHtmlDocuments() {
 
   assert(document.num_units() == 3);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(0).src() == "<style type=\"text/css\">");
   assert(document.unit(0).is_start_tag());
   assert(document.unit(0).is_end_tag() == false);
@@ -308,12 +308,12 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(0).attribute(0).name() == "type");
   assert(document.unit(0).attribute(0).value() == "text/css");
 
-  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(1).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(1).src() == "<!--\n-->\n");
   assert(document.unit(1).is_cdata_section() == false);
   assert(document.unit(1).text_content() == "<!--\n-->\n");
 
-  assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(2).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(2).src() == "</style>");
   assert(document.unit(2).is_start_tag() == false);
   assert(document.unit(2).is_end_tag());
@@ -335,7 +335,7 @@ void TestComplexHtmlDocuments() {
 
   assert(document.num_units() == 2);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(0).src() == "<plaintext>");
   assert(document.unit(0).is_start_tag());
   assert(document.unit(0).is_end_tag() == false);
@@ -343,7 +343,7 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(0).tag_name() == "plaintext");
   assert(document.unit(0).num_attributes() == 0);
 
-  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(1).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(1).src() == " \n \t</plaintext>\r\n");
   assert(document.unit(1).is_cdata_section() == false);
   assert(document.unit(1).text_content() == " \n \t</plaintext>\r\n");
@@ -362,7 +362,7 @@ void TestComplexHtmlDocuments() {
 
   assert(document.num_units() == 3);
 
-  assert(document.unit(0).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(0).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(0).src() == "<TEXTAREA>");
   assert(document.unit(0).is_start_tag());
   assert(document.unit(0).is_end_tag() == false);
@@ -370,12 +370,12 @@ void TestComplexHtmlDocuments() {
   assert(document.unit(0).tag_name() == "textarea");
   assert(document.unit(0).num_attributes() == 0);
 
-  assert(document.unit(1).type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  assert(document.unit(1).type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(document.unit(1).src() == "<A>&lt;/A&gt;");
   assert(document.unit(1).is_cdata_section() == false);
   assert(document.unit(1).text_content() == "<A></A>");
 
-  assert(document.unit(2).type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(document.unit(2).type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(document.unit(2).src() == "</TEXTAREA>");
   assert(document.unit(2).is_start_tag() == false);
   assert(document.unit(2).is_end_tag());

@@ -8,6 +8,7 @@ noinst_SCRIPTS = \
   cgi/text-extractor.py
 
 bin_PROGRAMS = \
+  nwc-toolkit-content-extractor \
   nwc-toolkit-duplicate-detector \
   nwc-toolkit-hash-calculator \
   nwc-toolkit-html-parser \
@@ -16,6 +17,9 @@ bin_PROGRAMS = \
   nwc-toolkit-text-extractor \
   nwc-toolkit-text-filter \
   nwc-toolkit-unicode-normalizer
+
+nwc_toolkit_content_extractor_SOURCES = nwc-toolkit-content-extractor.cc
+nwc_toolkit_content_extractor_LDADD = ../lib/libnwc-toolkit.a
 
 nwc_toolkit_duplicate_detector_SOURCES = nwc-toolkit-duplicate-detector.cc
 nwc_toolkit_duplicate_detector_LDADD = ../lib/libnwc-toolkit.a

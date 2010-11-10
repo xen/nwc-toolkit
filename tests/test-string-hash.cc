@@ -1,22 +1,26 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
 #include <cassert>
-#include <cstdlib>
 #include <ctime>
 #include <string>
 #include <tr1/memory>
+#include <tr1/random>
 #include <tr1/unordered_set>
 #include <vector>
 
 #include <nwc-toolkit/string-hash.h>
+
+namespace {
+
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
+
+}  // namespace
 
 int main() {
   enum { KEY_LENGTH = 16, MAX_NUM_KEYS = 4096 };
 
   typedef std::tr1::unordered_set<nwc_toolkit::String,
     nwc_toolkit::StringHash> KeySet;
-
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
 
   std::vector<std::tr1::shared_ptr<std::string> > key_pool;
   std::vector<nwc_toolkit::String> keys;
@@ -26,7 +30,7 @@ int main() {
   nwc_toolkit::String key(key_buf, KEY_LENGTH);
   while (key_set.size() < MAX_NUM_KEYS) {
     for (std::size_t i = 0; i < KEY_LENGTH; ++i) {
-      key_buf[i] = 'A' + (std::rand() % 26);
+      key_buf[i] = 'A' + (mt_rand() % 26);
     }
     KeySet::iterator it = key_set.find(key);
     if (it == key_set.end()) {

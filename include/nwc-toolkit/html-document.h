@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "./html-archive-entry.h"
-#include "./html-document-unit.h"
+#include "./html-unit.h"
 #include "./string-pool.h"
 
 namespace nwc_toolkit {
@@ -41,7 +41,7 @@ class HtmlDocument {
   std::size_t num_units() const {
     return units_.size();
   }
-  const HtmlDocumentUnit &unit(std::size_t id) const {
+  const HtmlUnit &unit(std::size_t id) const {
     return units_[id];
   }
 
@@ -94,8 +94,8 @@ class HtmlDocument {
   StringBuilder src_encoding_;
   StringBuilder content_type_;
   ParserMode parser_mode_;
-  std::vector<HtmlDocumentUnit> units_;
-  std::vector<HtmlDocumentAttribute> attributes_;
+  std::vector<HtmlUnit> units_;
+  std::vector<HtmlAttribute> attributes_;
   StringPool string_pool_;
   StringBuilder temp_buf_;
   std::vector<char> symbol_stack_;
@@ -132,7 +132,7 @@ class HtmlDocument {
       EndOfLineHandler end_of_line_handler, StringBuilder *text);
 
   static void UpdateTextExtractorModeFlags(
-      const HtmlDocumentUnit &unit, int *mode_flags);
+      const HtmlUnit &unit, int *mode_flags);
 
   // Disallows copy and assignment.
   HtmlDocument(const HtmlDocument &);

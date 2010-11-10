@@ -55,7 +55,7 @@ std::time_t start_time = std::time(NULL);
 
 int ParseIntegerValue(const char *arg, long min_value, long max_value) {
   char *end_of_value;
-  long value = strtol(optarg, &end_of_value, 10);
+  long value = std::strtol(optarg, &end_of_value, 10);
   if (*end_of_value != '\0' || (value < min_value) || (value > max_value)) {
     return -1;
   }

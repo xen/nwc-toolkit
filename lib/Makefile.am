@@ -4,6 +4,8 @@ lib_LIBRARIES = libnwc-toolkit.a
 
 libnwc_toolkit_a_SOURCES = \
   bzip2-coder.cc \
+  cetr-cluster.cc \
+  cetr-document.cc \
   character-encoding.cc \
   character-reference.cc \
   gzip-coder.cc \
@@ -22,6 +24,11 @@ libnwc_toolkit_a_SOURCES = \
 libnwc_toolkit_a_includedir = $(includedir)/nwc-toolkit
 libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/bzip2-coder.h \
+  ../include/nwc-toolkit/cetr-cluster.h \
+  ../include/nwc-toolkit/cetr-document.h \
+  ../include/nwc-toolkit/cetr-line.h \
+  ../include/nwc-toolkit/cetr-point.h \
+  ../include/nwc-toolkit/cetr-unit.h \
   ../include/nwc-toolkit/char-cond.h \
   ../include/nwc-toolkit/char-filter.h \
   ../include/nwc-toolkit/char-table.h \
@@ -32,10 +39,10 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/darts.h \
   ../include/nwc-toolkit/gzip-coder.h \
   ../include/nwc-toolkit/heap-queue.h \
-  ../include/nwc-toolkit/html-document-attribute.h \
-  ../include/nwc-toolkit/html-document-unit.h \
-  ../include/nwc-toolkit/html-document.h \
   ../include/nwc-toolkit/html-archive-entry.h \
+  ../include/nwc-toolkit/html-attribute.h \
+  ../include/nwc-toolkit/html-document.h \
+  ../include/nwc-toolkit/html-unit.h \
   ../include/nwc-toolkit/input-file.h \
   ../include/nwc-toolkit/int-traits.h \
   ../include/nwc-toolkit/mecab-archive-entry.h \

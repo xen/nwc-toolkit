@@ -1,13 +1,13 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
-#ifndef NWC_TOOLKIT_HTML_DOCUMENT_UNIT_H_
-#define NWC_TOOLKIT_HTML_DOCUMENT_UNIT_H_
+#ifndef NWC_TOOLKIT_HTML_UNIT_H_
+#define NWC_TOOLKIT_HTML_UNIT_H_
 
-#include "./html-document-attribute.h"
+#include "./html-attribute.h"
 
 namespace nwc_toolkit {
 
-class HtmlDocumentUnit {
+class HtmlUnit {
  public:
   enum UnitType {
     UNDEFINED_UNIT = 0,
@@ -17,23 +17,23 @@ class HtmlDocumentUnit {
     OTHER_UNIT = 4
   };
 
-  HtmlDocumentUnit()
+  HtmlUnit()
       : type_flags_(UNDEFINED_UNIT),
         src_(),
         content_(),
         attributes_(NULL),
         num_attributes_(0) {}
-  HtmlDocumentUnit(const HtmlDocumentUnit &rhs)
+  HtmlUnit(const HtmlUnit &rhs)
       : type_flags_(rhs.type_flags_),
         src_(rhs.src_),
         content_(rhs.content_),
         attributes_(rhs.attributes_),
         num_attributes_(rhs.num_attributes_) {}
-  ~HtmlDocumentUnit() {
+  ~HtmlUnit() {
     Clear();
   }
 
-  HtmlDocumentUnit &operator=(const HtmlDocumentUnit &rhs) {
+  HtmlUnit &operator=(const HtmlUnit &rhs) {
     type_flags_ = rhs.type_flags_;
     src_ = rhs.src_;
     content_ = rhs.content_;
@@ -94,7 +94,7 @@ class HtmlDocumentUnit {
   std::size_t num_attributes() const {
     return num_attributes_;
   };
-  const HtmlDocumentAttribute &attribute(std::size_t id) const {
+  const HtmlAttribute &attribute(std::size_t id) const {
     return attributes_[id];
   }
 
@@ -110,7 +110,7 @@ class HtmlDocumentUnit {
   void set_tag_name(const String &str) {
     content_ = str;
   }
-  void set_attributes(const HtmlDocumentAttribute *attributes,
+  void set_attributes(const HtmlAttribute *attributes,
       std::size_t num_attributes) {
     attributes_ = attributes;
     num_attributes_ = num_attributes;
@@ -150,11 +150,11 @@ class HtmlDocumentUnit {
   int type_flags_;
   String src_;
   String content_;
-  const HtmlDocumentAttribute *attributes_;
+  const HtmlAttribute *attributes_;
   std::size_t num_attributes_;
 };
 
-inline HtmlDocumentUnit::UnitType HtmlDocumentUnit::type() const {
+inline HtmlUnit::UnitType HtmlUnit::type() const {
   switch (type_flags_ & 0x0F) {
     case TEXT_UNIT: {
       return TEXT_UNIT;
@@ -176,4 +176,4 @@ inline HtmlDocumentUnit::UnitType HtmlDocumentUnit::type() const {
 
 }  // namespace nwc_toolkit
 
-#endif  // NWC_TOOLKIT_HTML_DOCUMENT_UNIT_H_
+#endif  // NWC_TOOLKIT_HTML_UNIT_H_

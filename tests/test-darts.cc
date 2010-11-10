@@ -1,23 +1,25 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
 #include <cassert>
-#include <cstdlib>
 #include <ctime>
 #include <set>
 #include <string>
+#include <tr1/random>
 #include <vector>
 
 #include <nwc-toolkit/darts.h>
 
 namespace {
 
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
+
 void GenerateValidKeys(std::size_t num_keys,
     std::set<std::string> *valid_keys) {
   std::vector<char> key;
   while (valid_keys->size() < num_keys) {
-    key.resize(1 + (std::rand() % 8));
+    key.resize(1 + (mt_rand() % 8));
     for (std::size_t i = 0; i < key.size(); ++i) {
-      key[i] = 'A' + (std::rand() % 26);
+      key[i] = 'A' + (mt_rand() % 26);
     }
     valid_keys->insert(std::string(&key[0], key.size()));
   }
@@ -28,9 +30,9 @@ void GenerateInvalidKeys(std::size_t num_keys,
     std::set<std::string> *invalid_keys) {
   std::vector<char> key;
   while (invalid_keys->size() < num_keys) {
-    key.resize(1 + (std::rand() % 8));
+    key.resize(1 + (mt_rand() % 8));
     for (std::size_t i = 0; i < key.size(); ++i) {
-      key[i] = 'A' + (std::rand() % 26);
+      key[i] = 'A' + (mt_rand() % 26);
     }
     std::string generated_key(&key[0], key.size());
     if (valid_keys.find(generated_key) == valid_keys.end()) {
@@ -195,7 +197,7 @@ void TestDarts(const std::set<std::string> &valid_keys,
   TestDictionary(dic, keys, lengths, values, invalid_keys);
 
   for (std::size_t i = 0; i < values.size(); ++i) {
-      values[i] = std::rand() % 10;
+      values[i] = mt_rand() % 10;
   }
 
   dic.build(keys.size(), &keys[0], &lengths[0], &values[0]);
@@ -224,8 +226,6 @@ void TestDarts(const std::set<std::string> &valid_keys,
 }  // namespace
 
 int main() {
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
-
   static const std::size_t NUM_VALID_KEYS = 1 << 12;
   static const std::size_t NUM_INVALID_KEYS = 1 << 13;
 

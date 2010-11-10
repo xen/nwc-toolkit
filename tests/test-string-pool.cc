@@ -1,16 +1,20 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
 #include <cassert>
-#include <cstdlib>
 #include <ctime>
+#include <tr1/random>
 #include <vector>
 
 #include <nwc-toolkit/string-pool.h>
 
+namespace {
+
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
+
+}  // namespace
+
 int main() {
   enum { CHUNK_SIZE = 1024, POOL_SIZE = 1024 };
-
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
 
   nwc_toolkit::StringPool pool(CHUNK_SIZE);
 
@@ -21,7 +25,7 @@ int main() {
 
   char buf[CHUNK_SIZE * 2];
   for (std::size_t i = 0; i < sizeof(buf); ++i) {
-    buf[i] = 'A' + (std::rand() % 26);
+    buf[i] = 'A' + (mt_rand() % 26);
   }
 
   std::size_t num_strings = 0;
@@ -34,8 +38,8 @@ int main() {
   std::vector<nwc_toolkit::String> copies;
 
   for (std::size_t i = 0; i < POOL_SIZE; ++i) {
-    int pos = std::rand() % sizeof(buf);
-    std::size_t length = std::rand() % (sizeof(buf) - pos);
+    int pos = mt_rand() % sizeof(buf);
+    std::size_t length = mt_rand() % (sizeof(buf) - pos);
 
     nwc_toolkit::String str(buf + pos, length);
     nwc_toolkit::String str_copy = pool.Append(str);
@@ -70,8 +74,8 @@ int main() {
   }
 
   for (std::size_t i = 0; i < POOL_SIZE; ++i) {
-    int pos = std::rand() % sizeof(buf);
-    std::size_t length = std::rand() % (sizeof(buf) - pos);
+    int pos = mt_rand() % sizeof(buf);
+    std::size_t length = mt_rand() % (sizeof(buf) - pos);
 
     nwc_toolkit::String str(buf + pos, length);
     nwc_toolkit::String str_copy =

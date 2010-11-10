@@ -2,15 +2,17 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <iostream>
+#include <tr1/random>
 #include <vector>
 
 #include <nwc-toolkit/multikey-sort.h>
 
 namespace {
+
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
 
 template <typename T>
 class LessThan {
@@ -44,7 +46,7 @@ void TestMultikeySort() {
   for (std::size_t i = 0; i < NUM_KEYS; ++i) {
     T *key = new T[KEY_LENGTH + 1];
     for (std::size_t j = 0; j < KEY_LENGTH; ++j) {
-      key[j] = static_cast<T>(std::rand());
+      key[j] = static_cast<T>(mt_rand());
     }
     key[KEY_LENGTH] = 0;
     keys.push_back(key);
@@ -71,8 +73,6 @@ void TestMultikeySort() {
 }  // namespace
 
 int main() {
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
-
   const char *keys[] = {
     "melon", "orange", "apple", "banana"
   };

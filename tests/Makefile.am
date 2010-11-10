@@ -2,6 +2,11 @@ AM_CXXFLAGS = -Wall -Weffc++ -I../include `icu-config --cppflags`
 AM_LDFLAGS = `icu-config --ldflags`
 
 TESTS = \
+  test-cetr-cluster \
+  test-cetr-document \
+  test-cetr-line \
+  test-cetr-point \
+  test-cetr-unit \
   test-char-cond \
   test-char-filter \
   test-char-table \
@@ -13,8 +18,8 @@ TESTS = \
   test-file-io \
   test-heap-queue \
   test-html-document \
-  test-html-document-attribute \
-  test-html-document-unit \
+  test-html-attribute \
+  test-html-unit \
   test-html-archive-entry \
   test-iconv \
   test-int-traits \
@@ -35,6 +40,21 @@ TESTS = \
   test-unicode-normalizer
 
 noinst_PROGRAMS = $(TESTS)
+
+test_cetr_cluster_SOURCES = test-cetr-cluster.cc
+test_cetr_cluster_LDADD = ../lib/libnwc-toolkit.a
+
+test_cetr_document_SOURCES = test-cetr-document.cc
+test_cetr_document_LDADD = ../lib/libnwc-toolkit.a
+
+test_cetr_line_SOURCES = test-cetr-line.cc
+test_cetr_line_LDADD = ../lib/libnwc-toolkit.a
+
+test_cetr_point_SOURCES = test-cetr-point.cc
+test_cetr_point_LDADD = ../lib/libnwc-toolkit.a
+
+test_cetr_unit_SOURCES = test-cetr-unit.cc
+test_cetr_unit_LDADD = ../lib/libnwc-toolkit.a
 
 test_char_cond_SOURCES = test-char-cond.cc
 test_char_cond_LDADD = ../lib/libnwc-toolkit.a
@@ -69,11 +89,11 @@ test_heap_queue_LDADD = ../lib/libnwc-toolkit.a
 test_html_document_SOURCES = test-html-document.cc
 test_html_document_LDADD = ../lib/libnwc-toolkit.a
 
-test_html_document_attribute_SOURCES = test-html-document-attribute.cc
-test_html_document_attribute_LDADD = ../lib/libnwc-toolkit.a
+test_html_attribute_SOURCES = test-html-attribute.cc
+test_html_attribute_LDADD = ../lib/libnwc-toolkit.a
 
-test_html_document_unit_SOURCES = test-html-document-unit.cc
-test_html_document_unit_LDADD = ../lib/libnwc-toolkit.a
+test_html_unit_SOURCES = test-html-unit.cc
+test_html_unit_LDADD = ../lib/libnwc-toolkit.a
 
 test_html_archive_entry_SOURCES = test-html-archive-entry.cc
 test_html_archive_entry_LDADD = ../lib/libnwc-toolkit.a

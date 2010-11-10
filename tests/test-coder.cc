@@ -2,13 +2,13 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <tr1/random>
 #include <vector>
 
 #include <nwc-toolkit/bzip2-coder.h>
@@ -16,6 +16,8 @@
 #include <nwc-toolkit/xz-coder.h>
 
 namespace {
+
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
 
 void TestCode(nwc_toolkit::Coder *coder,
     const std::vector<char> &src, std::vector<char> *dest) {
@@ -113,11 +115,9 @@ void TestCoder(const std::vector<char> &data, const char *suffix) {
 int main() {
   enum { BUF_SIZE = 1 << 18 };
 
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
-
   std::vector<char> data(BUF_SIZE);
   for (std::size_t i = 0; i < data.size(); ++i) {
-    data[i] = 'A' + (std::rand() % 26);
+    data[i] = 'A' + (mt_rand() % 26);
   }
 
   std::ofstream file("test-coder.dat", std::ios::binary);

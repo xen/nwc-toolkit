@@ -2,20 +2,24 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
 #include <ctime>
+#include <tr1/random>
 
 #include <nwc-toolkit/heap-queue.h>
+
+namespace {
+
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
+
+}  // namespace
 
 int main() {
   enum { NUM_VALUES = 1 << 16 };
   enum { MAX_VALUE = 1 << 16 };
 
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
-
   std::vector<int> values;
   for (std::size_t i = 0; i < NUM_VALUES; ++i) {
-    int value = std::rand() % (MAX_VALUE + 1);
+    int value = mt_rand() % (MAX_VALUE + 1);
     values.push_back(value);
   }
 

@@ -68,13 +68,13 @@ void Parse(nwc_toolkit::InputFile *input_file,
   nwc_toolkit::StringBuilder name_buf;
   nwc_toolkit::StringBuilder value_buf;
   for (std::size_t i = 0; i < document.num_units(); ++i) {
-    const nwc_toolkit::HtmlDocumentUnit &unit = document.unit(i);
+    const nwc_toolkit::HtmlUnit &unit = document.unit(i);
     switch (unit.type()) {
-      case nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT: {
+      case nwc_toolkit::HtmlUnit::TEXT_UNIT: {
         std::cout << "Text: " << unit.text_content().length() << "bytes\n";
         break;
       }
-      case nwc_toolkit::HtmlDocumentUnit::TAG_UNIT: {
+      case nwc_toolkit::HtmlUnit::TAG_UNIT: {
         std::cout << "Tag: <";
         if (unit.is_end_tag()) {
           std::cout << '/';
@@ -95,11 +95,11 @@ void Parse(nwc_toolkit::InputFile *input_file,
         std::cout << ">\n";
         break;
       }
-      case nwc_toolkit::HtmlDocumentUnit::COMMENT_UNIT: {
+      case nwc_toolkit::HtmlUnit::COMMENT_UNIT: {
         std::cout << "Comment: " << unit.comment().length() << "bytes\n";
         break;
       }
-      case nwc_toolkit::HtmlDocumentUnit::OTHER_UNIT: {
+      case nwc_toolkit::HtmlUnit::OTHER_UNIT: {
         std::cout << "Other: " << unit.other_content().length() << "bytes\n";
         break;
       }

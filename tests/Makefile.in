@@ -32,14 +32,15 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-TESTS = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
-	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
-	test-character-encoding$(EXEEXT) \
+TESTS = test-cetr-cluster$(EXEEXT) test-cetr-document$(EXEEXT) \
+	test-cetr-line$(EXEEXT) test-cetr-point$(EXEEXT) \
+	test-cetr-unit$(EXEEXT) test-char-cond$(EXEEXT) \
+	test-char-filter$(EXEEXT) test-char-table$(EXEEXT) \
+	test-char-type$(EXEEXT) test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
 	test-darts$(EXEEXT) test-file-io$(EXEEXT) \
 	test-heap-queue$(EXEEXT) test-html-document$(EXEEXT) \
-	test-html-document-attribute$(EXEEXT) \
-	test-html-document-unit$(EXEEXT) \
+	test-html-attribute$(EXEEXT) test-html-unit$(EXEEXT) \
 	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-multikey-sort$(EXEEXT) test-ngram-counter$(EXEEXT) \
@@ -60,14 +61,15 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
-	test-char-table$(EXEEXT) test-char-type$(EXEEXT) \
-	test-character-encoding$(EXEEXT) \
+am__EXEEXT_1 = test-cetr-cluster$(EXEEXT) test-cetr-document$(EXEEXT) \
+	test-cetr-line$(EXEEXT) test-cetr-point$(EXEEXT) \
+	test-cetr-unit$(EXEEXT) test-char-cond$(EXEEXT) \
+	test-char-filter$(EXEEXT) test-char-table$(EXEEXT) \
+	test-char-type$(EXEEXT) test-character-encoding$(EXEEXT) \
 	test-character-reference$(EXEEXT) test-coder$(EXEEXT) \
 	test-darts$(EXEEXT) test-file-io$(EXEEXT) \
 	test-heap-queue$(EXEEXT) test-html-document$(EXEEXT) \
-	test-html-document-attribute$(EXEEXT) \
-	test-html-document-unit$(EXEEXT) \
+	test-html-attribute$(EXEEXT) test-html-unit$(EXEEXT) \
 	test-html-archive-entry$(EXEEXT) test-iconv$(EXEEXT) \
 	test-int-traits$(EXEEXT) test-mecab-archive-entry$(EXEEXT) \
 	test-multikey-sort$(EXEEXT) test-ngram-counter$(EXEEXT) \
@@ -79,6 +81,21 @@ am__EXEEXT_1 = test-char-cond$(EXEEXT) test-char-filter$(EXEEXT) \
 	test-token-trie-tracer$(EXEEXT) \
 	test-unicode-normalizer$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
+am_test_cetr_cluster_OBJECTS = test-cetr-cluster.$(OBJEXT)
+test_cetr_cluster_OBJECTS = $(am_test_cetr_cluster_OBJECTS)
+test_cetr_cluster_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_cetr_document_OBJECTS = test-cetr-document.$(OBJEXT)
+test_cetr_document_OBJECTS = $(am_test_cetr_document_OBJECTS)
+test_cetr_document_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_cetr_line_OBJECTS = test-cetr-line.$(OBJEXT)
+test_cetr_line_OBJECTS = $(am_test_cetr_line_OBJECTS)
+test_cetr_line_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_cetr_point_OBJECTS = test-cetr-point.$(OBJEXT)
+test_cetr_point_OBJECTS = $(am_test_cetr_point_OBJECTS)
+test_cetr_point_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_cetr_unit_OBJECTS = test-cetr-unit.$(OBJEXT)
+test_cetr_unit_OBJECTS = $(am_test_cetr_unit_OBJECTS)
+test_cetr_unit_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_char_cond_OBJECTS = test-char-cond.$(OBJEXT)
 test_char_cond_OBJECTS = $(am_test_char_cond_OBJECTS)
 test_char_cond_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -118,19 +135,15 @@ am_test_html_archive_entry_OBJECTS =  \
 test_html_archive_entry_OBJECTS =  \
 	$(am_test_html_archive_entry_OBJECTS)
 test_html_archive_entry_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_html_attribute_OBJECTS = test-html-attribute.$(OBJEXT)
+test_html_attribute_OBJECTS = $(am_test_html_attribute_OBJECTS)
+test_html_attribute_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_html_document_OBJECTS = test-html-document.$(OBJEXT)
 test_html_document_OBJECTS = $(am_test_html_document_OBJECTS)
 test_html_document_DEPENDENCIES = ../lib/libnwc-toolkit.a
-am_test_html_document_attribute_OBJECTS =  \
-	test-html-document-attribute.$(OBJEXT)
-test_html_document_attribute_OBJECTS =  \
-	$(am_test_html_document_attribute_OBJECTS)
-test_html_document_attribute_DEPENDENCIES = ../lib/libnwc-toolkit.a
-am_test_html_document_unit_OBJECTS =  \
-	test-html-document-unit.$(OBJEXT)
-test_html_document_unit_OBJECTS =  \
-	$(am_test_html_document_unit_OBJECTS)
-test_html_document_unit_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_test_html_unit_OBJECTS = test-html-unit.$(OBJEXT)
+test_html_unit_OBJECTS = $(am_test_html_unit_OBJECTS)
+test_html_unit_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_test_iconv_OBJECTS = test-iconv.$(OBJEXT)
 test_iconv_OBJECTS = $(am_test_iconv_OBJECTS)
 test_iconv_DEPENDENCIES = ../lib/libnwc-toolkit.a
@@ -197,15 +210,16 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
-	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
-	$(test_character_encoding_SOURCES) \
+SOURCES = $(test_cetr_cluster_SOURCES) $(test_cetr_document_SOURCES) \
+	$(test_cetr_line_SOURCES) $(test_cetr_point_SOURCES) \
+	$(test_cetr_unit_SOURCES) $(test_char_cond_SOURCES) \
+	$(test_char_filter_SOURCES) $(test_char_table_SOURCES) \
+	$(test_char_type_SOURCES) $(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
 	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
 	$(test_heap_queue_SOURCES) $(test_html_archive_entry_SOURCES) \
-	$(test_html_document_SOURCES) \
-	$(test_html_document_attribute_SOURCES) \
-	$(test_html_document_unit_SOURCES) $(test_iconv_SOURCES) \
+	$(test_html_attribute_SOURCES) $(test_html_document_SOURCES) \
+	$(test_html_unit_SOURCES) $(test_iconv_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_multikey_sort_SOURCES) $(test_ngram_counter_SOURCES) \
 	$(test_sha1_digest_SOURCES) $(test_string_SOURCES) \
@@ -215,15 +229,17 @@ SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_token_trie_SOURCES) $(test_token_trie_node_SOURCES) \
 	$(test_token_trie_tracer_SOURCES) \
 	$(test_unicode_normalizer_SOURCES)
-DIST_SOURCES = $(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
+DIST_SOURCES = $(test_cetr_cluster_SOURCES) \
+	$(test_cetr_document_SOURCES) $(test_cetr_line_SOURCES) \
+	$(test_cetr_point_SOURCES) $(test_cetr_unit_SOURCES) \
+	$(test_char_cond_SOURCES) $(test_char_filter_SOURCES) \
 	$(test_char_table_SOURCES) $(test_char_type_SOURCES) \
 	$(test_character_encoding_SOURCES) \
 	$(test_character_reference_SOURCES) $(test_coder_SOURCES) \
 	$(test_darts_SOURCES) $(test_file_io_SOURCES) \
 	$(test_heap_queue_SOURCES) $(test_html_archive_entry_SOURCES) \
-	$(test_html_document_SOURCES) \
-	$(test_html_document_attribute_SOURCES) \
-	$(test_html_document_unit_SOURCES) $(test_iconv_SOURCES) \
+	$(test_html_attribute_SOURCES) $(test_html_document_SOURCES) \
+	$(test_html_unit_SOURCES) $(test_iconv_SOURCES) \
 	$(test_int_traits_SOURCES) $(test_mecab_archive_entry_SOURCES) \
 	$(test_multikey_sort_SOURCES) $(test_ngram_counter_SOURCES) \
 	$(test_sha1_digest_SOURCES) $(test_string_SOURCES) \
@@ -331,6 +347,16 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -Wall -Weffc++ -I../include `icu-config --cppflags`
 AM_LDFLAGS = `icu-config --ldflags`
+test_cetr_cluster_SOURCES = test-cetr-cluster.cc
+test_cetr_cluster_LDADD = ../lib/libnwc-toolkit.a
+test_cetr_document_SOURCES = test-cetr-document.cc
+test_cetr_document_LDADD = ../lib/libnwc-toolkit.a
+test_cetr_line_SOURCES = test-cetr-line.cc
+test_cetr_line_LDADD = ../lib/libnwc-toolkit.a
+test_cetr_point_SOURCES = test-cetr-point.cc
+test_cetr_point_LDADD = ../lib/libnwc-toolkit.a
+test_cetr_unit_SOURCES = test-cetr-unit.cc
+test_cetr_unit_LDADD = ../lib/libnwc-toolkit.a
 test_char_cond_SOURCES = test-char-cond.cc
 test_char_cond_LDADD = ../lib/libnwc-toolkit.a
 test_char_filter_SOURCES = test-char-filter.cc
@@ -353,10 +379,10 @@ test_heap_queue_SOURCES = test-heap-queue.cc
 test_heap_queue_LDADD = ../lib/libnwc-toolkit.a
 test_html_document_SOURCES = test-html-document.cc
 test_html_document_LDADD = ../lib/libnwc-toolkit.a
-test_html_document_attribute_SOURCES = test-html-document-attribute.cc
-test_html_document_attribute_LDADD = ../lib/libnwc-toolkit.a
-test_html_document_unit_SOURCES = test-html-document-unit.cc
-test_html_document_unit_LDADD = ../lib/libnwc-toolkit.a
+test_html_attribute_SOURCES = test-html-attribute.cc
+test_html_attribute_LDADD = ../lib/libnwc-toolkit.a
+test_html_unit_SOURCES = test-html-unit.cc
+test_html_unit_LDADD = ../lib/libnwc-toolkit.a
 test_html_archive_entry_SOURCES = test-html-archive-entry.cc
 test_html_archive_entry_LDADD = ../lib/libnwc-toolkit.a
 test_iconv_SOURCES = test-iconv.cc
@@ -430,6 +456,21 @@ $(am__aclocal_m4_deps):
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+test-cetr-cluster$(EXEEXT): $(test_cetr_cluster_OBJECTS) $(test_cetr_cluster_DEPENDENCIES) 
+	@rm -f test-cetr-cluster$(EXEEXT)
+	$(CXXLINK) $(test_cetr_cluster_OBJECTS) $(test_cetr_cluster_LDADD) $(LIBS)
+test-cetr-document$(EXEEXT): $(test_cetr_document_OBJECTS) $(test_cetr_document_DEPENDENCIES) 
+	@rm -f test-cetr-document$(EXEEXT)
+	$(CXXLINK) $(test_cetr_document_OBJECTS) $(test_cetr_document_LDADD) $(LIBS)
+test-cetr-line$(EXEEXT): $(test_cetr_line_OBJECTS) $(test_cetr_line_DEPENDENCIES) 
+	@rm -f test-cetr-line$(EXEEXT)
+	$(CXXLINK) $(test_cetr_line_OBJECTS) $(test_cetr_line_LDADD) $(LIBS)
+test-cetr-point$(EXEEXT): $(test_cetr_point_OBJECTS) $(test_cetr_point_DEPENDENCIES) 
+	@rm -f test-cetr-point$(EXEEXT)
+	$(CXXLINK) $(test_cetr_point_OBJECTS) $(test_cetr_point_LDADD) $(LIBS)
+test-cetr-unit$(EXEEXT): $(test_cetr_unit_OBJECTS) $(test_cetr_unit_DEPENDENCIES) 
+	@rm -f test-cetr-unit$(EXEEXT)
+	$(CXXLINK) $(test_cetr_unit_OBJECTS) $(test_cetr_unit_LDADD) $(LIBS)
 test-char-cond$(EXEEXT): $(test_char_cond_OBJECTS) $(test_char_cond_DEPENDENCIES) 
 	@rm -f test-char-cond$(EXEEXT)
 	$(CXXLINK) $(test_char_cond_OBJECTS) $(test_char_cond_LDADD) $(LIBS)
@@ -463,15 +504,15 @@ test-heap-queue$(EXEEXT): $(test_heap_queue_OBJECTS) $(test_heap_queue_DEPENDENC
 test-html-archive-entry$(EXEEXT): $(test_html_archive_entry_OBJECTS) $(test_html_archive_entry_DEPENDENCIES) 
 	@rm -f test-html-archive-entry$(EXEEXT)
 	$(CXXLINK) $(test_html_archive_entry_OBJECTS) $(test_html_archive_entry_LDADD) $(LIBS)
+test-html-attribute$(EXEEXT): $(test_html_attribute_OBJECTS) $(test_html_attribute_DEPENDENCIES) 
+	@rm -f test-html-attribute$(EXEEXT)
+	$(CXXLINK) $(test_html_attribute_OBJECTS) $(test_html_attribute_LDADD) $(LIBS)
 test-html-document$(EXEEXT): $(test_html_document_OBJECTS) $(test_html_document_DEPENDENCIES) 
 	@rm -f test-html-document$(EXEEXT)
 	$(CXXLINK) $(test_html_document_OBJECTS) $(test_html_document_LDADD) $(LIBS)
-test-html-document-attribute$(EXEEXT): $(test_html_document_attribute_OBJECTS) $(test_html_document_attribute_DEPENDENCIES) 
-	@rm -f test-html-document-attribute$(EXEEXT)
-	$(CXXLINK) $(test_html_document_attribute_OBJECTS) $(test_html_document_attribute_LDADD) $(LIBS)
-test-html-document-unit$(EXEEXT): $(test_html_document_unit_OBJECTS) $(test_html_document_unit_DEPENDENCIES) 
-	@rm -f test-html-document-unit$(EXEEXT)
-	$(CXXLINK) $(test_html_document_unit_OBJECTS) $(test_html_document_unit_LDADD) $(LIBS)
+test-html-unit$(EXEEXT): $(test_html_unit_OBJECTS) $(test_html_unit_DEPENDENCIES) 
+	@rm -f test-html-unit$(EXEEXT)
+	$(CXXLINK) $(test_html_unit_OBJECTS) $(test_html_unit_LDADD) $(LIBS)
 test-iconv$(EXEEXT): $(test_iconv_OBJECTS) $(test_iconv_DEPENDENCIES) 
 	@rm -f test-iconv$(EXEEXT)
 	$(CXXLINK) $(test_iconv_OBJECTS) $(test_iconv_LDADD) $(LIBS)
@@ -530,6 +571,11 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-cetr-cluster.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-cetr-document.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-cetr-line.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-cetr-point.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-cetr-unit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-cond.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-char-table.Po@am__quote@
@@ -541,9 +587,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-file-io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-heap-queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-archive-entry.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-document-attribute.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-document-unit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-attribute.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-document.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-html-unit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-iconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-int-traits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-mecab-archive-entry.Po@am__quote@

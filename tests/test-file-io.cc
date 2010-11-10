@@ -1,11 +1,11 @@
 // Copyright 2010 Susumu Yata <syata@acm.org>
 
 #include <cassert>
-#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <tr1/random>
 #include <vector>
 
 #include <nwc-toolkit/input-file.h>
@@ -14,6 +14,8 @@
 #include <nwc-toolkit/string-pool.h>
 
 namespace {
+
+std::tr1::mt19937 mt_rand(static_cast<unsigned int>(time(NULL)));
 
 void TestOutputText(const char *path, const nwc_toolkit::String &text) {
   nwc_toolkit::OutputFile file;
@@ -53,7 +55,7 @@ void TestInputText(const char *path, const nwc_toolkit::String &text) {
   nwc_toolkit::StringBuilder text_buf;
   std::size_t avail = text.length();
   while (avail > 0) {
-    std::size_t io_size = std::rand() % (MAX_IO_SIZE + 1);
+    std::size_t io_size = mt_rand() % (MAX_IO_SIZE + 1);
     if (io_size > avail) {
       io_size = avail;
     }
@@ -127,8 +129,6 @@ void TestFileIO(const char *path, const nwc_toolkit::String &text,
 int main() {
   enum { MAX_LINE_LENGTH = (1 << 8) - 1, NUM_LINES = 1 << 12 };
 
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
-
   nwc_toolkit::StringBuilder line_buf;
   nwc_toolkit::StringPool line_pool;
   std::vector<nwc_toolkit::String> lines;
@@ -136,9 +136,9 @@ int main() {
 
   for (std::size_t i = 0; i < NUM_LINES; ++i) {
     line_buf.Clear();
-    std::size_t line_length = std::rand() % (MAX_LINE_LENGTH + 1);
+    std::size_t line_length = mt_rand() % (MAX_LINE_LENGTH + 1);
     for (std::size_t j = 0; j < line_length; ++j) {
-      line_buf.Append('A' + (std::rand() % 26));
+      line_buf.Append('A' + (mt_rand() % 26));
     }
     nwc_toolkit::String line = line_pool.Append(line_buf.str());
     lines.push_back(line);

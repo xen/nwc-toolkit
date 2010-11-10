@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.65)
-AC_INIT([nwc-toolkit], [0.0.2], [syata@acm.org])
+AC_INIT([nwc-toolkit], [0.1.0], [syata@acm.org])
 AC_CONFIG_SRCDIR([include/nwc-toolkit/string.h])
 AM_INIT_AUTOMAKE
 
@@ -53,8 +53,7 @@ AC_TYPE_UINT8_T
 AC_TYPE_INT32_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([memmove])
-AC_CHECK_FUNCS([strtol])
+AC_CHECK_FUNCS([memmove] [strtol] [memset] [sqrt])
 
 AC_FUNC_ERROR_AT_LINE
 

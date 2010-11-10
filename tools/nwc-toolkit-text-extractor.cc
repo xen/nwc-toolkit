@@ -65,7 +65,7 @@ void ParseOptions(int argc, char *argv[]) {
       }
       case 'n': {
         char *end_of_value;
-        max_num_entries = strtoll(optarg, &end_of_value, 10);
+        max_num_entries = std::strtoll(optarg, &end_of_value, 10);
         if (*end_of_value != '\0') {
           NWC_TOOLKIT_ERROR("invalid argument: %s", optarg);
         }
@@ -180,13 +180,15 @@ void ExtractTextFromHtmlArchvie(nwc_toolkit::InputFile *input_file,
       }
     }
     temp->Append('\n');
-    output_file->Write(temp->str());
+    if (!output_file->Write(temp->str())) {
+      NWC_TOOLKIT_ERROR("failed to write result");
+    }
 
     if (++num_entries == max_num_entries) {
       break;
     }
 
-    if ((num_entries % 1000) == 0) {
+    if ((num_entries % 100) == 0) {
       std::cerr << '\r' << status_error_count << " ("
           << std::fixed << std::setw(5) << std::setprecision(2)
           << (100.0 * status_error_count / num_entries)
@@ -216,29 +218,31 @@ void ExtractTextFromSingleHtmlDocument(nwc_toolkit::InputFile *input_file,
   }
 
   nwc_toolkit::HtmlDocument document;
-  if (document.Parse(body.str())) {
-    nwc_toolkit::StringBuilder text;
-    document.ExtractText(&text);
-    nwc_toolkit::StringBuilder *temp = &text;
+  if (!document.Parse(body.str())) {
+    NWC_TOOLKIT_ERROR("failed to parse html document");
+  }
 
-    nwc_toolkit::StringBuilder normalized_text;
-    if (with_unicode_normalization) {
-      if (!nwc_toolkit::UnicodeNormalizer::Normalize(normalization_form,
-          illegal_input_handler, temp->str(), &normalized_text)) {
-      }
-      temp = &normalized_text;
-    }
+  nwc_toolkit::StringBuilder text;
+  document.ExtractText(&text);
+  nwc_toolkit::StringBuilder *temp = &text;
 
-    nwc_toolkit::StringBuilder filtered_text;
-    if (with_text_filter) {
-      nwc_toolkit::TextFilter::Filter(temp->str(), &filtered_text);
-      temp = &filtered_text;
+  nwc_toolkit::StringBuilder normalized_text;
+  if (with_unicode_normalization) {
+    if (!nwc_toolkit::UnicodeNormalizer::Normalize(normalization_form,
+        illegal_input_handler, temp->str(), &normalized_text)) {
     }
+    temp = &normalized_text;
+  }
 
-    temp->Append('\n');
-    if (!output_file->Write(temp->str())) {
-      NWC_TOOLKIT_ERROR("failed to write result");
-    }
+  nwc_toolkit::StringBuilder filtered_text;
+  if (with_text_filter) {
+    nwc_toolkit::TextFilter::Filter(temp->str(), &filtered_text);
+    temp = &filtered_text;
+  }
+
+  temp->Append('\n');
+  if (!output_file->Write(temp->str())) {
+    NWC_TOOLKIT_ERROR("failed to write result");
   }
 }
 

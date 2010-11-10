@@ -2,10 +2,10 @@
 
 #include <cassert>
 
-#include <nwc-toolkit/html-document-attribute.h>
+#include <nwc-toolkit/html-attribute.h>
 
 int main() {
-  nwc_toolkit::HtmlDocumentAttribute attribute;
+  nwc_toolkit::HtmlAttribute attribute;
 
   assert(attribute.name().is_empty());
   assert(attribute.value().is_empty());
@@ -16,12 +16,12 @@ int main() {
   assert(attribute.name() == "name");
   assert(attribute.value() == "value");
 
-  nwc_toolkit::HtmlDocumentAttribute attribute_copy = attribute;
+  nwc_toolkit::HtmlAttribute attribute_copy = attribute;
 
   assert(attribute_copy.name() == "name");
   assert(attribute_copy.value() == "value");
 
-  nwc_toolkit::HtmlDocumentAttribute attribute_assign;
+  nwc_toolkit::HtmlAttribute attribute_assign;
   attribute_assign = attribute;
 
   assert(attribute_assign.name() == "name");

@@ -2,12 +2,12 @@
 
 #include <cassert>
 
-#include <nwc-toolkit/html-document-unit.h>
+#include <nwc-toolkit/html-unit.h>
 
 int main() {
-  nwc_toolkit::HtmlDocumentUnit unit;
+  nwc_toolkit::HtmlUnit unit;
 
-  assert(unit.type() == nwc_toolkit::HtmlDocumentUnit::UNDEFINED_UNIT);
+  assert(unit.type() == nwc_toolkit::HtmlUnit::UNDEFINED_UNIT);
   assert(unit.src().is_empty());
 
   unit.set_src("SRC");
@@ -17,8 +17,8 @@ int main() {
 
   assert(unit.src().is_empty());
 
-  unit.set_type(nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
-  assert(unit.type() == nwc_toolkit::HtmlDocumentUnit::TEXT_UNIT);
+  unit.set_type(nwc_toolkit::HtmlUnit::TEXT_UNIT);
+  assert(unit.type() == nwc_toolkit::HtmlUnit::TEXT_UNIT);
   assert(unit.is_cdata_section() == false);
   assert(unit.text_content().is_empty());
 
@@ -30,8 +30,8 @@ int main() {
 
   unit.Clear();
 
-  unit.set_type(nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
-  assert(unit.type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  unit.set_type(nwc_toolkit::HtmlUnit::TAG_UNIT);
+  assert(unit.type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(unit.is_start_tag() == false);
   assert(unit.is_end_tag() == false);
   assert(unit.is_empty_element_tag() == false);
@@ -56,15 +56,15 @@ int main() {
   unit.set_tag_name("TAG_NAME");
   assert(unit.tag_name() == "TAG_NAME");
 
-  nwc_toolkit::HtmlDocumentAttribute attribute;
+  nwc_toolkit::HtmlAttribute attribute;
 
   unit.set_attributes(&attribute, 1);
 
   assert(unit.num_attributes() == 1);
   assert(&unit.attribute(0) == &attribute);
 
-  nwc_toolkit::HtmlDocumentUnit unit_copy = unit;
-  assert(unit_copy.type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  nwc_toolkit::HtmlUnit unit_copy = unit;
+  assert(unit_copy.type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(unit_copy.is_end_tag());
   assert(unit_copy.is_start_tag());
   assert(unit_copy.is_empty_element_tag());
@@ -72,9 +72,9 @@ int main() {
   assert(unit_copy.num_attributes() == 1);
   assert(&unit_copy.attribute(0) == &attribute);
 
-  nwc_toolkit::HtmlDocumentUnit unit_assign;
+  nwc_toolkit::HtmlUnit unit_assign;
   unit_assign = unit;
-  assert(unit_assign.type() == nwc_toolkit::HtmlDocumentUnit::TAG_UNIT);
+  assert(unit_assign.type() == nwc_toolkit::HtmlUnit::TAG_UNIT);
   assert(unit_assign.is_end_tag());
   assert(unit_assign.is_start_tag());
   assert(unit_assign.is_empty_element_tag());
@@ -84,8 +84,8 @@ int main() {
 
   unit.Clear();
 
-  unit.set_type(nwc_toolkit::HtmlDocumentUnit::COMMENT_UNIT);
-  assert(unit.type() == nwc_toolkit::HtmlDocumentUnit::COMMENT_UNIT);
+  unit.set_type(nwc_toolkit::HtmlUnit::COMMENT_UNIT);
+  assert(unit.type() == nwc_toolkit::HtmlUnit::COMMENT_UNIT);
   assert(unit.comment().is_empty());
 
   unit.set_comment("COMMENT");
@@ -93,8 +93,8 @@ int main() {
 
   unit.Clear();
 
-  unit.set_type(nwc_toolkit::HtmlDocumentUnit::OTHER_UNIT);
-  assert(unit.type() == nwc_toolkit::HtmlDocumentUnit::OTHER_UNIT);
+  unit.set_type(nwc_toolkit::HtmlUnit::OTHER_UNIT);
+  assert(unit.type() == nwc_toolkit::HtmlUnit::OTHER_UNIT);
   assert(unit.other_content().is_empty());
 
   unit.set_other_content("OTHER_CONTENT");
