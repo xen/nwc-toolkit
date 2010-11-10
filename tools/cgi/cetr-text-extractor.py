@@ -18,7 +18,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
 <html lang="ja">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>HTML テキスト抽出（簡易）</title>
+  <title>HTML テキスト抽出（CETR）</title>
   <style type="text/css">
    <!--
     * {
@@ -199,7 +199,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
   <table id="header">
    <tr>
     <th rowspan="2"><a href="http://code.google.com/p/nwc-toolkit/" id="logo">NWC</a></th>
-    <td id="title">HTML テキスト抽出（簡易）</td>
+    <td id="title">HTML テキスト抽出（<a href="http://www.cs.illinois.edu/homes/weninge1/pubs/WHH_WWW10.pdf">CETR</a>）</td>
    </tr>
    <tr>
     <td id="subtitle"><a href="http://code.google.com/p/nwc-toolkit/">─ Nihongo Web Corpus (NWC) Toolkit ─</a></td>
@@ -326,7 +326,7 @@ def PrintText(text):
 def ExtractTextFromArchive(archive):
   import subprocess
   sub_process = subprocess.Popen(
-      "nwc-toolkit-text-extractor --archive -n 1 --NFKC --filter",
+      "nwc-toolkit-content-extractor --archive --text",
       shell = True, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
   sub_process.stdin.write(archive)
   sub_process.stdin.close()
@@ -341,7 +341,7 @@ def ExtractTextFromArchive(archive):
 def ExtractTextFromDocument(document):
   import subprocess
   sub_process = subprocess.Popen(
-      "nwc-toolkit-text-extractor --single --NFKC --filter",
+      "nwc-toolkit-content-extractor --single --text",
       shell = True, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
   sub_process.stdin.write(document)
   sub_process.stdin.close()

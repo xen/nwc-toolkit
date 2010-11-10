@@ -5,6 +5,7 @@ bin_SCRIPTS = \
   nwc-toolkit-config
 
 noinst_SCRIPTS = \
+  cgi/cetr-text-extractor.py \
   cgi/text-extractor.py
 
 bin_PROGRAMS = \

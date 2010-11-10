@@ -247,6 +247,7 @@ bin_SCRIPTS = \
   nwc-toolkit-config
 
 noinst_SCRIPTS = \
+  cgi/cetr-text-extractor.py \
   cgi/text-extractor.py
 
 nwc_toolkit_content_extractor_SOURCES = nwc-toolkit-content-extractor.cc
