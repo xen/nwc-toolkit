@@ -78,7 +78,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
      margin-right: 20px;
     }
     ul#nav {
-     color: #444;
+     color: #222;
      margin-top: 20px;
      padding: 0px;
      width: 100%;
@@ -123,7 +123,7 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
      box-shadow: 0 1px 2px rgba(0,0,0,.5);
      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.5);
      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.5);
-     color: #444;
+     color: #222;
      margin: 0px;
      padding: 15px;
     }
@@ -168,29 +168,47 @@ HTML_HEADER = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w
      margin-top: 20px;
      padding: 0px;
     }
-    div#body table#text {
+    div#body table#result {
      border-collapse: separate;
-     border-spacing: 5px 2px;
+     border-spacing: 2px;
     }
-    div#body table#text th {
-     background: #EEE;
-     border-radius: 5px;
-     -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
+    div#body table#result tr {
      line-height: 120%;
+    }
+    div#body table#result tr.content {
+     background: #FFF;
+    }
+    div#body table#result tr.non-content {
+     background: #EEE;
+     color: #444;
+    }
+    div#body table#result th {
+     background: #666;
+     color: #FFF;
      margin-right: 5px;
      padding: 2px 5px;
-     text-align: right;
-     vertical-align: top;
     }
-    div#body table#text td {
-     background: #FFF;
-     border-radius: 5px;
-     -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-     line-height: 120%;
+    div#body table#result th.id {
+     text-align: right;
+    }
+    div#body table#result td {
      margin-left: 5px;
      padding: 2px 5px;
+    }
+    div#body table#result td.bool {
+     text-align: center;
+    }
+    div#body table#result td.number {
+     text-align: right;
+    }
+    div#body table#result td.text span.tag {
+     color: #080;
+    }
+    div#body table#result td.text span.text {
+     color: #222;
+    }
+    div#body table#result td.text span.invisible {
+     color: #00A;
     }
    -->
   </style>
@@ -273,10 +291,10 @@ ERROR_BODY = """  <div id="body">
   </div>
 """
 
-TEXT_BODY = """  <div id=\"body\">
+RESULT_BODY = """  <div id=\"body\">
    テキスト抽出に成功しました．
    <hr>
-   <table id=\"text\">
+   <table id=\"result\">
 %s   </table>
   </div>
 """
@@ -307,53 +325,87 @@ def PrintForm(form_value):
 def PrintError(error_message):
   sys.stdout.write(ERROR_BODY % (cgi.escape(error_message)))
 
-def PrintText(text):
+def PrintResult(result):
   import StringIO
   string_io = StringIO.StringIO()
-  lines = text.splitlines()
+  string_io.write("    <tr>\n")
+  string_io.write("<th>#</th><th colspan=\"3\">Ti</th><th>Ti'</th>")
+  string_io.write("<th>Gi</th><th>Gi'</th><th></th>")
+  string_io.write("    </tr>\n")
+
+  import xml.dom.minidom
+  dom = xml.dom.minidom.parseString(result)
   line_id = 0
-  for line in lines:
-    if not line:
-      continue
+  for line in dom.getElementsByTagName("Line"):
     line_id = line_id + 1
-    string_io.write("    <tr>\n")
-    string_io.write("     <th>%s</th>\n" % str(line_id))
-    string_io.write("     <td>%s</td>\n" % cgi.escape(line))
+    content = u"".join(
+        [unit.firstChild.data for unit in line.getElementsByTagName("Unit")])
+    if not content.strip():
+      continue
+    if line.getAttribute("is_content") == "yes":
+      string_io.write("    <tr class=\"content\">\n")
+    else:
+      string_io.write("    <tr class=\"non-content\">\n")
+    string_io.write("     <th class=\"id\">%d</th>" % line_id)
+    string_io.write("<td class=\"number\">%s</td>" % (
+        line.getAttribute("num_tags")))
+    string_io.write("<td class=\"number\">%s</td>" % (
+        line.getAttribute("num_chars")))
+    string_io.write("<td class=\"number\">%.2f</td>" % (
+        float(line.getAttribute("tag_ratio"))))
+    string_io.write("<td class=\"number\">%.2f</td>" % (
+        float(line.getAttribute("smoothed_tag_ratio"))))
+    string_io.write("<td class=\"number\">%.2f</td>" % (
+        float(line.getAttribute("derivate"))))
+    string_io.write("<td class=\"number\">%.2f</td>" % (
+        float(line.getAttribute("smoothed_derivate"))))
+    string_io.write("<td class=\"text\">")
+    for unit in line.getElementsByTagName("Unit"):
+      unit_type = unit.getAttribute("type")
+      if unit_type == "tag":
+        string_io.write("<span class=\"%s\">" % "tag");
+      elif unit_type == "text":
+        string_io.write("<span class=\"%s\">" % "text");
+      else:
+        string_io.write("<span class=\"%s\">" % "invisible");
+      string_io.write(cgi.escape(unit.firstChild.data))
+      string_io.write("</span>")
+    string_io.write("</td>\n")
     string_io.write("    </tr>\n")
-  sys.stdout.write(TEXT_BODY % (string_io.getvalue()))
+  sys.stdout.write(RESULT_BODY % (string_io.getvalue().encode("utf-8")))
   string_io.close()
 
-def ExtractTextFromArchive(archive):
+def ExtractContentsFromArchive(archive):
   import subprocess
   sub_process = subprocess.Popen(
-      "nwc-toolkit-content-extractor --archive --text",
+      "nwc-toolkit-content-extractor --archive --xml",
       shell = True, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
   sub_process.stdin.write(archive)
   sub_process.stdin.close()
-  text = sub_process.stdout.read()
+  result = sub_process.stdout.read()
   sub_process.stdout.close()
   return_code = sub_process.wait()
   if return_code != 0:
     return None
   else:
-    return text
+    return result
 
-def ExtractTextFromDocument(document):
+def ExtractContentsFromDocument(document):
   import subprocess
   sub_process = subprocess.Popen(
-      "nwc-toolkit-content-extractor --single --text",
+      "nwc-toolkit-content-extractor --single --xml",
       shell = True, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
   sub_process.stdin.write(document)
   sub_process.stdin.close()
-  text = sub_process.stdout.read()
+  result = sub_process.stdout.read()
   sub_process.stdout.close()
   return_code = sub_process.wait()
   if return_code != 0:
     return None
   else:
-    return text
+    return result
 
-def ExtractTextFromUrl(url_value):
+def ExtractContentsFromUrl(url_value):
   sys.stdout.write(NAVIGATOR % ("on", "off", "off"))
 
   import urlparse
@@ -385,27 +437,27 @@ def ExtractTextFromUrl(url_value):
   archive = "%s\n%d\n%d\n%s%d\n%s" % (response_url, response_code,
       len(response_header), response_header, len(response_body), response_body)
 
-  text = ExtractTextFromArchive(archive)
-  if text == None:
+  result = ExtractContentsFromArchive(archive)
+  if result == None:
     PrintError("HTML の解析に失敗しました．")
   else:
-    PrintText(text)
+    PrintResult(result)
 
-def ExtractTextFromFile(file_value):
+def ExtractContentsFromFile(file_value):
   sys.stdout.write(NAVIGATOR % ("off", "on", "off"))
-  text = ExtractTextFromDocument(file_value)
-  if text == None:
+  result = ExtractContentsFromDocument(file_value)
+  if result == None:
     PrintError("HTML の解析に失敗しました．")
   else:
-    PrintText(text)
+    PrintResult(result)
 
-def ExtractTextFromHtml(html_value):
+def ExtractContentsFromHtml(html_value):
   sys.stdout.write(NAVIGATOR % ("off", "off", "on"))
-  text = ExtractTextFromDocument(html_value)
-  if text == None:
+  result = ExtractContentsFromDocument(html_value)
+  if result == None:
     PrintError("HTML の解析に失敗しました．")
   else:
-    PrintText(text)
+    PrintResult(result)
 
 def main(argv):
   PrintResponseHeader()
@@ -413,13 +465,13 @@ def main(argv):
   field_storage = cgi.FieldStorage()
   if field_storage.has_key("url"):
     url_value = field_storage.getfirst("url")
-    ExtractTextFromUrl(url_value)
+    ExtractContentsFromUrl(url_value)
   elif field_storage.has_key("file"):
     file_value = field_storage.getfirst("file")
-    ExtractTextFromFile(file_value)
+    ExtractContentsFromFile(file_value)
   elif field_storage.has_key("html"):
     html_value = field_storage.getfirst("html")
-    ExtractTextFromHtml(html_value)
+    ExtractContentsFromHtml(html_value)
   else:
     form_value = field_storage.getvalue("form", "")
     PrintForm(form_value)

@@ -47,6 +47,14 @@ void CetrDocument::ExtractLines(const HtmlDocument &doc,
     std::size_t num_chars_threshold) {
   if (num_chars_threshold < MIN_NUM_CHARS_THRESHOLD) {
     num_chars_threshold = DEFAULT_NUM_CHARS_THRESHOLD;
+  } else if (num_chars_threshold > MAX_NUM_CHARS_THRESHOLD) {
+    num_chars_threshold = MAX_NUM_CHARS_THRESHOLD;
+  }
+  for (std::size_t i = 0; i < doc.num_units(); ++i) {
+    if (doc.unit(i).src().Contains("\r\n")) {
+      num_chars_threshold = MAX_NUM_CHARS_THRESHOLD;
+      break;
+    }
   }
 
   CetrLine line;
@@ -67,6 +75,9 @@ void CetrDocument::ExtractLines(const HtmlDocument &doc,
             (html_unit.tag_name() == "style")) {
           is_visible = (html_unit.is_start_tag() == false);
           AppendInvisibleUnit(html_unit, &line);
+        } else if (line.num_chars() >= num_chars_threshold) {
+          lines_.push_back(line);
+          line.Clear();
         } else {
           AppendTagUnit(html_unit, &line);
         }
@@ -108,7 +119,7 @@ void CetrDocument::ComputeDerivates(int window_size) {
   derivates_.resize(lines_.size(), 0.0);
   for (std::size_t i = 0; i < derivates_.size(); ++i) {
     int current_window_size = ((i + window_size) < derivates_.size())
-        ? window_size : derivates_.size() - i;
+        ? window_size : (derivates_.size() - i);
 
     for (int j = 0; j < current_window_size; ++j) {
       derivates_[i] += smoothed_tag_ratios_[i + j];
@@ -300,25 +311,6 @@ void CetrDocument::FixLines() {
   }
 }
 
-double CetrDocument::ComputeStandardDerivation(
-    const std::vector<double> &values) {
-  if (values.empty()) {
-    return 0.0;
-  }
-  double total = 0.0;
-  for (std::size_t i = 0; i < values.size(); ++i) {
-    total += values[i];
-  }
-  double average = total / values.size();
-  double variance = 0.0;
-  for (std::size_t i = 0; i < values.size(); ++i) {
-    double diff = values[i] - average;
-    variance += diff * diff;
-  }
-  variance /= values.size();
-  return std::sqrt(variance);
-}
-
 void CetrDocument::SmoothHistogram(const std::vector<double> &src,
     std::vector<double> *dest) {
   double standard_derivation = ComputeStandardDerivation(src);
@@ -352,6 +344,25 @@ void CetrDocument::SmoothHistogram(const std::vector<double> &src,
       }
     }
   }
+}
+
+double CetrDocument::ComputeStandardDerivation(
+    const std::vector<double> &values) {
+  if (values.empty()) {
+    return 0.0;
+  }
+  double total = 0.0;
+  for (std::size_t i = 0; i < values.size(); ++i) {
+    total += values[i];
+  }
+  double average = total / values.size();
+  double variance = 0.0;
+  for (std::size_t i = 0; i < values.size(); ++i) {
+    double diff = values[i] - average;
+    variance += diff * diff;
+  }
+  variance /= values.size();
+  return std::sqrt(variance);
 }
 
 }  // namespace nwc_toolkit

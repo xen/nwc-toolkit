@@ -16,6 +16,7 @@ class CetrDocument {
  public:
   enum {
     MIN_NUM_CHARS_THRESHOLD = 1,
+    MAX_NUM_CHARS_THRESHOLD = 1024,
     DEFAULT_NUM_CHARS_THRESHOLD = 65
   };
 
@@ -107,10 +108,10 @@ class CetrDocument {
       String *str_left, int *code_point);
   static bool IsPrintable(int code_point);
 
-  static double ComputeStandardDerivation(
-      const std::vector<double> &values);
   static void SmoothHistogram(const std::vector<double> &src,
       std::vector<double> *dest);
+  static double ComputeStandardDerivation(
+      const std::vector<double> &values);
 
   // Disallows copy and assignment.
   CetrDocument(const CetrDocument &);

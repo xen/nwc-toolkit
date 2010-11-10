@@ -44,9 +44,9 @@ int main(int argc, char *argv[]) {
 
   cetr.Parse(html_doc);
 
-  assert(cetr.num_lines() == 22);
-  assert(cetr.num_units() == 73);
-  assert(cetr.num_points() == 22);
+  assert(cetr.num_lines() == 17);
+  assert(cetr.num_units() == 71);
+  assert(cetr.num_points() == 17);
 
   cetr.Clear();
 
