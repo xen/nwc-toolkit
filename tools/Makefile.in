@@ -37,6 +37,7 @@ bin_PROGRAMS = nwc-toolkit-content-extractor$(EXEEXT) \
 	nwc-toolkit-duplicate-detector$(EXEEXT) \
 	nwc-toolkit-hash-calculator$(EXEEXT) \
 	nwc-toolkit-html-parser$(EXEEXT) \
+	nwc-toolkit-html-reducer$(EXEEXT) \
 	nwc-toolkit-ngram-counter$(EXEEXT) \
 	nwc-toolkit-ngram-merger$(EXEEXT) \
 	nwc-toolkit-text-extractor$(EXEEXT) \
@@ -73,6 +74,11 @@ am_nwc_toolkit_html_parser_OBJECTS =  \
 nwc_toolkit_html_parser_OBJECTS =  \
 	$(am_nwc_toolkit_html_parser_OBJECTS)
 nwc_toolkit_html_parser_DEPENDENCIES = ../lib/libnwc-toolkit.a
+am_nwc_toolkit_html_reducer_OBJECTS =  \
+	nwc-toolkit-html-reducer.$(OBJEXT)
+nwc_toolkit_html_reducer_OBJECTS =  \
+	$(am_nwc_toolkit_html_reducer_OBJECTS)
+nwc_toolkit_html_reducer_DEPENDENCIES = ../lib/libnwc-toolkit.a
 am_nwc_toolkit_ngram_counter_OBJECTS =  \
 	nwc-toolkit-ngram-counter.$(OBJEXT)
 nwc_toolkit_ngram_counter_OBJECTS =  \
@@ -133,6 +139,7 @@ SOURCES = $(nwc_toolkit_content_extractor_SOURCES) \
 	$(nwc_toolkit_duplicate_detector_SOURCES) \
 	$(nwc_toolkit_hash_calculator_SOURCES) \
 	$(nwc_toolkit_html_parser_SOURCES) \
+	$(nwc_toolkit_html_reducer_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
 	$(nwc_toolkit_ngram_merger_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
@@ -142,6 +149,7 @@ DIST_SOURCES = $(nwc_toolkit_content_extractor_SOURCES) \
 	$(nwc_toolkit_duplicate_detector_SOURCES) \
 	$(nwc_toolkit_hash_calculator_SOURCES) \
 	$(nwc_toolkit_html_parser_SOURCES) \
+	$(nwc_toolkit_html_reducer_SOURCES) \
 	$(nwc_toolkit_ngram_counter_SOURCES) \
 	$(nwc_toolkit_ngram_merger_SOURCES) \
 	$(nwc_toolkit_text_extractor_SOURCES) \
@@ -258,6 +266,8 @@ nwc_toolkit_hash_calculator_SOURCES = nwc-toolkit-hash-calculator.cc
 nwc_toolkit_hash_calculator_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_html_parser_SOURCES = nwc-toolkit-html-parser.cc
 nwc_toolkit_html_parser_LDADD = ../lib/libnwc-toolkit.a
+nwc_toolkit_html_reducer_SOURCES = nwc-toolkit-html-reducer.cc
+nwc_toolkit_html_reducer_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_ngram_counter_SOURCES = nwc-toolkit-ngram-counter.cc
 nwc_toolkit_ngram_counter_LDADD = ../lib/libnwc-toolkit.a
 nwc_toolkit_ngram_merger_SOURCES = nwc-toolkit-ngram-merger.cc
@@ -355,6 +365,9 @@ nwc-toolkit-hash-calculator$(EXEEXT): $(nwc_toolkit_hash_calculator_OBJECTS) $(n
 nwc-toolkit-html-parser$(EXEEXT): $(nwc_toolkit_html_parser_OBJECTS) $(nwc_toolkit_html_parser_DEPENDENCIES) 
 	@rm -f nwc-toolkit-html-parser$(EXEEXT)
 	$(CXXLINK) $(nwc_toolkit_html_parser_OBJECTS) $(nwc_toolkit_html_parser_LDADD) $(LIBS)
+nwc-toolkit-html-reducer$(EXEEXT): $(nwc_toolkit_html_reducer_OBJECTS) $(nwc_toolkit_html_reducer_DEPENDENCIES) 
+	@rm -f nwc-toolkit-html-reducer$(EXEEXT)
+	$(CXXLINK) $(nwc_toolkit_html_reducer_OBJECTS) $(nwc_toolkit_html_reducer_LDADD) $(LIBS)
 nwc-toolkit-ngram-counter$(EXEEXT): $(nwc_toolkit_ngram_counter_OBJECTS) $(nwc_toolkit_ngram_counter_DEPENDENCIES) 
 	@rm -f nwc-toolkit-ngram-counter$(EXEEXT)
 	$(CXXLINK) $(nwc_toolkit_ngram_counter_OBJECTS) $(nwc_toolkit_ngram_counter_LDADD) $(LIBS)
@@ -415,6 +428,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-duplicate-detector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-hash-calculator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-html-parser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-html-reducer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-ngram-counter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-ngram-merger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nwc-toolkit-text-extractor.Po@am__quote@

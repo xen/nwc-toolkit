@@ -9,8 +9,9 @@ libnwc_toolkit_a_SOURCES = \
   character-encoding.cc \
   character-reference.cc \
   gzip-coder.cc \
-  html-document.cc \
   html-archive-entry.cc \
+  html-document.cc \
+  html-reducer.cc \
   input-file.cc \
   ngram-counter.cc \
   output-file.cc \
@@ -42,6 +43,7 @@ libnwc_toolkit_a_include_HEADERS = \
   ../include/nwc-toolkit/html-archive-entry.h \
   ../include/nwc-toolkit/html-attribute.h \
   ../include/nwc-toolkit/html-document.h \
+  ../include/nwc-toolkit/html-reducer.h \
   ../include/nwc-toolkit/html-unit.h \
   ../include/nwc-toolkit/input-file.h \
   ../include/nwc-toolkit/int-traits.h \

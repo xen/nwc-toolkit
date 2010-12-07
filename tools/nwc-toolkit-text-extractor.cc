@@ -9,7 +9,6 @@
 #include <iomanip>
 #include <iostream>
 
-#include <nwc-toolkit/html-archive-entry.h>
 #include <nwc-toolkit/html-document.h>
 #include <nwc-toolkit/text-filter.h>
 #include <nwc-toolkit/unicode-normalizer.h>
@@ -19,13 +18,13 @@
 
 namespace {
 
-enum InputFileFormat {
+enum InputFormat {
   HTML_ARCHIVE,
   SINGLE_HTML_DOCUMENT,
   DEFAULT_FORMAT = HTML_ARCHIVE
 };
 
-InputFileFormat input_file_format = DEFAULT_FORMAT;
+InputFormat input_format = DEFAULT_FORMAT;
 long long max_num_entries = 0;
 nwc_toolkit::UnicodeNormalizer::NormalizationForm normalization_form;
 nwc_toolkit::UnicodeNormalizer::IllegalInputHandler illegal_input_handler;
@@ -56,11 +55,11 @@ void ParseOptions(int argc, char *argv[]) {
       "asn:cdCDkrfo:h", long_options, NULL)) != -1) {
     switch (value) {
       case 'a': {
-        input_file_format = HTML_ARCHIVE;
+        input_format = HTML_ARCHIVE;
         break;
       }
       case 's': {
-        input_file_format = SINGLE_HTML_DOCUMENT;
+        input_format = SINGLE_HTML_DOCUMENT;
         break;
       }
       case 'n': {
@@ -248,7 +247,7 @@ void ExtractTextFromSingleHtmlDocument(nwc_toolkit::InputFile *input_file,
 
 void ExtractText(nwc_toolkit::InputFile *input_file,
     nwc_toolkit::OutputFile *output_file) {
-  switch (input_file_format) {
+  switch (input_format) {
     case HTML_ARCHIVE: {
       ExtractTextFromHtmlArchvie(input_file, output_file);
       break;
@@ -258,7 +257,7 @@ void ExtractText(nwc_toolkit::InputFile *input_file,
       break;
     }
     default: {
-      NWC_TOOLKIT_ERROR("invalid input file format");
+      NWC_TOOLKIT_ERROR("invalid input format");
     }
   }
 }

@@ -14,3 +14,6 @@ nwc-toolkit は[http://s-yata.jp/corpus/nwc2010/ 日本語ウェブコーパス]
   * N-gram コーパスの作成
    * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/ngram-counter.html nwc-toolkit-ngram-counter（N-gram 頻度計数ツール）]
    * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/ngram-merger.html nwc-toolkit-ngram-merger（N-gram コーパス統合ツール）]
+  * その他
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/hash-calculator.html nwc-toolkit-hash-calculator（ハッシュ値計算ツール）]
+   * [http://nwc-toolkit.googlecode.com/svn/trunk/docs/tools/duplicate-detector.html nwc-toolkit-duplicate-detector（重複検出ツール）]

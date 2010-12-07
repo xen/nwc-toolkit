@@ -4,6 +4,7 @@
 #include <error.h>
 #include <getopt.h>
 
+#include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
@@ -142,8 +143,21 @@ void ParseOptions(int argc, char *argv[]) {
 void PrintHelp(const char *command) {
   std::cerr << "Usage: " << command << " [OPTION]... [FILE]...\n\n"
       "Options:\n"
+      "  -a, --archive  extract text from HTML archives (default)\n"
+      "  -s, --single   extract text from HTML documents\n"
+      "  -n, --chars=[N]      "
+      "limit the number of chars in line to N (default: "
+      << DEFAULT_NUM_CHARS_THRESHOLD << ")\n"
+      "  -w, --window=[N]     "
+      "limit the window size to N (default: "
+      << DEFAULT_WINDOW_SIZE << ")\n"
+      "  -c, --clusters=[N]   "
+      "limit the number of clusters to N (default: "
+      << DEFAULT_NUM_CLUSTERS << ")\n"
+      "  -t, --text     output result in text-format (default)\n"
+      "  -x, --xml      output result in xml-format\n"
       "  -o, --output=[FILE]  write result to FILE (default: stdout)\n"
-      "  -h, --help    print this help\n"
+      "  -h, --help     print this help\n"
       << std::flush;
 }
 
@@ -165,7 +179,7 @@ void GetLineTag(const nwc_toolkit::CetrDocument &doc,
     std::size_t line_id, nwc_toolkit::StringBuilder *result) {
   enum { MAX_LENGTH = 256 };
   result->Reserve(result->length() + MAX_LENGTH);
-  int length = snprintf(result->buf() + result->length(), MAX_LENGTH,
+  int length = std::snprintf(result->buf() + result->length(), MAX_LENGTH,
       "<Line is_content=\"%s\" num_tags=\"%zd\" num_chars=\"%zd\""
       " tag_ratio=\"%f\" smoothed_tag_ratio=\"%f\""
       " derivate=\"%f\" smoothed_derivate=\"%f\">\n",

@@ -14,10 +14,10 @@ for arg in $@
 do
   case $arg in
     "--cppflags")
-      echo -n `icu-config --cppflags`
+      echo -n " `icu-config --cppflags`"
       ;;
     "--ldflags")
-      echo -n `icu-config --ldflags` -llzma -lbz2 -lz -liconv
+      echo -n " -lnwc-toolkit" `icu-config --ldflags` -llzma -lbz2 -lz -liconv
       ;;
     *)
       echo "Error: $0: Unknown option $arg"

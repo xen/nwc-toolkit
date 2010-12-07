@@ -13,6 +13,7 @@ bin_PROGRAMS = \
   nwc-toolkit-duplicate-detector \
   nwc-toolkit-hash-calculator \
   nwc-toolkit-html-parser \
+  nwc-toolkit-html-reducer \
   nwc-toolkit-ngram-counter \
   nwc-toolkit-ngram-merger \
   nwc-toolkit-text-extractor \
@@ -30,6 +31,9 @@ nwc_toolkit_hash_calculator_LDADD = ../lib/libnwc-toolkit.a
 
 nwc_toolkit_html_parser_SOURCES = nwc-toolkit-html-parser.cc
 nwc_toolkit_html_parser_LDADD = ../lib/libnwc-toolkit.a
+
+nwc_toolkit_html_reducer_SOURCES = nwc-toolkit-html-reducer.cc
+nwc_toolkit_html_reducer_LDADD = ../lib/libnwc-toolkit.a
 
 nwc_toolkit_ngram_counter_SOURCES = nwc-toolkit-ngram-counter.cc
 nwc_toolkit_ngram_counter_LDADD = ../lib/libnwc-toolkit.a

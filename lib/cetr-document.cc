@@ -291,6 +291,8 @@ bool CetrDocument::IsPrintable(int code_point) {
     case 0x2062:  // INVISIBLE TIMES (U+2062)
     case 0x2063:  // INVISIBLE SEPARATOR (U+2063)
 
+    case 0x3000:  // IDEOGRAPHIC SPACE (U+3000)
+
     case 0xFEFF:  // ZERO WIDTH NO-BREAK SPACE (U+FEFF) Byte order mark
 
     case 0xFFFD:  // REPLACEMENT CHARACTER (U+FFFD)
